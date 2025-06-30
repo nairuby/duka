@@ -1,0 +1,23 @@
+# <type>(<scope>): <subject>
+#
+# <body>
+#
+# <footer>
+
+# Types:
+# feat: A new feature
+# fix: A bug fix
+# docs: Documentation only changes
+# style: Changes that do not affect the meaning of the code
+# refactor: A code change that neither fixes a bug nor adds a feature
+# perf: A code change that improves performance
+# test: Adding missing tests or correcting existing tests
+# chore: Changes to the build process or auxiliary tools
+# ci: Changes to CI configuration files and scripts
+# build: Changes that affect the build system or external dependencies
+#
+# Scope examples: auth, user, api, database, ui, etc.
+#
+# Subject: imperative mood, no period, max 50 chars
+# Body: explain what and why vs. how, wrap at 72 chars
+# Footer: reference issues and breaking changes
