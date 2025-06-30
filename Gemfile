@@ -9,6 +9,7 @@ gem 'image_processing', '~> 1.14'
 gem 'importmap-rails', '~> 2.1'
 gem 'jbuilder', '~> 2.13'
 gem 'kamal', '~> 2.7', require: false
+gem 'overcommit', '~> 0.67.1'
 gem 'paper_trail', '~> 16.0'
 gem 'pg', '~> 1.5', '>= 1.5.9'
 gem 'propshaft', '~> 1.1'
