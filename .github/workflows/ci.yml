@@ -19,8 +19,8 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Make brakeman executable
-        run: chmod +x bin/brakeman
+      - name: Make bin scripts executable
+        run: chmod +x bin/*
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
@@ -38,11 +38,15 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Make bin scripts executable
+        run: chmod +x bin/*
+
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -52,6 +56,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Make bin scripts executable
+        run: chmod +x bin/*
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -67,17 +74,17 @@ jobs:
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
-
-      # redis:
-      #   image: redis
-      #   ports:
-      #     - 6379:6379
-      #   options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config google-chrome-stable
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config google-chrome-stable
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -88,11 +95,13 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Make bin scripts executable
+        run: chmod +x bin/*
+
       - name: Run tests
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test test:system
 
       - name: Keep screenshots from failed system tests
