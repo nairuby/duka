@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "bootsnap", "~> 1.18", ">= 1.18.6", require: false
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "dotenv-rails", "~> 3.1", ">= 3.1.8"
+gem 'font-awesome-sass', '~> 6.7', '>= 6.7.2'
 gem "friendly_id", "~> 5.5", ">= 5.5.1"
 gem "hotwire-rails", "~> 0.1.3"
 gem "image_processing", "~> 1.14"
