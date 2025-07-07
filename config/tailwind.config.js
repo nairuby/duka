@@ -14,6 +14,12 @@ module.exports = {
         courier: ['"Courier Prime", monospace'],
         geist: ['"Geist", sans-serif'],
       },
+      colors: {
+        primary: '#dc2626',   // red-600
+        secondary: '#166534', // green-800
+        accent: '#2563eb',    // blue-600
+        neutral: '#9ca3af',   // gray-400
+      },
     },
   },
   plugins: [
