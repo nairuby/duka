@@ -11,6 +11,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        courier: ['"Courier Prime", monospace'],
+        geist: ['"Geist", sans-serif'],
       },
     },
   },
