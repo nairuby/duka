@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "bootsnap", "~> 1.18", ">= 1.18.6", require: false
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "dotenv-rails", "~> 3.1", ">= 3.1.8"
+gem "font-awesome-sass", "~> 6.7", ">= 6.7.2"
 gem "friendly_id", "~> 5.5", ">= 5.5.1"
 gem "hotwire-rails", "~> 0.1.3"
 gem "image_processing", "~> 1.14"
@@ -19,7 +20,7 @@ gem "solid_cable", "~> 3.0", ">= 3.0.11"
 gem "solid_cache", "~> 1.0", ">= 1.0.7"
 gem "solid_queue", "~> 1.1", ">= 1.1.5"
 gem "stimulus-rails", "~> 1.3", ">= 1.3.4"
-gem "tailwindcss-rails", "~> 4.2", ">= 4.2.3"
+gem "tailwindcss-rails", "~> 2.6"
 gem "thruster", "~> 0.1.14", require: false
 gem "turbo-rails", "~> 2.0", ">= 2.0.16"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]

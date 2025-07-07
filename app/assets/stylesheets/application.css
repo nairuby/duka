@@ -5,6 +5,6 @@
  * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
  * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
  * depending on specificity.
- *
+ * require font-awesome
  * Consider organizing styles into separate files for maintainability.
  */
