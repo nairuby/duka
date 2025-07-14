@@ -18,7 +18,7 @@ gem "rails", "~> 8.0.2"
 gem "rubocop", "~> 1.77"
 gem "solid_cable", "~> 3.0", ">= 3.0.11"
 gem "solid_cache", "~> 1.0", ">= 1.0.7"
-gem "solid_queue", "~> 1.1", ">= 1.1.5"
+gem "solid_queue", "~> 1.2"
 gem "stimulus-rails", "~> 1.3", ">= 1.3.4"
 gem "tailwindcss-rails", "~> 2.6"
 gem "thruster", "~> 0.1.14", require: false
