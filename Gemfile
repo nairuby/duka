@@ -12,7 +12,7 @@ gem "jbuilder", "~> 2.13"
 gem "kamal", "~> 2.7", require: false
 gem "paper_trail", "~> 16.0"
 gem "pg", "~> 1.5", ">= 1.5.9"
-gem "propshaft", "~> 1.1"
+gem "propshaft", "~> 1.2"
 gem "puma", "~> 6.6"
 gem "rails", "~> 8.0.2"
 gem "rubocop", "~> 1.77"
