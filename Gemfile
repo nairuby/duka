@@ -27,7 +27,7 @@ gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 
 group :development, :test do
   gem "debug", "~> 1.11", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "brakeman", "~> 7.0", ">= 7.0.2", require: false
+  gem "brakeman", "~> 7.1", require: false
   gem "rubocop-rails-omakase", "~> 1.1", require: false
   gem "rspec-rails", "~> 8.0", ">= 8.0.1"
 end
