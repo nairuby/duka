@@ -7,7 +7,7 @@ gem "font-awesome-sass", "~> 6.7", ">= 6.7.2"
 gem "friendly_id", "~> 5.5", ">= 5.5.1"
 gem "hotwire-rails", "~> 0.1.3"
 gem "image_processing", "~> 1.14"
-gem "importmap-rails", "~> 2.1"
+gem "importmap-rails", "~> 2.2"
 gem "jbuilder", "~> 2.13"
 gem "kamal", "~> 2.7", require: false
 gem "paper_trail", "~> 16.0"
