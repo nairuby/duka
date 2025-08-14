@@ -27,7 +27,11 @@ A Ruby on Rails–powered e-commerce app offering official merchandise for the *
 
 ---
 
-## 📦 Installation
+## 📦 Getting Started
+
+You can set up this project using either a *Dev Container* for a fully managed environment or a *Manual Setup* if you prefer to manage dependecies yourself.
+
+### Option 1: Manual Setup
 
 ### Requirements
 
@@ -36,34 +40,71 @@ A Ruby on Rails–powered e-commerce app offering official merchandise for the *
 - Node.js + Yarn
 - PostgreSQL (or SQLite for dev)
 
-### Setup Instructions
+### Instructions
 
-Clone the repo:
+1. Clone the repo:
 
-  ```bash
-  git clone https://github.com/your-org/duka.git
-  cd duka
-  ```
-Install dependencies:
- ```
-  bundle install
-  ```
-Set up the database:
- ```
-  rails db:setup
-  ```
-  or
-  ```
-  rails db:create
-  rails db:migrate
-  rails db:seed
-  ```
-Start the Rails server:
-  ```
-  bin/dev
-  ```
+    ```bash
+    git clone https://github.com/your-org/duka.git
+    cd duka
+    ```
+2. Install dependencies:
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser.
+    ```
+    bundle install
+    ```
+3. Set up the database:
+    ```
+    rails db:setup
+    ```
+    or
+    ```
+    rails db:create
+    rails db:migrate
+    rails db:seed
+    ```
+4. Start the Rails server:
+    ```
+    bin/dev
+    ```
+
+5. Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Option 2: Dev Container Setup (Recommended)
+
+This project includes a Dev Container to provide a consistent and isolated development environment
+
+### Requirements
+
+- Docker/ Docker Desktop
+- Visual Studio Code
+- VS Code Dev Containers Extension
+
+### Instructions
+
+1. Clone the repo:
+
+    ```bash
+    git clone https://github.com/your-org/duka.git
+    cd duka
+    ```
+2. Open in VS Code: 
+   Open the project folder in Visual Studio Code. A pop-up will appear prompting you to "Reopen in Containers." Click this button to build and launch the development container.
+
+3. Set up the database: 
+   Once the container is running, open a new terminal within VS Code and run:
+
+    ```bash
+    rails db:setup
+    ```
+4. Start the Rails server:
+  
+    ```bash
+    bin/dev
+    ```
+
+5. Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
 
 ## 🧪 Testing
 Run test suite:
