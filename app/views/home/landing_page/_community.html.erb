@@ -1,0 +1,115 @@
+<!-- Community Section -->
+<section class="py-20 px-4 bg-white">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Header Section -->
+    <div class="text-center mb-16">
+      <div class="inline-block bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
+        Our Community
+      </div>
+      <h2 class="text-4xl font-bold text-gray-800 mb-6">Built by Developers, for Developers</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Join a thriving community of Ruby developers across Africa. Together, we're building the future of technology on the continent.
+      </p>
+    </div>
+
+    <!-- Community Statistics Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      
+      <!-- Active Members Card -->
+      <div class="bg-pink-50 rounded-lg shadow-lg p-8 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold text-red-600 mb-2">2,500+</div>
+        <div class="text-lg text-gray-800">Active Members</div>
+      </div>
+
+      <!-- Cities Reached Card -->
+      <div class="bg-pink-50 rounded-lg shadow-lg p-8 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold text-red-600 mb-2">15+</div>
+        <div class="text-lg text-gray-800">Cities Reached</div>
+      </div>
+
+      <!-- Events Hosted Card -->
+      <div class="bg-pink-50 rounded-lg shadow-lg p-8 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold text-red-600 mb-2">50+</div>
+        <div class="text-lg text-gray-800">Events Hosted</div>
+      </div>
+
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+      
+      <!-- Testimonial 1 -->
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <blockquote class="text-lg italic text-gray-700 mb-6">
+          "The African Ruby Community has been instrumental in my growth as a developer. Wearing the merch is a badge of honor!"
+        </blockquote>
+        <div class="flex items-center">
+          
+           <%= image_tag asset_path("amara.png"), 
+                    class: "w-12 h-12 object-cover rounded-full mr-4", 
+                    alt: "Amara Okafor" %>
+          <div>
+            <div class="font-semibold text-gray-800">Amara Okafor</div>
+            <div class="text-gray-600">Senior Ruby Developer</div>
+            <div class="text-red-500">Lagos, Nigeria</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <blockquote class="text-lg italic text-gray-700 mb-6">
+          "Quality merchandise that represents our vibrant community. Every piece tells a story of African excellence in tech."
+        </blockquote>
+        <div class="flex items-center">
+           <%= image_tag asset_path("kwame.png"), 
+                    class: "w-12 h-12 object-cover rounded-full mr-4", 
+                    alt: "Kwame Asante" %>
+          <div>
+            <div class="font-semibold text-gray-800">Kwame Asante</div>
+            <div class="text-gray-600">Tech Lead</div>
+            <div class="text-red-500">Accra, Ghana</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="bg-pink-50 rounded-2xl p-12 text-center">
+      <h3 class="text-3xl font-bold text-gray-800 mb-4">Ready to Join Our Community?</h3>
+      <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+        Connect with fellow Ruby developers, attend events, and be part of Africa's growing tech ecosystem.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors font-semibold flex items-center justify-center space-x-2">
+          <span>Join NaiRuby Community</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+          </svg>
+        </button>
+        <button class="bg-white text-gray-800 border-2 border-gray-300 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors font-semibold">
+          View Upcoming Events
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
