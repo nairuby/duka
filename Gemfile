@@ -13,7 +13,7 @@ gem "kamal", "~> 2.7", require: false
 gem "paper_trail", "~> 16.0"
 gem "pg", "~> 1.6"
 gem "propshaft", "~> 1.2"
-gem "puma", "~> 6.6"
+gem "puma", "~> 7.0"
 gem "rails", "~> 8.0.2"
 gem "rubocop", "~> 1.79"
 gem "solid_cable", "~> 3.0", ">= 3.0.11"
