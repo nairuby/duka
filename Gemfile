@@ -7,33 +7,33 @@ gem "font-awesome-sass", "~> 6.7", ">= 6.7.2"
 gem "friendly_id", "~> 5.5", ">= 5.5.1"
 gem "hotwire-rails", "~> 0.1.3"
 gem "image_processing", "~> 1.14"
-gem "importmap-rails", "~> 2.1"
-gem "jbuilder", "~> 2.13"
+gem "importmap-rails", "~> 2.2"
+gem "jbuilder", "~> 2.14"
 gem "kamal", "~> 2.7", require: false
 gem "paper_trail", "~> 16.0"
-gem "pg", "~> 1.5", ">= 1.5.9"
-gem "propshaft", "~> 1.1"
+gem "pg", "~> 1.6"
+gem "propshaft", "~> 1.2"
 gem "puma", "~> 6.6"
 gem "rails", "~> 8.0.2"
 gem "rubocop", "~> 1.80", ">= 1.80.2"
 gem "solid_cable", "~> 3.0", ">= 3.0.11"
 gem "solid_cache", "~> 1.0", ">= 1.0.7"
-gem "solid_queue", "~> 1.1", ">= 1.1.5"
+gem "solid_queue", "~> 1.2"
 gem "stimulus-rails", "~> 1.3", ">= 1.3.4"
 gem "tailwindcss-rails", "~> 2.6"
-gem "thruster", "~> 0.1.14", require: false
+gem "thruster", "~> 0.1.15", require: false
 gem "turbo-rails", "~> 2.0", ">= 2.0.16"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 
 group :development, :test do
   gem "debug", "~> 1.11", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "brakeman", "~> 7.0", ">= 7.0.2", require: false
+  gem "brakeman", "~> 7.1", require: false
   gem "rubocop-rails-omakase", "~> 1.1", require: false
   gem "rspec-rails", "~> 8.0", ">= 8.0.1"
 end
 
 group :development do
-  gem "annotaterb", "~> 4.16"
+  gem "annotaterb", "~> 4.18"
   gem "bullet", "~> 8.0", ">= 8.0.8"
   gem "byebug", "~> 12.0"
   gem "hotwire-livereload", "~> 2.0"
