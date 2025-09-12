@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def arc_social_media_links
     [
       {
@@ -29,6 +28,4 @@ module ApplicationHelper
       }
     ]
   end
-    
-    
 end
