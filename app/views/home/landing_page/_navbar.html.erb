@@ -96,9 +96,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle hamburger icon to X when menu is open
     const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
     if (mobileMenu.classList.contains('hidden')) {
-      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+      icon.classList.remove('fa-xmark');
+      icon.classList.add('fa-bars');
     } else {
-      icon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      icon.classList.add('fa-xmark');
+      icon.classList.remove('fa-bars');
     }
   });
   
@@ -108,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     link.addEventListener('click', function() {
       mobileMenu.classList.add('hidden');
       const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
-      icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
     });
   });
   
@@ -117,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
       mobileMenu.classList.add('hidden');
       const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
-      icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
     }
   });
 });
