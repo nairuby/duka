@@ -9,7 +9,7 @@ gem "hotwire-rails", "~> 0.1.3"
 gem "image_processing", "~> 1.14"
 gem "importmap-rails", "~> 2.2"
 gem "jbuilder", "~> 2.14"
-gem "kamal", "~> 2.7", require: false
+gem "kamal", "~> 2.8", require: false
 gem "paper_trail", "~> 16.0"
 gem "pg", "~> 1.6"
 gem "propshaft", "~> 1.2"
