@@ -1,0 +1,126 @@
+<!-- Top red strip -->
+<div class="w-full h-1 bg-red-600"></div>
+
+<!-- Main navbar -->
+<nav class="bg-white shadow-sm relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Brand/Logo Section -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- R Icon -->
+        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-red-600 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-lg sm:text-xl">R</span>
+        </div>
+        
+        <!-- Brand Text -->
+        <div class="flex flex-col">
+          <h1 class="text-gray-800 font-bold text-base sm:text-lg leading-tight">African Ruby</h1>
+          <p class="text-gray-500 text-xs sm:text-sm leading-tight hidden xs:block">Community Store</p>
+        </div>
+      </div>
+      
+      <!-- Desktop Navigation Links -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Products</a>
+        <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">About Us</a>
+        <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Community</a>
+        <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Contact</a>
+      </div>
+      
+      <!-- Desktop Utility Icons -->
+      <div class="hidden md:flex items-center space-x-4">
+        <!-- Search Icon -->
+        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <i class="fas fa-search text-xl"></i>
+        </button>
+        
+        <!-- Shopping Cart with Notification -->
+        <div class="relative">
+          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+            <i class="fas fa-shopping-cart text-xl"></i>
+          </button>
+          <!-- Cart Notification Badge -->
+          <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
+            <span class="text-white text-xs font-bold">2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Utility Icons and Menu Button -->
+      <div class="flex md:hidden items-center space-x-3">
+        <!-- Mobile Search Icon -->
+        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <i class="fas fa-search text-lg"></i>
+        </button>
+        
+        <!-- Mobile Shopping Cart -->
+        <div class="relative">
+          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+            <i class="fas fa-shopping-cart text-lg"></i>
+          </button>
+          <!-- Cart Notification Badge -->
+          <div class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
+            <span class="text-white text-xs font-bold">2</span>
+          </div>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="text-gray-700 hover:text-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 rounded-md p-1">
+          <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">Products</a>
+        <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">About Us</a>
+        <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">Community</a>
+        <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">Contact</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- JavaScript for Mobile Menu Toggle -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  mobileMenuButton.addEventListener('click', function() {
+    mobileMenu.classList.toggle('hidden');
+    
+    // Toggle hamburger icon to X when menu is open
+    const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
+    if (mobileMenu.classList.contains('hidden')) {
+      icon.classList.remove('fa-xmark');
+      icon.classList.add('fa-bars');
+    } else {
+      icon.classList.add('fa-xmark');
+      icon.classList.remove('fa-bars');
+    }
+  });
+  
+  // Close mobile menu when clicking on a link
+  const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      mobileMenu.classList.add('hidden');
+      const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
+      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    });
+  });
+  
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+      mobileMenu.classList.add('hidden');
+      const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
+      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }
+  });
+});
+</script>

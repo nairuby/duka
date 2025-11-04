@@ -12,17 +12,17 @@ gem "jbuilder", "~> 2.14"
 gem "kamal", "~> 2.7", require: false
 gem "paper_trail", "~> 16.0"
 gem "pg", "~> 1.6"
-gem "propshaft", "~> 1.2"
-gem "puma", "~> 6.6"
-gem "rails", "~> 8.0.2"
-gem "rubocop", "~> 1.79"
+gem "propshaft", "~> 1.3"
+gem "puma", "~> 7.0"
+gem "rails", "~> 8.0.3"
+gem "rubocop", "1.81"
 gem "solid_cable", "~> 3.0", ">= 3.0.11"
 gem "solid_cache", "~> 1.0", ">= 1.0.7"
 gem "solid_queue", "~> 1.2"
 gem "stimulus-rails", "~> 1.3", ">= 1.3.4"
 gem "tailwindcss-rails", "~> 2.6"
 gem "thruster", "~> 0.1.15", require: false
-gem "turbo-rails", "~> 2.0", ">= 2.0.16"
+gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 
 group :development, :test do
@@ -33,7 +33,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotaterb", "~> 4.18"
+  gem "annotaterb", "~> 4.19"
   gem "bullet", "~> 8.0", ">= 8.0.8"
   gem "byebug", "~> 12.0"
   gem "hotwire-livereload", "~> 2.0"
