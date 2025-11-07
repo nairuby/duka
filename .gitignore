@@ -38,3 +38,6 @@
 
 # Ignore IntelliJ's project specifit settings files
 /.idea
+
+# Ignore Kiro
+/.kiro

@@ -1,0 +1,15 @@
+/* Loads the Inter font (variable and static) from rsms.me CDN.
+   This file is referenced from the layout via stylesheet_link_tag "inter-font".
+   Propshaft will serve it from app/assets/stylesheets.
+*/
+@import url("https://rsms.me/inter/inter.css");
+
+/* Optional: ensure fonts render quickly */
+:root {
+  /* nothing required here, Tailwind's font-sans is configured to use 'Inter var' */
+}
+
+/* If you want Inter as the base font for the whole app without adding classes,
+   uncomment the rule below.
+html { font-family: 'Inter var', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif; }
+*/
