@@ -36,6 +36,7 @@ group :development do
   gem "annotaterb", "~> 4.20"
   gem "bullet", "~> 8.1"
   gem "byebug", "~> 12.0"
+  gem "herb", require: false
   gem "hotwire-livereload", "~> 2.1"
   gem "web-console", "~> 4.2", ">= 4.2.1"
 end
@@ -43,4 +44,5 @@ end
 group :test do
   gem "capybara", "~> 3.40"
   gem "selenium-webdriver", "~> 4.34"
+  gem "simplecov", require: false
 end

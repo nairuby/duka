@@ -5,7 +5,7 @@ class HomeController < ApplicationController
       products = Product.where(category: category).limit(4)
       { name: category, products: products } if products.any?
     end.compact
-    
+
     @cart = []
   end
 end

@@ -12,40 +12,40 @@ require 'rails_helper'
 # end
 RSpec.describe ProductsHelper, type: :helper do
   describe "#product_category" do
-    it "returns apparel category for t-shirt" do
-      product = double("Product", name: "Premium T-Shirt")
+    it "returns shirts category for t-shirt" do
+      product = double("Product", name: "Premium T-Shirt", category: "Shirts")
       category = helper.product_category(product)
 
-      expect(category[:name]).to eq("Apparel")
+      expect(category[:name]).to eq("Shirts")
       expect(category[:icon]).to eq("fas fa-tshirt")
       expect(category[:color]).to eq("red")
     end
 
-    it "returns drinkware category for mug" do
-      product = double("Product", name: "Coffee Mug")
+    it "returns mugs category for mug" do
+      product = double("Product", name: "Coffee Mug", category: "Mugs")
       category = helper.product_category(product)
 
-      expect(category[:name]).to eq("Drinkware")
+      expect(category[:name]).to eq("Mugs")
       expect(category[:icon]).to eq("fas fa-mug-hot")
       expect(category[:color]).to eq("orange")
     end
 
     it "returns accessories category for notebook" do
-      product = double("Product", name: "Developer Notebook")
+      product = double("Product", name: "Developer Notebook", category: "Accessories")
       category = helper.product_category(product)
 
       expect(category[:name]).to eq("Accessories")
-      expect(category[:icon]).to eq("fas fa-bookmark")
+      expect(category[:icon]).to eq("fas fa-gift")
       expect(category[:color]).to eq("purple")
     end
 
     it "returns default category for unknown product" do
-      product = double("Product", name: "Unknown Item")
+      product = double("Product", name: "Unknown Item", category: nil)
       category = helper.product_category(product)
 
-      expect(category[:name]).to eq("Product")
-      expect(category[:icon]).to eq("fas fa-tag")
-      expect(category[:color]).to eq("blue")
+      expect(category[:name]).to eq("Accessories")
+      expect(category[:icon]).to eq("fas fa-gift")
+      expect(category[:color]).to eq("purple")
     end
   end
 
@@ -65,9 +65,9 @@ RSpec.describe ProductsHelper, type: :helper do
       expect(classes).to eq("bg-purple-100 text-purple-700 border-purple-200")
     end
 
-    it "returns blue classes for unknown color" do
+    it "returns gray classes for unknown color" do
       classes = helper.category_badge_classes("unknown")
-      expect(classes).to eq("bg-blue-100 text-blue-700 border-blue-200")
+      expect(classes).to eq("bg-gray-100 text-gray-700 border-gray-200")
     end
   end
 end
