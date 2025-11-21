@@ -32,11 +32,15 @@ The GitHub Actions workflow has been updated to use RSpec instead of Minitest.
 - Following Rails Omakase style guide
 
 ### 4. Test (RSpec) ✅
-**Command:** `bundle exec rspec`
+**Commands:** 
+1. `bin/rails assets:precompile` (compile Tailwind CSS)
+2. `bin/rails db:create db:schema:load` (setup test database)
+3. `bundle exec rspec` (run tests)
 
 **Status:** PASSING
 - 24 examples
 - 0 failures
+- Assets precompiled successfully
 - Test database setup working
 
 **Test Breakdown:**
@@ -46,7 +50,12 @@ The GitHub Actions workflow has been updated to use RSpec instead of Minitest.
 
 ## Changes Made
 
-### Updated `.github/workflows/ci.yml`
+### 1. Created Tailwind CSS Input File
+**File:** `app/assets/tailwind/application.css`
+
+The tailwindcss-ruby gem expects the input file at this specific location.
+
+### 2. Updated `.github/workflows/ci.yml`
 
 **Before:**
 ```yaml
@@ -59,6 +68,12 @@ The GitHub Actions workflow has been updated to use RSpec instead of Minitest.
 
 **After:**
 ```yaml
+- name: Precompile assets
+  env:
+    RAILS_ENV: test
+    DATABASE_URL: postgres://postgres:postgres@localhost:5432
+  run: bin/rails assets:precompile
+
 - name: Setup test database
   env:
     RAILS_ENV: test
@@ -71,6 +86,8 @@ The GitHub Actions workflow has been updated to use RSpec instead of Minitest.
     DATABASE_URL: postgres://postgres:postgres@localhost:5432
   run: bundle exec rspec
 ```
+
+**Key Addition:** Asset precompilation step to compile Tailwind CSS before running tests.
 
 ## Running CI Checks Locally
 
@@ -96,6 +113,7 @@ RAILS_ENV=test bundle exec rspec
 bin/brakeman --no-pager && \
 bin/importmap audit && \
 bin/rubocop && \
+RAILS_ENV=test bin/rails assets:precompile && \
 RAILS_ENV=test bundle exec rspec
 ```
 
