@@ -1,7 +1,7 @@
 module ProductsHelper
   def product_category(product)
     name = product.name.downcase
-    
+
     case name
     when /t-shirt|hoodie|jacket|polo/
       { name: "Apparel", icon: "fas fa-tshirt", color: "red" }
@@ -13,7 +13,7 @@ module ProductsHelper
       { name: "Product", icon: "fas fa-tag", color: "blue" }
     end
   end
-  
+
   def category_badge_classes(color)
     case color
     when "red"

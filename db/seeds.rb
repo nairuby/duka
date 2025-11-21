@@ -11,8 +11,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/3B82F6/FFFFFF?text=Premium+T-Shirt",
     category: "Apparel",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "White", "Navy", "Gray"]
+    sizes: [ "XS", "S", "M", "L", "XL" ],
+    colors: [ "Black", "White", "Navy", "Gray" ]
   },
   {
     name: "Denim Jacket",
@@ -21,8 +21,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/1F2937/FFFFFF?text=Denim+Jacket",
     category: "Apparel",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Blue", "Black", "Light Blue"]
+    sizes: [ "S", "M", "L", "XL" ],
+    colors: [ "Blue", "Black", "Light Blue" ]
   },
   {
     name: "Ruby Coffee Mug",
@@ -31,8 +31,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Ruby+Mug",
     category: "Drinkware",
-    sizes: ["Standard"],
-    colors: ["Red", "Black", "White"]
+    sizes: [ "Standard" ],
+    colors: [ "Red", "Black", "White" ]
   },
   {
     name: "Developer Hoodie",
@@ -41,8 +41,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/7C3AED/FFFFFF?text=Dev+Hoodie",
     category: "Apparel",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Gray", "Navy"]
+    sizes: [ "S", "M", "L", "XL", "XXL" ],
+    colors: [ "Black", "Gray", "Navy" ]
   },
   {
     name: "Coding Notebook",
@@ -51,8 +51,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/F59E0B/FFFFFF?text=Notebook",
     category: "Accessories",
-    sizes: ["A5"],
-    colors: ["Black", "Red", "Blue"]
+    sizes: [ "A5" ],
+    colors: [ "Black", "Red", "Blue" ]
   },
   {
     name: "Tech Sticker Pack",
@@ -61,8 +61,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/10B981/FFFFFF?text=Stickers",
     category: "Accessories",
-    sizes: ["Pack"],
-    colors: ["Mixed"]
+    sizes: [ "Pack" ],
+    colors: [ "Mixed" ]
   },
   {
     name: "Wireless Mouse Pad",
@@ -71,8 +71,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/6366F1/FFFFFF?text=Mouse+Pad",
     category: "Accessories",
-    sizes: ["Large"],
-    colors: ["Black", "Gray"]
+    sizes: [ "Large" ],
+    colors: [ "Black", "Gray" ]
   },
   {
     name: "Heritage Polo Shirt",
@@ -81,8 +81,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/EC4899/FFFFFF?text=Polo+Shirt",
     category: "Apparel",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Navy", "Red"]
+    sizes: [ "S", "M", "L", "XL" ],
+    colors: [ "White", "Navy", "Red" ]
   },
   {
     name: "Insulated Water Bottle",
@@ -91,8 +91,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/059669/FFFFFF?text=Water+Bottle",
     category: "Drinkware",
-    sizes: ["500ml"],
-    colors: ["Silver", "Black", "Blue"]
+    sizes: [ "500ml" ],
+    colors: [ "Silver", "Black", "Blue" ]
   },
   {
     name: "Laptop Sleeve",
@@ -101,8 +101,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/B45309/FFFFFF?text=Laptop+Sleeve",
     category: "Accessories",
-    sizes: ["13 inch", "15 inch"],
-    colors: ["Brown", "Black", "Gray"]
+    sizes: [ "13 inch", "15 inch" ],
+    colors: [ "Brown", "Black", "Gray" ]
   },
   {
     name: "Ruby Gem Pin Set",
@@ -111,8 +111,8 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Pin+Set",
     category: "Accessories",
-    sizes: ["Set of 5"],
-    colors: ["Mixed"]
+    sizes: [ "Set of 5" ],
+    colors: [ "Mixed" ]
   },
   {
     name: "Code & Coffee Tumbler",
@@ -121,15 +121,15 @@ products_data = [
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/374151/FFFFFF?text=Tumbler",
     category: "Drinkware",
-    sizes: ["16oz"],
-    colors: ["Black", "Silver", "Red"]
+    sizes: [ "16oz" ],
+    colors: [ "Black", "Silver", "Red" ]
   }
 ]
 
 # Create products and variants
 products_data.each_with_index do |product_data, index|
   puts "Creating product #{index + 1}: #{product_data[:name]}"
-  
+
   product = Product.create!(
     name: product_data[:name],
     description: product_data[:description],
@@ -137,7 +137,7 @@ products_data.each_with_index do |product_data, index|
     currency: product_data[:currency],
     image_url: product_data[:image_url]
   )
-  
+
   # Create variants for each product
   product_data[:sizes].each do |size|
     product_data[:colors].each do |color|

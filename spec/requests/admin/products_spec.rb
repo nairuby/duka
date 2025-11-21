@@ -19,13 +19,13 @@ RSpec.describe "Admin::Products", type: :request do
 
   describe "POST /create" do
     it "creates a product" do
-      post "/admin/products", params: { 
-        product: { 
-          name: "New Product", 
-          description: "New description", 
-          price: 39.99, 
-          currency: "USD" 
-        } 
+      post "/admin/products", params: {
+        product: {
+          name: "New Product",
+          description: "New description",
+          price: 39.99,
+          currency: "USD"
+        }
       }
       expect(response).to have_http_status(:redirect)
     end
@@ -40,8 +40,8 @@ RSpec.describe "Admin::Products", type: :request do
 
   describe "PATCH /update" do
     it "updates the product" do
-      patch "/admin/products/#{product.id}", params: { 
-        product: { name: "Updated Product" } 
+      patch "/admin/products/#{product.id}", params: {
+        product: { name: "Updated Product" }
       }
       expect(response).to have_http_status(:redirect)
     end

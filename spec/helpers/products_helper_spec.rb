@@ -15,7 +15,7 @@ RSpec.describe ProductsHelper, type: :helper do
     it "returns apparel category for t-shirt" do
       product = double("Product", name: "Premium T-Shirt")
       category = helper.product_category(product)
-      
+
       expect(category[:name]).to eq("Apparel")
       expect(category[:icon]).to eq("fas fa-tshirt")
       expect(category[:color]).to eq("red")
@@ -24,7 +24,7 @@ RSpec.describe ProductsHelper, type: :helper do
     it "returns drinkware category for mug" do
       product = double("Product", name: "Coffee Mug")
       category = helper.product_category(product)
-      
+
       expect(category[:name]).to eq("Drinkware")
       expect(category[:icon]).to eq("fas fa-mug-hot")
       expect(category[:color]).to eq("orange")
@@ -33,7 +33,7 @@ RSpec.describe ProductsHelper, type: :helper do
     it "returns accessories category for notebook" do
       product = double("Product", name: "Developer Notebook")
       category = helper.product_category(product)
-      
+
       expect(category[:name]).to eq("Accessories")
       expect(category[:icon]).to eq("fas fa-bookmark")
       expect(category[:color]).to eq("purple")
@@ -42,7 +42,7 @@ RSpec.describe ProductsHelper, type: :helper do
     it "returns default category for unknown product" do
       product = double("Product", name: "Unknown Item")
       category = helper.product_category(product)
-      
+
       expect(category[:name]).to eq("Product")
       expect(category[:icon]).to eq("fas fa-tag")
       expect(category[:color]).to eq("blue")

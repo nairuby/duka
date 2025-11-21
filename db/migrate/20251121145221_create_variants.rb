@@ -9,7 +9,7 @@ class CreateVariants < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    
+
     add_index :variants, :sku, unique: true
   end
 end

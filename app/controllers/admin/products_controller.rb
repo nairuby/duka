@@ -1,5 +1,5 @@
 class Admin::ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @products = Product.includes(:variants).order(:name)
@@ -14,9 +14,9 @@ class Admin::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    
+
     if @product.save
-      redirect_to admin_products_path, notice: 'Product was successfully created.'
+      redirect_to admin_products_path, notice: "Product was successfully created."
     else
       render :new
     end
@@ -27,7 +27,7 @@ class Admin::ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to admin_products_path, notice: 'Product was successfully updated.'
+      redirect_to admin_products_path, notice: "Product was successfully updated."
     else
       render :edit
     end
@@ -35,7 +35,7 @@ class Admin::ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    redirect_to admin_products_path, notice: 'Product was successfully deleted.'
+    redirect_to admin_products_path, notice: "Product was successfully deleted."
   end
 
   private
