@@ -32,19 +32,19 @@
           <!-- Dropdown Menu -->
           <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
             <div class="py-2">
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
                 <i class="fas fa-tshirt w-5"></i> Apparel
-              </a>
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+              <% end %>
+              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
                 <i class="fas fa-mug-hot w-5"></i> Drinkware
-              </a>
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+              <% end %>
+              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
                 <i class="fas fa-bookmark w-5"></i> Accessories
-              </a>
+              <% end %>
               <div class="border-t border-gray-200 my-1"></div>
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium">
+              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium" do %>
                 <i class="fas fa-th w-5"></i> All Products
-              </a>
+              <% end %>
             </div>
           </div>
         </div>
@@ -108,18 +108,18 @@
             <i class="fas fa-chevron-down text-xs" id="mobile-products-icon"></i>
           </button>
           <div id="mobile-products-submenu" class="hidden pl-4 mt-1 space-y-1">
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
+            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
               <i class="fas fa-tshirt w-5"></i> Apparel
-            </a>
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
+            <% end %>
+            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
               <i class="fas fa-mug-hot w-5"></i> Drinkware
-            </a>
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
+            <% end %>
+            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
               <i class="fas fa-bookmark w-5"></i> Accessories
-            </a>
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md font-medium">
+            <% end %>
+            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md font-medium" do %>
               <i class="fas fa-th w-5"></i> All Products
-            </a>
+            <% end %>
           </div>
         </div>
         
