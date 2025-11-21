@@ -13,186 +13,322 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
       <!-- Space Black Coffee Mug -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-          <div class="absolute top-3 right-3">
-            <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
-              <i class="fa-solid fa-cart-plus"></i>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200">
+        <div class="relative overflow-hidden">
+          <!-- Quick Add Button -->
+          <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+              <i class="fa-solid fa-heart text-sm"></i>
             </button>
           </div>
-          <div class="w-full h-64 bg-gray-100 flex items-center justify-center">
+          
+          <!-- Product Image -->
+          <div class="w-full h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
             <%= image_tag asset_path("black-mug.png"), 
-                    class: "w-full h-full object-cover", 
+                    class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", 
                     alt: "Space Black Coffee Mug" %>
           </div>
-          <div class="absolute bottom-3 left-3">
-            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">Drinkware</span>
+          
+          <!-- Category Badge -->
+          <div class="absolute bottom-4 left-4">
+            <span class="bg-orange-100 text-orange-700 text-xs font-medium px-3 py-1 rounded-full border border-orange-200">
+              <i class="fas fa-mug-hot mr-1"></i>Drinkware
+            </span>
           </div>
+          
+          <!-- Overlay on Hover -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        
         <div class="p-6">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">Space Black Coffee Mug</h3>
+          <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">Space Black Coffee Mug</h3>
+          <p class="text-sm text-gray-600 mb-4">Premium ceramic mug with Ruby logo</p>
+          
           <div class="flex items-center justify-between">
-            <span class="text-base sm:text-xl font-bold text-gray-800">$18</span>
-            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-bold text-gray-800">$18</span>
+              <span class="text-sm text-gray-400 line-through">$24</span>
+            </div>
+            <button class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
               <i class="fa-solid fa-cart-plus"></i>
-              <span>Add to Cart</span>
+              <span class="hidden sm:inline">Add</span>
             </button>
           </div>
         </div>
       </div>
 
       <!-- Pearl White Coffee Mug -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-          <div class="absolute top-3 right-3">
-            <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
-              <i class="fa-solid fa-cart-plus"></i>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200">
+        <div class="relative overflow-hidden">
+          <!-- Quick Add Button -->
+          <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+              <i class="fa-solid fa-heart text-sm"></i>
             </button>
           </div>
-          <div class="w-full h-64 bg-gray-100 flex items-center justify-center">
+          
+          <!-- Product Image -->
+          <div class="w-full h-64 bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center overflow-hidden">
             <%= image_tag asset_path("white-mug.png"), 
-                    class: "w-full h-full object-cover", 
+                    class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", 
                     alt: "Pearl White Coffee Mug" %>
           </div>
-          <div class="absolute bottom-3 left-3">
-            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">Drinkware</span>
+          
+          <!-- Category Badge -->
+          <div class="absolute bottom-4 left-4">
+            <span class="bg-orange-100 text-orange-700 text-xs font-medium px-3 py-1 rounded-full border border-orange-200">
+              <i class="fas fa-mug-hot mr-1"></i>Drinkware
+            </span>
           </div>
+          
+          <!-- Overlay on Hover -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        
         <div class="p-6">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">Pearl White Coffee Mug</h3>
+          <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">Pearl White Coffee Mug</h3>
+          <p class="text-sm text-gray-600 mb-4">Elegant white ceramic with gold accents</p>
+          
           <div class="flex items-center justify-between">
-            <span class="text-base sm:text-xl font-bold text-gray-800">$18</span>
-            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-bold text-gray-800">$18</span>
+              <span class="text-sm text-gray-400 line-through">$24</span>
+            </div>
+            <button class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
               <i class="fa-solid fa-cart-plus"></i>
-              <span>Add to Cart</span>
+              <span class="hidden sm:inline">Add</span>
             </button>
           </div>
         </div>
       </div>
 
       <!-- Black T-Shirt -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-          <div class="absolute top-3 right-3">
-            <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
-              <i class="fa-solid fa-cart-plus"></i>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200">
+        <div class="relative overflow-hidden">
+          <!-- Popular Badge -->
+          <div class="absolute top-4 left-4 z-10">
+            <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+              <i class="fas fa-fire mr-1"></i>Popular
+            </span>
+          </div>
+          
+          <!-- Quick Add Button -->
+          <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+              <i class="fa-solid fa-heart text-sm"></i>
             </button>
           </div>
-          <div class="w-full h-64 bg-blue-100 flex items-center justify-center">
+          
+          <!-- Product Image -->
+          <div class="w-full h-64 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden">
             <%= image_tag asset_path("code-shirt.png"), 
-                    class: "w-full h-full object-cover", 
+                    class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", 
                     alt: "Black T-Shirt" %>
           </div>
-          <div class="absolute bottom-3 left-3">
-            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">Apparel</span>
+          
+          <!-- Category Badge -->
+          <div class="absolute bottom-4 left-4">
+            <span class="bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full border border-red-200">
+              <i class="fas fa-tshirt mr-1"></i>Apparel
+            </span>
           </div>
+          
+          <!-- Overlay on Hover -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        
         <div class="p-6">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">Black T-Shirt</h3>
+          <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">Code Master Tee</h3>
+          <p class="text-sm text-gray-600 mb-4">Premium cotton with Ruby code design</p>
+          
           <div class="flex items-center justify-between">
-            <span class="text-base sm:text-xl font-bold text-gray-800">$25</span>
-            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-bold text-gray-800">$25</span>
+              <span class="text-sm text-gray-400 line-through">$35</span>
+            </div>
+            <button class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
               <i class="fa-solid fa-cart-plus"></i>
-              <span>Add to Cart</span>
+              <span class="hidden sm:inline">Add</span>
             </button>
           </div>
         </div>
       </div>
 
       <!-- White T-Shirt -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-          <div class="absolute top-3 right-3">
-            <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
-              <i class="fa-solid fa-cart-plus"></i>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200">
+        <div class="relative overflow-hidden">
+          <!-- Quick Add Button -->
+          <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+              <i class="fa-solid fa-heart text-sm"></i>
             </button>
           </div>
-          <div class="w-full h-64 bg-gray-100 flex items-center justify-center">
+          
+          <!-- Product Image -->
+          <div class="w-full h-64 bg-gradient-to-br from-gray-50 to-pink-50 flex items-center justify-center overflow-hidden">
             <%= image_tag asset_path("white-shirt.png"), 
-                    class: "w-full h-full object-cover", 
+                    class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", 
                     alt: "White T-Shirt" %>
           </div>
-          <div class="absolute bottom-3 left-3">
-            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">Apparel</span>
+          
+          <!-- Category Badge -->
+          <div class="absolute bottom-4 left-4">
+            <span class="bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full border border-red-200">
+              <i class="fas fa-tshirt mr-1"></i>Apparel
+            </span>
           </div>
+          
+          <!-- Overlay on Hover -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        
         <div class="p-6">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">White T-Shirt</h3>
+          <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">Classic Ruby Tee</h3>
+          <p class="text-sm text-gray-600 mb-4">Clean white design with minimal logo</p>
+          
           <div class="flex items-center justify-between">
-            <span class="text-base sm:text-xl font-bold text-gray-800">$25</span>
-            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-bold text-gray-800">$25</span>
+              <span class="text-sm text-gray-400 line-through">$35</span>
+            </div>
+            <button class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
               <i class="fa-solid fa-cart-plus"></i>
-              <span>Add to Cart</span>
+              <span class="hidden sm:inline">Add</span>
             </button>
           </div>
         </div>
       </div>
 
       <!-- Heritage Hoodie -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-          <div class="absolute top-3 right-3">
-            <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
-              <i class="fa-solid fa-cart-plus"></i>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200">
+        <div class="relative overflow-hidden">
+          <!-- Limited Edition Badge -->
+          <div class="absolute top-4 left-4 z-10">
+            <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+              <i class="fas fa-gem mr-1"></i>Limited
+            </span>
+          </div>
+          
+          <!-- Quick Add Button -->
+          <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+              <i class="fa-solid fa-heart text-sm"></i>
             </button>
           </div>
-          <div class="w-full h-64 bg-gray-100 flex items-center justify-center">
+          
+          <!-- Product Image -->
+          <div class="w-full h-64 bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center overflow-hidden">
             <%= image_tag asset_path("ruby-hoodie.png"), 
-                    class: "w-full h-full object-cover", 
+                    class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", 
                     alt: "Heritage Hoodie" %>
           </div>
-          <div class="absolute bottom-3 left-3">
-            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">Apparel</span>
+          
+          <!-- Category Badge -->
+          <div class="absolute bottom-4 left-4">
+            <span class="bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full border border-red-200">
+              <i class="fas fa-tshirt mr-1"></i>Apparel
+            </span>
           </div>
+          
+          <!-- Overlay on Hover -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        
         <div class="p-6">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">Heritage Hoodie</h3>
+          <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">Heritage Ruby Hoodie</h3>
+          <p class="text-sm text-gray-600 mb-4">Premium fleece with African patterns</p>
+          
           <div class="flex items-center justify-between">
-            <span class="text-base sm:text-xl font-bold text-gray-800">$45</span>
-            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-bold text-gray-800">$45</span>
+              <span class="text-sm text-gray-400 line-through">$65</span>
+            </div>
+            <button class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
               <i class="fa-solid fa-cart-plus"></i>
-              <span>Add to Cart</span>
+              <span class="hidden sm:inline">Add</span>
             </button>
           </div>
         </div>
       </div>
 
       <!-- Developer Notebook -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-          <div class="absolute top-3 right-3">
-            <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
-              <i class="fa-solid fa-cart-plus"></i>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200">
+        <div class="relative overflow-hidden">
+          <!-- New Badge -->
+          <div class="absolute top-4 left-4 z-10">
+            <span class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+              <i class="fas fa-star mr-1"></i>New
+            </span>
+          </div>
+          
+          <!-- Quick Add Button -->
+          <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+              <i class="fa-solid fa-heart text-sm"></i>
             </button>
           </div>
-          <div class="w-full h-64 bg-amber-100 flex items-center justify-center">
+          
+          <!-- Product Image -->
+          <div class="w-full h-64 bg-gradient-to-br from-amber-50 to-yellow-50 flex items-center justify-center overflow-hidden">
             <%= image_tag asset_path("notebook.png"), 
-                    class: "w-full h-full object-cover", 
+                    class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500", 
                     alt: "Developer Notebook" %>
           </div>
-          <div class="absolute bottom-3 left-3">
-            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">Accessories</span>
+          
+          <!-- Category Badge -->
+          <div class="absolute bottom-4 left-4">
+            <span class="bg-purple-100 text-purple-700 text-xs font-medium px-3 py-1 rounded-full border border-purple-200">
+              <i class="fas fa-bookmark mr-1"></i>Accessories
+            </span>
           </div>
+          
+          <!-- Overlay on Hover -->
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        
         <div class="p-6">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-2">Developer Notebook</h3>
+          <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">Ruby Developer Journal</h3>
+          <p class="text-sm text-gray-600 mb-4">Lined pages with coding templates</p>
+          
           <div class="flex items-center justify-between">
-            <span class="text-base sm:text-xl font-bold text-gray-800">$15</span>
-            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-bold text-gray-800">$15</span>
+              <span class="text-sm text-gray-400 line-through">$22</span>
+            </div>
+            <button class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
               <i class="fa-solid fa-cart-plus"></i>
-              <span>Add to Cart</span>
+              <span class="hidden sm:inline">Add</span>
             </button>
           </div>
         </div>
       </div>
 
     </div>
-      </div>
+    
+    <!-- Spacer for visual separation -->
+    <div class="h-16 sm:h-20 lg:h-24"></div>
     
     <!-- View All Products Button -->
-    <div class="text-center mt-12">
-      <button class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors text-base sm:text-lg font-semibold">
-        View All Products
+    <div class="flex flex-col items-center mb-16">
+      <button class="group relative bg-red-600 text-white font-bold text-lg rounded-2xl hover:bg-red-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-red-500/25 transform hover:scale-105 inline-flex items-center justify-center space-x-3 overflow-hidden" style="padding: 1rem 2.5rem;">
+        <!-- Animated background -->
+        <div class="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        <!-- Button content -->
+        <span class="relative z-10">Explore All Products</span>
+        <i class="fas fa-arrow-right relative z-10 group-hover:translate-x-1 transition-transform duration-300"></i>
+        
+        <!-- Shine effect -->
+        <div class="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine"></div>
       </button>
+      
+      <!-- Simplified Stats - Only Made in Africa -->
+      <div class="flex items-center justify-center mt-8 text-sm text-gray-600">
+        <div class="flex items-center space-x-2 hover:text-red-600 transition-colors cursor-pointer">
+          <i class="fas fa-heart text-red-600"></i>
+          <span>Made in Africa</span>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
