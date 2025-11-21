@@ -14,5 +14,42 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "validations" do
+    it "is valid with valid attributes" do
+      product = Product.new(
+        name: "Test Product",
+        description: "Test description",
+        price: 29.99,
+        currency: "USD"
+      )
+      expect(product).to be_valid
+    end
+
+    it "is not valid without a name" do
+      product = Product.new(price: 29.99, currency: "USD")
+      expect(product).not_to be_valid
+    end
+
+    it "is not valid without a price" do
+      product = Product.new(name: "Test Product", currency: "USD")
+      expect(product).not_to be_valid
+    end
+
+    it "is not valid without a currency" do
+      product = Product.new(name: "Test Product", price: 29.99)
+      expect(product).not_to be_valid
+    end
+
+    it "is not valid with a negative price" do
+      product = Product.new(name: "Test Product", price: -10, currency: "USD")
+      expect(product).not_to be_valid
+    end
+  end
+
+  describe "associations" do
+    it "has many variants" do
+      association = described_class.reflect_on_association(:variants)
+      expect(association.macro).to eq :has_many
+    end
+  end
 end

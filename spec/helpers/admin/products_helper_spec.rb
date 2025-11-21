@@ -1,15 +1,8 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the Admin::ProductsHelper. For example:
-#
-# describe Admin::ProductsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe Admin::ProductsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  # This helper doesn't have any methods yet, so just a basic test
+  it "is included in the helper" do
+    expect(helper.class.included_modules).to include(Admin::ProductsHelper)
+  end
 end

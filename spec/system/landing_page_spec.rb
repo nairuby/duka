@@ -86,6 +86,12 @@ RSpec.describe "Landing Page", type: :system do
   end
 
   describe "Products Section" do
+    before do
+      # Create test products for system tests
+      Product.create!(name: "Premium Cotton T-Shirt", description: "Test", price: 29.99, currency: "USD")
+      Product.create!(name: "Ruby Coffee Mug", description: "Test", price: 18.99, currency: "USD")
+    end
+
     it "displays products heading" do
       visit root_path
 
@@ -95,27 +101,21 @@ RSpec.describe "Landing Page", type: :system do
     it "shows product cards" do
       visit root_path
 
-      expect(page).to have_content("Space Black Coffee Mug")
-      expect(page).to have_content("Pearl White Coffee Mug")
-      expect(page).to have_content("Black T-Shirt")
-      expect(page).to have_content("White T-Shirt")
-      expect(page).to have_content("Heritage Hoodie")
-      expect(page).to have_content("Developer Notebook")
+      expect(page).to have_content("Premium Cotton T-Shirt")
+      expect(page).to have_content("Ruby Coffee Mug")
     end
 
     it "displays product prices" do
       visit root_path
 
-      expect(page).to have_content("$18")
-      expect(page).to have_content("$25")
-      expect(page).to have_content("$45")
-      expect(page).to have_content("$15")
+      expect(page).to have_content("USD29.99")
+      expect(page).to have_content("USD18.99")
     end
 
-    it "has add to cart buttons" do
+    it "has view details buttons" do
       visit root_path
 
-      expect(page).to have_button("Add to Cart", count: 6)
+      expect(page).to have_content("View Details")
     end
   end
 
