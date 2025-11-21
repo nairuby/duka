@@ -22,7 +22,33 @@
       
       <!-- Desktop Navigation Links -->
       <div class="hidden md:flex items-center space-x-8">
-        <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Products</a>
+        <!-- Products Dropdown -->
+        <div class="relative group">
+          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200 flex items-center space-x-1">
+            <span>Products</span>
+            <i class="fas fa-chevron-down text-xs"></i>
+          </button>
+          
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="py-2">
+              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                <i class="fas fa-tshirt w-5"></i> Apparel
+              </a>
+              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                <i class="fas fa-mug-hot w-5"></i> Drinkware
+              </a>
+              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                <i class="fas fa-bookmark w-5"></i> Accessories
+              </a>
+              <div class="border-t border-gray-200 my-1"></div>
+              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium">
+                <i class="fas fa-th w-5"></i> All Products
+              </a>
+            </div>
+          </div>
+        </div>
+        
         <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">About Us</a>
         <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Community</a>
         <a href="#" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Contact</a>
@@ -75,7 +101,28 @@
     <!-- Mobile Navigation Menu -->
     <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">Products</a>
+        <!-- Products with submenu -->
+        <div>
+          <button id="mobile-products-toggle" class="w-full flex items-center justify-between px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">
+            <span>Products</span>
+            <i class="fas fa-chevron-down text-xs" id="mobile-products-icon"></i>
+          </button>
+          <div id="mobile-products-submenu" class="hidden pl-4 mt-1 space-y-1">
+            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
+              <i class="fas fa-tshirt w-5"></i> Apparel
+            </a>
+            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
+              <i class="fas fa-mug-hot w-5"></i> Drinkware
+            </a>
+            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
+              <i class="fas fa-bookmark w-5"></i> Accessories
+            </a>
+            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md font-medium">
+              <i class="fas fa-th w-5"></i> All Products
+            </a>
+          </div>
+        </div>
+        
         <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">About Us</a>
         <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">Community</a>
         <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">Contact</a>
@@ -85,42 +132,101 @@
 </nav>
 
 <!-- JavaScript for Mobile Menu Toggle -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
+<script data-turbo-eval="false">
+(function() {
+  'use strict';
   
-  mobileMenuButton.addEventListener('click', function() {
-    mobileMenu.classList.toggle('hidden');
+  function initializeNavbar() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const productsToggle = document.getElementById('mobile-products-toggle');
+    const productsSubmenu = document.getElementById('mobile-products-submenu');
+    const productsIcon = document.getElementById('mobile-products-icon');
     
-    // Toggle hamburger icon to X when menu is open
-    const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
-    if (mobileMenu.classList.contains('hidden')) {
-      icon.classList.remove('fa-xmark');
-      icon.classList.add('fa-bars');
-    } else {
-      icon.classList.add('fa-xmark');
-      icon.classList.remove('fa-bars');
+    if (!mobileMenuButton || !mobileMenu) {
+      console.log('Navbar elements not found');
+      return;
     }
-  });
-  
-  // Close mobile menu when clicking on a link
-  const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-  mobileMenuLinks.forEach(link => {
-    link.addEventListener('click', function() {
-      mobileMenu.classList.add('hidden');
+    
+    console.log('Initializing navbar...');
+    
+    // Main mobile menu toggle
+    mobileMenuButton.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const isHidden = mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      
+      // Toggle hamburger icon to X when menu is open
       const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
-      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+      if (icon) {
+        if (isHidden) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-xmark');
+        } else {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      }
+    };
+    
+    // Products submenu toggle
+    if (productsToggle && productsSubmenu && productsIcon) {
+      productsToggle.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isHidden = productsSubmenu.classList.contains('hidden');
+        productsSubmenu.classList.toggle('hidden');
+        
+        // Rotate chevron icon
+        if (isHidden) {
+          productsIcon.classList.remove('fa-chevron-down');
+          productsIcon.classList.add('fa-chevron-up');
+        } else {
+          productsIcon.classList.remove('fa-chevron-up');
+          productsIcon.classList.add('fa-chevron-down');
+        }
+      };
+    }
+    
+    // Close mobile menu when clicking on a link
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    mobileMenuLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.add('hidden');
+        const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      });
     });
-  });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const isClickInside = mobileMenuButton.contains(event.target) || mobileMenu.contains(event.target);
+      if (!isClickInside && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+  }
   
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', function(event) {
-    if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
-      mobileMenu.classList.add('hidden');
-      const icon = mobileMenuButton.querySelector('#mobile-menu-icon');
-      icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
-    }
-  });
-});
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeNavbar);
+  } else {
+    initializeNavbar();
+  }
+  
+  // Also initialize on Turbo navigation
+  document.addEventListener('turbo:load', initializeNavbar);
+  document.addEventListener('turbo:render', initializeNavbar);
+})();
 </script>
