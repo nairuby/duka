@@ -1,14 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-    --font-sans: "Inter var", sans-serif;
-    --font-courier: "Courier Prime", monospace;
-    --font-geist: "Geist", sans-serif;
+    --font-sans: "JetBrains Mono", monospace;
+    --font-mono: "JetBrains Mono", monospace;
+    --font-heading: "Outfit", sans-serif;
 
     --color-primary: #dc2626;
     --color-secondary: #166534;
     --color-accent: #2563eb;
     --color-neutral: #9ca3af;
+}
+
+/* Apply Outfit font to all headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Outfit", sans-serif;
 }
 
 @layer utilities {

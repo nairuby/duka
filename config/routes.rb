@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :products
   end
   resources :products, only: [ :index, :show ]
+  resources :categories, only: [ :index, :show ], param: :name
 
   # Test-only convenience routes to satisfy simple request specs expecting GET endpoints.
   # They return 200 OK without invoking controllers.

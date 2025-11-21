@@ -3,6 +3,7 @@
 # Table name: products
 #
 #  id          :uuid             not null, primary key
+#  category    :string
 #  currency    :string
 #  description :text
 #  image_url   :string
@@ -10,6 +11,10 @@
 #  price       :decimal(10, 2)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_products_on_category  (category)
 #
 require 'rails_helper'
 

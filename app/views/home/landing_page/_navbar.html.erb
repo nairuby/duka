@@ -32,14 +32,26 @@
           <!-- Dropdown Menu -->
           <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
             <div class="py-2">
-              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
-                <i class="fas fa-tshirt w-5"></i> Apparel
+              <%= link_to category_path('Shirts'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-tshirt w-5"></i> Shirts
               <% end %>
-              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
-                <i class="fas fa-mug-hot w-5"></i> Drinkware
+              <%= link_to category_path('Hoodies'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-vest w-5"></i> Hoodies
               <% end %>
-              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
-                <i class="fas fa-bookmark w-5"></i> Accessories
+              <%= link_to category_path('Hats'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-hat-cowboy w-5"></i> Hats
+              <% end %>
+              <%= link_to category_path('Bags'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-bag-shopping w-5"></i> Bags
+              <% end %>
+              <%= link_to category_path('Mugs'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-mug-hot w-5"></i> Mugs
+              <% end %>
+              <%= link_to category_path('Stickers'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-note-sticky w-5"></i> Stickers
+              <% end %>
+              <%= link_to category_path('Accessories'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-gift w-5"></i> Accessories
               <% end %>
               <div class="border-t border-gray-200 my-1"></div>
               <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium" do %>
@@ -108,14 +120,26 @@
             <i class="fas fa-chevron-down text-xs" id="mobile-products-icon"></i>
           </button>
           <div id="mobile-products-submenu" class="hidden pl-4 mt-1 space-y-1">
-            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
-              <i class="fas fa-tshirt w-5"></i> Apparel
+            <%= link_to category_path('Shirts'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-tshirt w-5"></i> Shirts
             <% end %>
-            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
-              <i class="fas fa-mug-hot w-5"></i> Drinkware
+            <%= link_to category_path('Hoodies'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-vest w-5"></i> Hoodies
             <% end %>
-            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
-              <i class="fas fa-bookmark w-5"></i> Accessories
+            <%= link_to category_path('Hats'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-hat-cowboy w-5"></i> Hats
+            <% end %>
+            <%= link_to category_path('Bags'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-bag-shopping w-5"></i> Bags
+            <% end %>
+            <%= link_to category_path('Mugs'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-mug-hot w-5"></i> Mugs
+            <% end %>
+            <%= link_to category_path('Stickers'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-note-sticky w-5"></i> Stickers
+            <% end %>
+            <%= link_to category_path('Accessories'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-gift w-5"></i> Accessories
             <% end %>
             <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md font-medium" do %>
               <i class="fas fa-th w-5"></i> All Products

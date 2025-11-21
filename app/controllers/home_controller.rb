@@ -1,7 +1,11 @@
 class HomeController < ApplicationController
   def index
-    @products = Product.limit(6) # Show first 6 products on landing page
-    @categories = []
+    # Get products grouped by category (limit 4 per category for preview)
+    @categories_with_products = Product::CATEGORIES.map do |category|
+      products = Product.where(category: category).limit(4)
+      { name: category, products: products } if products.any?
+    end.compact
+    
     @cart = []
   end
 end
