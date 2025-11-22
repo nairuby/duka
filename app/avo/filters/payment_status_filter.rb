@@ -6,6 +6,6 @@ class Avo::Filters::PaymentStatusFilter < Avo::Filters::SelectFilter
   end
 
   def options
-    Order::PAYMENT_STATUSES.map { |status| [status.titleize, status] }.to_h
+    Order::PAYMENT_STATUSES.map { |status| [ status.titleize, status ] }.to_h
   end
 end

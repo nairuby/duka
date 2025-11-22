@@ -6,6 +6,6 @@ class Avo::Filters::CategoryFilter < Avo::Filters::SelectFilter
   end
 
   def options
-    Product::CATEGORIES.map { |category| [category, category] }.to_h
+    Product::CATEGORIES.map { |category| [ category, category ] }.to_h
   end
 end

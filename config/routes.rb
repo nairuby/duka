@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     get :payment, on: :collection
     post :process_payment, on: :collection
   end
-  
+
   get "orders/:id/confirmation", to: "checkouts#confirmation", as: :order_confirmation
   resources :orders, only: [ :index, :show ]
 

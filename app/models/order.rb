@@ -66,8 +66,8 @@ class Order < ApplicationRecord
   # Scopes
   scope :recent, -> { order(created_at: :desc) }
   scope :by_status, ->(status) { where(status: status) }
-  scope :pending_payment, -> { where(payment_status: 'pending') }
-  scope :paid, -> { where(payment_status: 'paid') }
+  scope :pending_payment, -> { where(payment_status: "pending") }
+  scope :paid, -> { where(payment_status: "paid") }
 
   def self.create_from_cart(cart, user, checkout_params)
     transaction do
@@ -79,11 +79,11 @@ class Order < ApplicationRecord
         shipping_address: checkout_params[:shipping_address],
         shipping_city: checkout_params[:shipping_city],
         shipping_postal_code: checkout_params[:shipping_postal_code],
-        shipping_country: checkout_params[:shipping_country] || 'Kenya',
+        shipping_country: checkout_params[:shipping_country] || "Kenya",
         notes: checkout_params[:notes],
-        currency: cart.currency || 'KES',
-        status: 'pending',
-        payment_status: 'pending'
+        currency: cart.currency || "KES",
+        status: "pending",
+        payment_status: "pending"
       )
 
       # Create order items from cart
@@ -102,15 +102,15 @@ class Order < ApplicationRecord
       order.subtotal = cart.total
       order.shipping_cost = calculate_shipping(order)
       order.save!
-      
+
       order
     end
   end
 
   def self.calculate_shipping(order)
     # Simple shipping calculation - can be enhanced later
-    if order.shipping_country == 'Kenya'
-      if order.shipping_city&.downcase == 'nairobi'
+    if order.shipping_country == "Kenya"
+      if order.shipping_city&.downcase == "nairobi"
         200.0 # KES 200 for Nairobi
       else
         500.0 # KES 500 for other Kenyan cities
@@ -122,24 +122,24 @@ class Order < ApplicationRecord
 
   def mark_as_paid!(payment_ref = nil)
     update!(
-      payment_status: 'paid',
+      payment_status: "paid",
       payment_reference: payment_ref,
-      status: 'confirmed'
+      status: "confirmed"
     )
   end
 
   def mark_as_failed!
-    update!(payment_status: 'failed')
+    update!(payment_status: "failed")
   end
 
   def can_be_cancelled?
-    %w[pending confirmed].include?(status) && payment_status != 'paid'
+    %w[pending confirmed].include?(status) && payment_status != "paid"
   end
 
   def cancel!
     return false unless can_be_cancelled?
-    
-    update!(status: 'cancelled')
+
+    update!(status: "cancelled")
   end
 
   private

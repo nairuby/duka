@@ -6,6 +6,6 @@ class Avo::Filters::OrderStatusFilter < Avo::Filters::SelectFilter
   end
 
   def options
-    Order::STATUSES.map { |status| [status.titleize, status] }.to_h
+    Order::STATUSES.map { |status| [ status.titleize, status ] }.to_h
   end
 end

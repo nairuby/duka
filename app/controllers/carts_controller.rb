@@ -8,7 +8,7 @@ class CartsController < ApplicationController
 
   def add_item
     product = Product.find(params[:product_id])
-    
+
     begin
       @cart.add_item(
         params[:product_id],
