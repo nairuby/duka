@@ -15,9 +15,9 @@ Rails.application.configure do
   # loading is working properly before deploying your code.
   config.eager_load = ENV["CI"].present?
 
-  # Exclude Avo files from eager loading to prevent loading Avo cards
+  # Prevent Zeitwerk from managing app/avo directory to avoid loading Avo cards
   # before the Avo gem initializes its base classes
-  config.eager_load_paths.delete(Rails.root.join("app/avo").to_s)
+  Rails.autoloaders.main.ignore(Rails.root.join("app/avo"))
 
   # Configure public file server for tests with cache-control for performance.
   config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
