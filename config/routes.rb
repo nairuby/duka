@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
+  mount_avo
   namespace :admin do
     resources :products
   end

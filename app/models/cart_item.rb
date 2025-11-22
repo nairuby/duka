@@ -2,13 +2,13 @@
 #
 # Table name: cart_items
 #
-#  id          :uuid             not null, primary key
-#  quantity    :integer          default(1), not null
-#  session_id  :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  product_id  :uuid             not null
-#  variant_id  :uuid
+#  id         :uuid             not null, primary key
+#  quantity   :integer          default(1), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  product_id :uuid             not null
+#  session_id :string           not null
+#  variant_id :uuid
 #
 # Indexes
 #

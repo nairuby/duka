@@ -7,7 +7,7 @@
     <div class="flex justify-between items-center h-16">
       
       <!-- Brand/Logo Section -->
-      <div class="flex items-center space-x-3 sm:space-x-4">
+      <%= link_to root_path, class: "flex items-center space-x-3 sm:space-x-4 hover:opacity-80 transition-opacity duration-200" do %>
         <!-- ARC Logo -->
         <div class="w-12 h-8 sm:w-14 sm:h-10 bg-red-600 rounded-lg flex items-center justify-center">
           <span class="text-white font-bold text-xs sm:text-sm tracking-wide">ARC</span>
@@ -18,7 +18,7 @@
           <h1 class="text-gray-800 font-bold text-base sm:text-lg leading-tight">Duka</h1>
           <p class="text-gray-500 text-xs sm:text-sm leading-tight hidden xs:block">Community Store</p>
         </div>
-      </div>
+      <% end %>
       
       <!-- Desktop Navigation Links -->
       <div class="hidden md:flex items-center space-x-8">

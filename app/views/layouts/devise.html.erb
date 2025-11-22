@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "ARC Merch Store" %></title>
+    <title><%= content_for(:title) || "Sign In - ARC Duka" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -27,13 +21,12 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-gradient-to-br from-red-50 via-white to-orange-50">
     <!-- Flash Messages -->
     <% if notice.present? || alert.present? %>
       <div class="fixed top-4 right-4 z-50 max-w-md">
@@ -71,32 +64,6 @@
       </div>
     <% end %>
 
-    <main class="">
-      <%= yield %>
-    </main>
-    
-    <!-- Cart Preview Sidebar -->
-    <%= render 'carts/preview', cart: current_cart %>
-    
-    <script>
-      // Open cart if hash is present
-      document.addEventListener('DOMContentLoaded', function() {
-        if (window.location.hash === '#cart-open') {
-          const cartPreview = document.getElementById('cart_preview')
-          const cartBackdrop = document.getElementById('cart_backdrop')
-          
-          if (cartPreview && cartBackdrop) {
-            setTimeout(() => {
-              cartPreview.classList.remove('translate-x-full')
-              cartBackdrop.classList.remove('hidden')
-              document.body.style.overflow = 'hidden'
-              
-              // Remove hash from URL
-              history.replaceState(null, null, ' ')
-            }, 100)
-          }
-        }
-      })
-    </script>
+    <%= yield %>
   </body>
 </html>
