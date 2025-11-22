@@ -32,19 +32,31 @@
           <!-- Dropdown Menu -->
           <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
             <div class="py-2">
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                <i class="fas fa-tshirt w-5"></i> Apparel
-              </a>
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                <i class="fas fa-mug-hot w-5"></i> Drinkware
-              </a>
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                <i class="fas fa-bookmark w-5"></i> Accessories
-              </a>
+              <%= link_to category_path('Shirts'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-tshirt w-5"></i> Shirts
+              <% end %>
+              <%= link_to category_path('Hoodies'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-vest w-5"></i> Hoodies
+              <% end %>
+              <%= link_to category_path('Hats'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-hat-cowboy w-5"></i> Hats
+              <% end %>
+              <%= link_to category_path('Bags'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-bag-shopping w-5"></i> Bags
+              <% end %>
+              <%= link_to category_path('Mugs'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-mug-hot w-5"></i> Mugs
+              <% end %>
+              <%= link_to category_path('Stickers'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-note-sticky w-5"></i> Stickers
+              <% end %>
+              <%= link_to category_path('Accessories'), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                <i class="fas fa-gift w-5"></i> Accessories
+              <% end %>
               <div class="border-t border-gray-200 my-1"></div>
-              <a href="#products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium">
+              <%= link_to products_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium" do %>
                 <i class="fas fa-th w-5"></i> All Products
-              </a>
+              <% end %>
             </div>
           </div>
         </div>
@@ -57,19 +69,21 @@
       <!-- Desktop Utility Icons -->
       <div class="hidden md:flex items-center space-x-4">
         <!-- Search Icon -->
-        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" style="display: none">
           <i class="fas fa-search text-xl"></i>
         </button>
         
         <!-- Shopping Cart with Notification -->
         <div class="relative">
-          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
             <i class="fas fa-shopping-cart text-xl"></i>
+            <!-- Cart Notification Badge -->
+            <% if current_cart.total_items > 0 %>
+              <span class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center pointer-events-none">
+                <%= render 'shared/cart_count', count: current_cart.total_items %>
+              </span>
+            <% end %>
           </button>
-          <!-- Cart Notification Badge -->
-          <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
-            <span class="text-white text-xs font-bold">2</span>
-          </div>
         </div>
       </div>
 
@@ -82,13 +96,15 @@
         
         <!-- Mobile Shopping Cart -->
         <div class="relative">
-          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
             <i class="fas fa-shopping-cart text-lg"></i>
+            <!-- Cart Notification Badge -->
+            <% if current_cart.total_items > 0 %>
+              <span class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center pointer-events-none">
+                <%= render 'shared/cart_count', count: current_cart.total_items %>
+              </span>
+            <% end %>
           </button>
-          <!-- Cart Notification Badge -->
-          <div class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
-            <span class="text-white text-xs font-bold">2</span>
-          </div>
         </div>
         
         <!-- Mobile Menu Button -->
@@ -108,18 +124,30 @@
             <i class="fas fa-chevron-down text-xs" id="mobile-products-icon"></i>
           </button>
           <div id="mobile-products-submenu" class="hidden pl-4 mt-1 space-y-1">
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
-              <i class="fas fa-tshirt w-5"></i> Apparel
-            </a>
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
-              <i class="fas fa-mug-hot w-5"></i> Drinkware
-            </a>
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md">
-              <i class="fas fa-bookmark w-5"></i> Accessories
-            </a>
-            <a href="#products" class="block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md font-medium">
+            <%= link_to category_path('Shirts'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-tshirt w-5"></i> Shirts
+            <% end %>
+            <%= link_to category_path('Hoodies'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-vest w-5"></i> Hoodies
+            <% end %>
+            <%= link_to category_path('Hats'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-hat-cowboy w-5"></i> Hats
+            <% end %>
+            <%= link_to category_path('Bags'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-bag-shopping w-5"></i> Bags
+            <% end %>
+            <%= link_to category_path('Mugs'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-mug-hot w-5"></i> Mugs
+            <% end %>
+            <%= link_to category_path('Stickers'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-note-sticky w-5"></i> Stickers
+            <% end %>
+            <%= link_to category_path('Accessories'), class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md" do %>
+              <i class="fas fa-gift w-5"></i> Accessories
+            <% end %>
+            <%= link_to products_path, class: "block px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md font-medium" do %>
               <i class="fas fa-th w-5"></i> All Products
-            </a>
+            <% end %>
           </div>
         </div>
         

@@ -54,8 +54,8 @@ RSpec.describe "Landing Page", type: :system do
     it "has call-to-action buttons" do
       visit root_path
 
-      expect(page).to have_button("Shop Collection")
-      expect(page).to have_button("Join Community")
+      expect(page).to have_link("Shop Collection")
+      expect(page).to have_link("Join Community")
     end
   end
 
@@ -63,16 +63,16 @@ RSpec.describe "Landing Page", type: :system do
     it "displays category grid" do
       visit root_path
 
-      expect(page).to have_content("Shop by Category")
+      expect(page).to have_content("Explore All Products")
     end
 
     it "shows all product categories" do
       visit root_path
 
-      expect(page).to have_content("Apparel")
-      expect(page).to have_content("Drinkware")
+      expect(page).to have_content("Shirts")
+      expect(page).to have_content("Mugs")
       expect(page).to have_content("Accessories")
-      expect(page).to have_content("Limited Edition")
+      expect(page).to have_content("Stickers")
     end
 
     it "has category icons" do
@@ -80,12 +80,18 @@ RSpec.describe "Landing Page", type: :system do
 
       expect(page).to have_css("i.fa-tshirt")
       expect(page).to have_css("i.fa-mug-hot")
-      expect(page).to have_css("i.fa-bookmark")
-      expect(page).to have_css("i.fa-gem")
+      expect(page).to have_css("i.fa-gift")
+      expect(page).to have_css("i.fa-note-sticky")
     end
   end
 
   describe "Products Section" do
+    before do
+      # Create test products for system tests
+      Product.create!(name: "Premium Cotton T-Shirt", description: "Test", price: 29.99, currency: "USD", category: "Shirts")
+      Product.create!(name: "Ruby Coffee Mug", description: "Test", price: 18.99, currency: "USD", category: "Mugs")
+    end
+
     it "displays products heading" do
       visit root_path
 
@@ -95,27 +101,21 @@ RSpec.describe "Landing Page", type: :system do
     it "shows product cards" do
       visit root_path
 
-      expect(page).to have_content("Space Black Coffee Mug")
-      expect(page).to have_content("Pearl White Coffee Mug")
-      expect(page).to have_content("Black T-Shirt")
-      expect(page).to have_content("White T-Shirt")
-      expect(page).to have_content("Heritage Hoodie")
-      expect(page).to have_content("Developer Notebook")
+      expect(page).to have_content("Premium Cotton T-Shirt")
+      expect(page).to have_content("Ruby Coffee Mug")
     end
 
     it "displays product prices" do
       visit root_path
 
-      expect(page).to have_content("$18")
-      expect(page).to have_content("$25")
-      expect(page).to have_content("$45")
-      expect(page).to have_content("$15")
+      expect(page).to have_content("USD29.99")
+      expect(page).to have_content("USD18.99")
     end
 
-    it "has add to cart buttons" do
+    it "has view details buttons" do
       visit root_path
 
-      expect(page).to have_button("Add to Cart", count: 6)
+      expect(page).to have_content("View")
     end
   end
 
@@ -144,7 +144,7 @@ RSpec.describe "Landing Page", type: :system do
       within("footer") do
         expect(page).to have_content("African Ruby Community")
         expect(page).to have_content("Made with")
-        expect(page).to have_content("in Africa")
+        expect(page).to have_content("by ARC")
       end
     end
 

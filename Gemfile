@@ -20,7 +20,7 @@ gem "solid_cable", "~> 3.0", ">= 3.0.11"
 gem "solid_cache", "~> 1.0"
 gem "solid_queue", "~> 1.2"
 gem "stimulus-rails", "~> 1.3", ">= 1.3.4"
-gem "tailwindcss-rails", "~> 4.4"
+gem "tailwindcss-rails", "~> 4.0"
 gem "thruster", "~> 0.1.15", require: false
 gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
@@ -36,6 +36,7 @@ group :development do
   gem "annotaterb", "~> 4.20"
   gem "bullet", "~> 8.1"
   gem "byebug", "~> 12.0"
+  gem "herb", require: false
   gem "hotwire-livereload", "~> 2.1"
   gem "web-console", "~> 4.2", ">= 4.2.1"
 end
@@ -43,4 +44,5 @@ end
 group :test do
   gem "capybara", "~> 3.40"
   gem "selenium-webdriver", "~> 4.34"
+  gem "simplecov", require: false
 end

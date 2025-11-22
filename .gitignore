@@ -42,3 +42,4 @@
 # Ignore Kiro
 /.kiro
 FRONTEND_INTEGRATION_GUIDE.md
+/coverage

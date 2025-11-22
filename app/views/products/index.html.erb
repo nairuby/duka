@@ -1,0 +1,118 @@
+<%= render 'shared/navbar' %>
+
+<!-- All Products Page -->
+<section class="py-16 px-4 bg-red-100/30 min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">All Products</h1>
+      <p class="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+        Browse our complete collection of Ruby community merchandise, each piece designed to showcase your passion for programming and African heritage.
+      </p>
+      
+      <!-- Breadcrumb -->
+      <div class="flex items-center justify-center space-x-2 mt-6 text-sm text-gray-600">
+        <%= link_to root_path, class: "hover:text-red-600 transition-colors" do %>
+          <i class="fas fa-home"></i> Home
+        <% end %>
+        <span>/</span>
+        <span class="text-red-600 font-medium">All Products</span>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @products.each_with_index do |product, index| %>
+        <%= link_to product_path(product), class: "group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-gray-200" do %>
+          <div class="relative overflow-hidden">
+            <!-- Dynamic Badge based on index -->
+            <% if index == 0 %>
+              <div class="absolute top-4 left-4 z-10">
+                <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <i class="fas fa-fire mr-1"></i>Popular
+                </span>
+              </div>
+            <% elsif index == 1 %>
+              <div class="absolute top-4 left-4 z-10">
+                <span class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <i class="fas fa-star mr-1"></i>New
+                </span>
+              </div>
+            <% end %>
+            
+            <!-- Quick Add Button -->
+            <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              <button class="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-200 shadow-lg">
+                <i class="fa-solid fa-heart text-sm"></i>
+              </button>
+            </div>
+            
+            <!-- Product Image -->
+            <div class="w-full h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
+              <% if product.image_url.present? %>
+                <img src="<%= product.image_url %>" 
+                     alt="<%= product.name %>" 
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <% else %>
+                <div class="text-center">
+                  <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
+                  <p class="text-gray-500 text-sm"><%= product.name %></p>
+                </div>
+              <% end %>
+            </div>
+            
+            <!-- Category Badge -->
+            <div class="absolute bottom-4 left-4">
+              <% category = product_category(product) %>
+              <span class="<%= category_badge_classes(category[:color]) %> text-xs font-medium px-3 py-1 rounded-full border">
+                <i class="<%= category[:icon] %> mr-1"></i><%= category[:name] %>
+              </span>
+            </div>
+            
+            <!-- Overlay on Hover -->
+            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors"><%= product.name %></h3>
+            <p class="text-sm text-gray-600 mb-4"><%= truncate(product.description, length: 60) %></p>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-gray-800">
+                  <%= product.currency %><%= number_with_precision(product.price, precision: 2) %>
+                </span>
+              </div>
+              <div class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <i class="fa-solid fa-eye"></i>
+                <span class="hidden sm:inline">View Details</span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @products.empty? %>
+      <div class="text-center py-16">
+        <i class="fas fa-box-open text-6xl text-gray-400 mb-4"></i>
+        <h3 class="text-2xl font-bold text-gray-600 mb-2">No products found</h3>
+        <p class="text-gray-500 mb-6">Check back soon for new products.</p>
+        <%= link_to root_path, class: "inline-flex items-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-200" do %>
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Home</span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Back to Home -->
+    <div class="flex justify-center mt-12">
+      <%= link_to root_path, class: "inline-flex items-center space-x-2 bg-white text-gray-800 px-6 py-3 rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-lg" do %>
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+      <% end %>
+    </div>
+  </div>
+</section>
+<%=
+ render 'shared/footer' %>
