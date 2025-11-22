@@ -75,13 +75,15 @@
         
         <!-- Shopping Cart with Notification -->
         <div class="relative">
-          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200">
             <i class="fas fa-shopping-cart text-xl"></i>
           </button>
           <!-- Cart Notification Badge -->
-          <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
-            <span class="text-white text-xs font-bold">2</span>
-          </div>
+          <% if current_cart.total_items > 0 %>
+            <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
+              <%= render 'shared/cart_count', count: current_cart.total_items %>
+            </div>
+          <% end %>
         </div>
       </div>
 
@@ -94,13 +96,15 @@
         
         <!-- Mobile Shopping Cart -->
         <div class="relative">
-          <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200">
             <i class="fas fa-shopping-cart text-lg"></i>
           </button>
           <!-- Cart Notification Badge -->
-          <div class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
-            <span class="text-white text-xs font-bold">2</span>
-          </div>
+          <% if current_cart.total_items > 0 %>
+            <div class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
+              <%= render 'shared/cart_count', count: current_cart.total_items %>
+            </div>
+          <% end %>
         </div>
         
         <!-- Mobile Menu Button -->

@@ -144,7 +144,7 @@ RSpec.describe "Landing Page", type: :system do
       within("footer") do
         expect(page).to have_content("African Ruby Community")
         expect(page).to have_content("Made with")
-        expect(page).to have_content("in Africa")
+        expect(page).to have_content("by ARC")
       end
     end
 

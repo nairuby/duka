@@ -37,5 +37,29 @@
     <main class="">
       <%= yield %>
     </main>
+    
+    <!-- Cart Preview Sidebar -->
+    <%= render 'carts/preview', cart: current_cart %>
+    
+    <script>
+      // Open cart if hash is present
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash === '#cart-open') {
+          const cartPreview = document.getElementById('cart_preview')
+          const cartBackdrop = document.getElementById('cart_backdrop')
+          
+          if (cartPreview && cartBackdrop) {
+            setTimeout(() => {
+              cartPreview.classList.remove('translate-x-full')
+              cartBackdrop.classList.remove('hidden')
+              document.body.style.overflow = 'hidden'
+              
+              // Remove hash from URL
+              history.replaceState(null, null, ' ')
+            }, 100)
+          }
+        }
+      })
+    </script>
   </body>
 </html>

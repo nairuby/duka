@@ -5,6 +5,13 @@ Rails.application.routes.draw do
   resources :products, only: [ :index, :show ]
   resources :categories, only: [ :index, :show ], param: :name
 
+  resource :cart, only: [ :show ] do
+    post "add_item"
+    patch "update_quantity/:id", action: :update_quantity, as: :update_quantity
+    delete "remove_item/:id", action: :remove_item, as: :remove_item
+    delete "clear", action: :clear
+  end
+
   # Test-only convenience routes to satisfy simple request specs expecting GET endpoints.
   # They return 200 OK without invoking controllers.
   if Rails.env.test?

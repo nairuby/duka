@@ -1,144 +1,275 @@
-<div class="container mx-auto px-4 py-8" data-controller="product-viewer" data-variants="<%= @variants.to_json(only: [:size, :color, :stock_quantity, :sku]) %>">
-  <!-- Main Product Section -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-    <!-- Left Column - Product Image -->
-    <div class="space-y-4">
-      <div class="relative bg-gray-100 rounded-lg overflow-hidden aspect-square">
-        <% if @product.image_url.present? %>
-          <img src="<%= @product.image_url %>" 
-               alt="<%= @product.name %>" 
-               class="w-full h-full object-cover" />
-        <% else %>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-              <span class="text-gray-500 text-lg">Product Image</span>
+<%= render 'shared/navbar' %>
+
+<!-- Product Detail Page -->
+<section class="py-16 px-4 bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <!-- Breadcrumb -->
+    <div class="flex items-center space-x-2 text-sm text-gray-600 mb-8">
+      <%= link_to root_path, class: "hover:text-red-600 transition-colors" do %>
+        <i class="fas fa-home"></i> Home
+      <% end %>
+      <span>/</span>
+      <%= link_to products_path, class: "hover:text-red-600 transition-colors" do %>
+        Products
+      <% end %>
+      <span>/</span>
+      <span class="text-red-600 font-medium"><%= @product.name %></span>
+    </div>
+
+    <!-- Main Product Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+      <!-- Left Column - Product Image -->
+      <div class="space-y-4">
+        <div class="relative bg-white rounded-2xl overflow-hidden shadow-xl aspect-square group">
+          <% if @product.image_url.present? %>
+            <%= image_tag @product.image_url, alt: @product.name, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" %>
+          <% else %>
+            <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+              <div class="text-center">
+                <i class="fas fa-image text-6xl text-gray-400 mb-4"></i>
+                <p class="text-gray-500 text-lg"><%= @product.name %></p>
+              </div>
+            </div>
+          <% end %>
+          
+          <!-- Category Badge -->
+          <div class="absolute top-4 left-4">
+            <% category_info = product_category(@product) %>
+            <span class="<%= category_badge_classes(category_info[:color]) %> text-xs font-medium px-3 py-1 rounded-full border">
+              <i class="<%= category_info[:icon] %> mr-1"></i><%= category_info[:name] %>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Product Details -->
+      <div class="space-y-6" data-controller="product-detail">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4"><%= @product.name %></h1>
+          <div class="flex items-baseline space-x-3 mb-4">
+            <p class="text-4xl font-bold text-red-600">
+              <%= @product.currency %><%= number_with_precision(@product.price, precision: 2) %>
+            </p>
+          </div>
+        </div>
+
+        <div class="prose prose-gray max-w-none">
+          <p class="text-gray-700 leading-relaxed text-lg"><%= @product.description %></p>
+        </div>
+
+        <!-- Variant Selection -->
+        <% if @variants.any? %>
+          <div class="space-y-6 bg-white rounded-xl p-6 shadow-md">
+            <!-- Size Selection -->
+            <% sizes = @variants.map(&:size).uniq.compact %>
+            <% if sizes.any? %>
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-3">Select Size</label>
+                <div class="flex flex-wrap gap-3">
+                  <% sizes.each do |size| %>
+                    <button 
+                      type="button" 
+                      class="px-6 py-3 border-2 border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:border-red-600 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
+                      data-action="click->product-detail#selectSize"
+                      data-size="<%= size %>"
+                      data-product-detail-target="sizeButton"
+                    >
+                      <%= size %>
+                    </button>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <!-- Color Selection -->
+            <% colors = @variants.map(&:color).uniq.compact %>
+            <% if colors.any? %>
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-3">Select Color</label>
+                <div class="flex flex-wrap gap-3">
+                  <% colors.each do |color| %>
+                    <button 
+                      type="button" 
+                      class="px-6 py-3 border-2 border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:border-red-600 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
+                      data-action="click->product-detail#selectColor"
+                      data-color="<%= color %>"
+                      data-product-detail-target="colorButton"
+                    >
+                      <%= color %>
+                    </button>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <!-- Stock Information -->
+            <div class="flex items-center space-x-2 text-sm">
+              <i class="fas fa-box text-gray-600"></i>
+              <span class="font-medium text-gray-700">Stock:</span>
+              <span data-product-detail-target="stockInfo" class="text-gray-600">Select options to see availability</span>
             </div>
           </div>
         <% end %>
-        <!-- Zoom overlay for future implementation -->
-        <div class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md cursor-pointer hover:bg-gray-50">
-          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-          </svg>
-        </div>
-      </div>
-    </div>
 
-    <!-- Right Column - Product Details -->
-    <div class="space-y-6">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @product.name %></h1>
-        <p class="text-2xl font-semibold text-green-600">
-          <%= @product.currency %> <%= number_with_precision(@product.price, precision: 2) %>
-        </p>
-      </div>
-
-      <div class="prose prose-gray max-w-none">
-        <p class="text-gray-700 leading-relaxed"><%= @product.description %></p>
-      </div>
-
-      <!-- Variant Selection -->
-      <% if @variants.any? %>
-        <div class="space-y-4" data-product-viewer-target="variantSelector">
-          <!-- Size Selection -->
-          <% if @variants.map(&:size).uniq.compact.any? %>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
-              <div class="flex flex-wrap gap-2">
-                <% @variants.map(&:size).uniq.compact.each do |size| %>
-                  <button 
-                    type="button" 
-                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    data-action="click->product-viewer#selectSize"
-                    data-size="<%= size %>"
-                  >
-                    <%= size %>
-                  </button>
-                <% end %>
-              </div>
+        <!-- Add to Cart Section -->
+        <%= form_with url: add_item_cart_path, method: :post, data: { controller: "cart-form", action: "submit->cart-form#submit", product_detail_target: "cartForm" } do |f| %>
+          <%= f.hidden_field :product_id, value: @product.id %>
+          <%= f.hidden_field :variant_id, value: nil, data: { product_detail_target: "variantIdField" } %>
+          
+          <div class="flex items-center space-x-4 mb-6">
+            <label class="text-sm font-bold text-gray-800">Quantity:</label>
+            <div class="flex items-center space-x-3 bg-white rounded-xl border-2 border-gray-200 px-4 py-2">
+              <button type="button" data-action="click->product-detail#decreaseQuantity" class="text-gray-600 hover:text-red-600 transition-colors">
+                <i class="fas fa-minus"></i>
+              </button>
+              <%= f.number_field :quantity, value: 1, min: 1, class: "w-16 text-center font-bold text-gray-800 border-0 focus:outline-none", data: { product_detail_target: "quantityInput" } %>
+              <button type="button" data-action="click->product-detail#increaseQuantity" class="text-gray-600 hover:text-red-600 transition-colors">
+                <i class="fas fa-plus"></i>
+              </button>
             </div>
-          <% end %>
+          </div>
 
-          <!-- Color Selection -->
-          <% if @variants.map(&:color).uniq.compact.any? %>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
-              <div class="flex flex-wrap gap-2">
-                <% @variants.map(&:color).uniq.compact.each do |color| %>
-                  <button 
-                    type="button" 
-                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    data-action="click->product-viewer#selectColor"
-                    data-color="<%= color %>"
-                  >
-                    <%= color %>
-                  </button>
-                <% end %>
-              </div>
+          <div class="space-y-3">
+            <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100", data: { product_detail_target: "addToCartBtn" }, disabled: @variants.any? %>
+            
+            <%= link_to cart_path, class: "w-full bg-white text-gray-700 py-4 px-6 rounded-xl font-bold text-lg border-2 border-gray-200 hover:border-red-600 hover:text-red-600 transition-all duration-200 flex items-center justify-center space-x-2" do %>
+              <i class="fas fa-shopping-cart"></i>
+              <span>View Cart</span>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- Product Features -->
+        <div class="grid grid-cols-2 gap-4 pt-6 border-t">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-shipping-fast text-red-600"></i>
             </div>
-          <% end %>
-
-          <!-- Stock Information -->
-          <div class="text-sm text-gray-600" data-product-viewer-target="stockInfo">
-            <span class="font-medium">Stock:</span> 
-            <span data-product-viewer-target="stockCount">Select variant to see availability</span>
+            <div>
+              <p class="text-sm font-bold text-gray-800">Fast Shipping</p>
+              <p class="text-xs text-gray-600">2-5 business days</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-shield-alt text-green-600"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-gray-800">Quality Guaranteed</p>
+              <p class="text-xs text-gray-600">Premium materials</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-heart text-blue-600"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-gray-800">Made in Africa</p>
+              <p class="text-xs text-gray-600">Supporting local</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-users text-purple-600"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-gray-800">Community</p>
+              <p class="text-xs text-gray-600">Ruby developers</p>
+            </div>
           </div>
         </div>
-      <% end %>
-
-      <!-- Add to Cart Button -->
-      <div class="pt-4">
-        <button 
-          type="button" 
-          class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-          data-product-viewer-target="addToCartBtn"
-          disabled
-        >
-          Select Options
-        </button>
       </div>
     </div>
+
+    <!-- Additional Information Tabs -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Product Details -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            <i class="fas fa-info-circle text-red-600 mr-2"></i>
+            Product Details
+          </h3>
+          <div class="space-y-3 text-sm text-gray-700">
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Material:</span>
+              <span>Premium Cotton Blend</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Care Instructions:</span>
+              <span>Machine Wash Cold</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Origin:</span>
+              <span>Made in Kenya</span>
+            </div>
+            <div class="flex justify-between py-2">
+              <span class="font-medium">Category:</span>
+              <span><%= @product.category %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Important Notice -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+            <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+            Important Notice
+          </h3>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p class="flex items-start">
+              <i class="fas fa-check text-green-600 mr-2 mt-1"></i>
+              <span>All sales are final. No returns or exchanges.</span>
+            </p>
+            <p class="flex items-start">
+              <i class="fas fa-check text-green-600 mr-2 mt-1"></i>
+              <span>Colors may vary slightly from what appears on your screen.</span>
+            </p>
+            <p class="flex items-start">
+              <i class="fas fa-check text-green-600 mr-2 mt-1"></i>
+              <span>Please check size chart carefully before ordering.</span>
+            </p>
+            <p class="flex items-start">
+              <i class="fas fa-check text-green-600 mr-2 mt-1"></i>
+              <span>Delivery times may vary based on location.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <% related_products = Product.where(category: @product.category).where.not(id: @product.id).limit(4) %>
+    <% if related_products.any? %>
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8">You May Also Like</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <% related_products.each do |product| %>
+            <%= link_to product_path(product), class: "group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" do %>
+              <div class="relative overflow-hidden h-48 bg-gray-100">
+                <% if product.image_url.present? %>
+                  <%= image_tag product.image_url, alt: product.name, class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-gray-800 mb-2 line-clamp-1"><%= product.name %></h3>
+                <p class="text-lg font-bold text-red-600"><%= product.currency %><%= number_with_precision(product.price, precision: 2) %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
+</section>
 
-  <!-- Additional Information Section -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    <!-- Additional Info -->
-    <div class="bg-gray-50 rounded-lg p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-4">Additional Information</h3>
-      <div class="space-y-3 text-sm text-gray-600">
-        <div class="flex justify-between">
-          <span class="font-medium">Material:</span>
-          <span>Premium Cotton Blend</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="font-medium">Care Instructions:</span>
-          <span>Machine Wash Cold</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="font-medium">Origin:</span>
-          <span>Made in Kenya</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="font-medium">SKU:</span>
-          <span data-product-viewer-target="selectedSku">-</span>
-        </div>
-      </div>
-    </div>
+<%= render 'shared/footer' %>
 
-    <!-- Buyer Beware -->
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-      <h3 class="text-lg font-semibold text-yellow-800 mb-4 flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-        </svg>
-        Important Notice
-      </h3>
-      <div class="text-sm text-yellow-700 space-y-2">
-        <p>• All sales are final. No returns or exchanges.</p>
-        <p>• Colors may vary slightly from what appears on your screen.</p>
-        <p>• Please check size chart carefully before ordering.</p>
-        <p>• Delivery times may vary based on location.</p>
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+  // Store variants data for JavaScript access
+  window.productVariants = <%= raw @variants.to_json(only: [:id, :size, :color, :stock_quantity, :sku]) %>;
+</script>
