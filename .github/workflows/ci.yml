@@ -98,11 +98,11 @@ jobs:
       - name: Make bin scripts executable
         run: chmod +x bin/*
 
-      - name: Precompile assets
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-        run: bin/rails assets:precompile
+#      - name: Precompile assets
+#        env:
+#          RAILS_ENV: test
+#          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+#        run: bin/rails assets:precompile
 
       - name: Setup test database
         env:
