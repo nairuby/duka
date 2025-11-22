@@ -20,6 +20,12 @@ module Duka
     config.autoload_paths << Rails.root.join("app/services")
     config.eager_load_paths << Rails.root.join("app/services")
 
+    # Exclude Avo files from eager loading in test environment to prevent
+    # loading Avo cards before the Avo gem initializes its base classes
+    if Rails.env.test?
+      config.eager_load_paths -= [ Rails.root.join("app/avo").to_s ]
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
