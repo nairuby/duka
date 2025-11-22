@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_22_173319) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_22_192238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -101,15 +101,48 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_173319) do
     t.index ["variant_id"], name: "index_line_items_on_variant_id"
   end
 
+  create_table "order_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.uuid "order_id", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.uuid "product_id", null: false
+    t.string "product_name"
+    t.integer "quantity", default: 1, null: false
+    t.decimal "subtotal", precision: 10, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.string "variant_details"
+    t.uuid "variant_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["variant_id"], name: "index_order_items_on_variant_id"
+  end
+
   create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "billing_address"
     t.datetime "created_at", null: false
+    t.string "currency", default: "KES"
+    t.string "email"
+    t.text "notes"
+    t.string "order_number"
+    t.string "payment_method"
+    t.string "payment_reference"
+    t.string "payment_status", default: "pending"
+    t.string "phone"
     t.string "session_token"
     t.jsonb "shipping_address"
+    t.string "shipping_city"
+    t.decimal "shipping_cost", precision: 10, scale: 2, default: "0.0"
+    t.string "shipping_country", default: "Kenya"
+    t.string "shipping_name"
+    t.string "shipping_postal_code"
     t.string "status", default: "cart", null: false
+    t.decimal "subtotal", precision: 10, scale: 2
     t.decimal "total", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "updated_at", null: false
     t.string "user_email"
+    t.index ["email"], name: "index_orders_on_email"
+    t.index ["order_number"], name: "index_orders_on_order_number", unique: true
+    t.index ["payment_status"], name: "index_orders_on_payment_status"
     t.index ["session_token"], name: "index_orders_on_session_token"
     t.index ["status"], name: "index_orders_on_status"
   end
@@ -1368,6 +1401,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_173319) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "product_variants", column: "variant_id"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "order_items", "variants"
   add_foreign_key "reviews", "spree_products", column: "product_id"
   add_foreign_key "reviews", "spree_users", column: "user_id"
   add_foreign_key "spree_addresses", "spree_countries", column: "country_id", on_delete: :restrict

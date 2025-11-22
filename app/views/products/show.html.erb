@@ -45,9 +45,9 @@
       <!-- Right Column - Product Details -->
       <div class="space-y-6" data-controller="product-detail">
         <div>
-          <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4"><%= @product.name %></h1>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4"><%= @product.name %></h1>
           <div class="flex items-baseline space-x-3 mb-4">
-            <p class="text-4xl font-bold text-red-600">
+            <p class="text-3xl sm:text-4xl font-bold text-red-600">
               <%= @product.currency %><%= number_with_precision(@product.price, precision: 2) %>
             </p>
           </div>
@@ -109,6 +109,17 @@
               <span data-product-detail-target="stockInfo" class="text-gray-600">Select options to see availability</span>
             </div>
           </div>
+        <% else %>
+          <!-- No Variants - Ready to Add -->
+          <div class="bg-green-50 border-l-4 border-green-500 rounded-lg p-4">
+            <div class="flex items-center">
+              <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
+              <div>
+                <p class="text-sm font-medium text-green-800">Ready to order</p>
+                <p class="text-xs text-green-700">This product is available in standard configuration</p>
+              </div>
+            </div>
+          </div>
         <% end %>
 
         <!-- Add to Cart Section -->
@@ -130,7 +141,11 @@
           </div>
 
           <div class="space-y-3">
-            <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100", data: { product_detail_target: "addToCartBtn" }, disabled: @variants.any? %>
+            <% if @variants.any? %>
+              <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100", data: { product_detail_target: "addToCartBtn" }, disabled: true %>
+            <% else %>
+              <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl" %>
+            <% end %>
             
             <%= link_to cart_path, class: "w-full bg-white text-gray-700 py-4 px-6 rounded-xl font-bold text-lg border-2 border-gray-200 hover:border-red-600 hover:text-red-600 transition-all duration-200 flex items-center justify-center space-x-2" do %>
               <i class="fas fa-shopping-cart"></i>

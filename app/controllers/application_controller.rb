@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   layout :layout_by_resource
+  helper_method :current_cart
 
   private
 
@@ -12,5 +13,10 @@ class ApplicationController < ActionController::Base
     else
       "application"
     end
+  end
+
+  def current_cart
+    session[:cart_id] ||= SecureRandom.uuid
+    @current_cart ||= CartService.new(session[:cart_id])
   end
 end

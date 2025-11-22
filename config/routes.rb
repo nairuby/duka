@@ -14,6 +14,15 @@ Rails.application.routes.draw do
     delete "clear", action: :clear
   end
 
+  # Checkout routes
+  resource :checkout, only: [ :new, :create ] do
+    get :payment, on: :collection
+    post :process_payment, on: :collection
+  end
+  
+  get "orders/:id/confirmation", to: "checkouts#confirmation", as: :order_confirmation
+  resources :orders, only: [ :index, :show ]
+
   # Test-only convenience routes to satisfy simple request specs expecting GET endpoints.
   # They return 200 OK without invoking controllers.
   if Rails.env.test?
