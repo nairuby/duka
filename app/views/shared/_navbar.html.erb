@@ -7,7 +7,7 @@
     <div class="flex justify-between items-center h-16">
       
       <!-- Brand/Logo Section -->
-      <div class="flex items-center space-x-3 sm:space-x-4">
+      <%= link_to root_path, class: "flex items-center space-x-3 sm:space-x-4 hover:opacity-80 transition-opacity duration-200" do %>
         <!-- ARC Logo -->
         <div class="w-12 h-8 sm:w-14 sm:h-10 bg-red-600 rounded-lg flex items-center justify-center">
           <span class="text-white font-bold text-xs sm:text-sm tracking-wide">ARC</span>
@@ -18,7 +18,7 @@
           <h1 class="text-gray-800 font-bold text-base sm:text-lg leading-tight">Duka</h1>
           <p class="text-gray-500 text-xs sm:text-sm leading-tight hidden xs:block">Community Store</p>
         </div>
-      </div>
+      <% end %>
       
       <!-- Desktop Navigation Links -->
       <div class="hidden md:flex items-center space-x-8">
@@ -75,7 +75,7 @@
         
         <!-- Shopping Cart with Notification -->
         <div class="relative">
-          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
+          <button onclick="window.openCart()" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
             <i class="fas fa-shopping-cart text-xl"></i>
             <!-- Cart Notification Badge -->
             <% if current_cart.total_items > 0 %>
@@ -96,7 +96,7 @@
         
         <!-- Mobile Shopping Cart -->
         <div class="relative">
-          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
+          <button onclick="window.openCart()" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
             <i class="fas fa-shopping-cart text-lg"></i>
             <!-- Cart Notification Badge -->
             <% if current_cart.total_items > 0 %>

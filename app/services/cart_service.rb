@@ -16,14 +16,33 @@ class CartService
       variant_id: variant_id
     )
 
-    item.quantity = item.persisted? ? item.quantity + quantity : quantity
+    new_quantity = item.persisted? ? item.quantity + quantity : quantity
+
+    # Check stock availability
+    if variant_id.present?
+      variant = Variant.find(variant_id)
+      if new_quantity > variant.stock_quantity
+        raise "Only #{variant.stock_quantity} items available in stock"
+      end
+    end
+
+    item.quantity = new_quantity
     item.save!
     item
   end
 
   def update_quantity(cart_item_id, quantity)
     item = items.find(cart_item_id)
+
     if quantity > 0
+      # Check stock availability
+      if item.variant_id.present?
+        variant = Variant.find(item.variant_id)
+        if quantity > variant.stock_quantity
+          raise "Only #{variant.stock_quantity} items available in stock"
+        end
+      end
+
       item.update!(quantity: quantity)
     else
       item.destroy!
@@ -54,6 +73,11 @@ class CartService
 
   def empty?
     items.empty?
+  end
+
+  def currency
+    # Get currency from first item's product, default to KES
+    items.first&.product&.currency || "KES"
   end
 
   def suggested_products(limit: 4)

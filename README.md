@@ -1,151 +1,296 @@
-# Duka – Nairuby Community Shop 🛍️
+# ARC Duka – African Ruby Community Shop 🛍️
 
-A Ruby on Rails–powered e-commerce app offering official merchandise for the **African Ruby Community**, active since 2010 with over 4,000 members across East Africa.
+A modern Ruby on Rails e-commerce platform offering official merchandise for the **African Ruby Community (ARC)**, active since 2010 with over 4,000 members across East Africa.
 
-> Visit the live store: [https://duka.nairuby.org](https://duka.nairuby.org)
+> **Live Store:** [https://duka.nairuby.org](https://duka.nairuby.org)
 
 ---
 
 ## 🌟 Features
 
-- 🛒 Shop mugs, t-shirts, and community gear
-- 💳 Multi-currency support (KES & USD)
-- 🔐 Secure checkout (Stripe/PayPal-ready)
-- 🛠 Admin panel for managing inventory
-- 📨 Order confirmation emails
-- 🔍 Clean, accessible UI with responsive design
+### Customer Features
+- 🛒 Browse products by category (Shirts, Hoodies, Mugs, Accessories, etc.)
+- 🎨 Product variants (sizes, colors) with stock tracking
+- 🛍️ Real-time shopping cart with instant updates
+- 💳 Multiple payment methods (M-Pesa, Card, Bank Transfer, Cash on Delivery)
+- 📱 Fully responsive mobile-first design
+- 🔐 Secure checkout with guest and authenticated options
+- 📧 Order confirmation and tracking
+- 💱 Multi-currency support (KES, USD, EUR, GBP)
+
+### Admin Features
+- 🎛️ Beautiful admin panel powered by Avo
+- 📊 Stock management dashboard with low stock alerts
+- 📦 Product and variant management
+- 🛒 Order management and tracking
+- 👥 User management with role-based access
+- 📈 Sales and inventory metrics
 
 ---
 
-## 🚀 Built With
+## 🚀 Tech Stack
 
-- **Ruby on Rails**
-- **PostgreSQL**
-- **Tailwindcss**
-- **Hotwire / Turbo / Stimulus**
-- **Stripe or Paystack**
+- **Framework:** Ruby on Rails 8.1
+- **Database:** PostgreSQL
+- **Styling:** Tailwind CSS 4.0
+- **JavaScript:** Hotwire (Turbo + Stimulus)
+- **Admin Panel:** Avo 3.0
+- **Authentication:** Devise
+- **Payment Ready:** M-Pesa, Stripe, Paystack integration points
+- **Deployment:** Kamal 2.0
 
 ---
 
-## 📦 Getting Started
+## 📦 Quick Start
 
-You can set up this project using either a *Dev Container* for a fully managed environment or a *Manual Setup* if you prefer to manage dependecies yourself.
+### Prerequisites
 
-### Option 1: Manual Setup
+- Ruby 3.4.7+
+- Rails 8.1+
+- PostgreSQL 14+
+- Node.js 18+
+- Yarn or npm
 
-### Requirements
+### Option 1: Local Setup
 
-- Ruby >= 3.3.6
-- Rails >= 8.0.2
-- Node.js + Yarn
-- PostgreSQL (or SQLite for dev)
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/nairuby/duka.git
+   cd duka
+   ```
 
-### Instructions
+2. **Install dependencies**
+   ```bash
+   bundle install
+   yarn install  # or npm install
+   ```
 
-1. Clone the repo:
+3. **Setup database**
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed
+   ```
 
-    ```bash
-    git clone https://github.com/your-org/duka.git
-    cd duka
-    ```
-2. Install dependencies:
+4. **Start the development server**
+   ```bash
+   bin/dev
+   ```
 
-    ```
-    bundle install
-    ```
-3. Set up the database:
-    ```
-    rails db:setup
-    ```
-    or
-    ```
-    rails db:create
-    rails db:migrate
-    rails db:seed
-    ```
-4. Start the Rails server:
-    ```
-    bin/dev
-    ```
+5. **Visit the application**
+   - Store: http://localhost:3000
+   - Admin Panel: http://localhost:3000/avo
+   - Admin Login: `admin@arcduka.com` / `password123`
 
-5. Visit [http://localhost:3000](http://localhost:3000) in your browser.
+### Option 2: Dev Container (Recommended)
 
-### Option 2: Dev Container Setup (Recommended)
+This project includes a complete Dev Container setup for consistent development environments.
 
-This project includes a Dev Container to provide a consistent and isolated development environment
+**Requirements:**
+- Docker Desktop
+- VS Code with Dev Containers extension
 
-### Requirements
+**Steps:**
+1. Clone the repository
+2. Open in VS Code
+3. Click "Reopen in Container" when prompted
+4. Run `rails db:setup` in the terminal
+5. Run `bin/dev` to start the server
 
-- Docker/ Docker Desktop
-- Visual Studio Code
-- VS Code Dev Containers Extension
+---
 
-### Instructions
+## 📚 Documentation
 
-1. Clone the repo:
+Comprehensive documentation is available in the `/docs` directory:
 
-    ```bash
-    git clone https://github.com/your-org/duka.git
-    cd duka
-    ```
-2. Open in VS Code: 
-   Open the project folder in Visual Studio Code. A pop-up will appear prompting you to "Reopen in Containers." Click this button to build and launch the development container.
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute to the project
+- **[docs/ADMIN_PANEL.md](docs/ADMIN_PANEL.md)** - Admin panel guide
+- **[docs/CHECKOUT_SYSTEM.md](docs/CHECKOUT_SYSTEM.md)** - Checkout architecture
+- **[docs/PRODUCT_VARIANTS.md](docs/PRODUCT_VARIANTS.md)** - Product & variant management
+- **[docs/LOGIN_UI_FEATURES.md](docs/LOGIN_UI_FEATURES.md)** - Authentication UI details
+- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Development guide (NEW)
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System architecture (NEW)
 
-3. Set up the database: 
-   Once the container is running, open a new terminal within VS Code and run:
-
-    ```bash
-    rails db:setup
-    ```
-4. Start the Rails server:
-  
-    ```bash
-    bin/dev
-    ```
-
-5. Visit [http://localhost:3000](http://localhost:3000) in your browser.
-
+---
 
 ## 🧪 Testing
-Run test suite:
-  ```
-  bundle exec rspec
-  ```
 
-Lint Ruby code:
-  ```
-  bundle exec rubocop
-  ```
+```bash
+# Run all tests
+bundle exec rspec
 
-Docker (optional)
-  ```
-  docker-compose build
-  docker-compose up
-  ```
+# Run specific test file
+bundle exec rspec spec/models/product_spec.rb
 
-Customize docker-compose.yml and Dockerfile as needed.
+# Run with coverage
+COVERAGE=true bundle exec rspec
 
-📸 Screenshots
-(Add screenshots of the homepage, product page, cart, and admin dashboard here)
+# Lint Ruby code
+bundle exec rubocop
+
+# Auto-fix linting issues
+bundle exec rubocop -a
+```
+
+---
+
+## 🎨 Code Style
+
+This project follows:
+- **Ruby Style Guide** via RuboCop
+- **Rails Best Practices**
+- **Tailwind CSS** for styling
+- **Stimulus** for JavaScript interactions
+
+---
+
+## 🗂️ Project Structure
+
+```
+duka/
+├── app/
+│   ├── avo/              # Admin panel resources
+│   ├── controllers/      # Request handlers
+│   ├── models/           # Business logic
+│   ├── services/         # Service objects (CartService, etc.)
+│   ├── views/            # Templates
+│   └── javascript/       # Stimulus controllers
+├── config/               # Configuration
+├── db/                   # Database migrations & seeds
+├── docs/                 # Documentation
+├── spec/                 # Tests
+└── public/               # Static assets
+```
+
+---
 
 ## 🤝 Contributing
-We welcome contributions from the community! Please follow these steps:
 
-Fork the repository
+We welcome contributions! Here's how to get started:
 
-Create your feature branch: git checkout -b feature/amazing-feature
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make your changes**
+   - Write tests for new features
+   - Follow the code style guide
+   - Update documentation as needed
+4. **Commit your changes**
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+5. **Push to your fork**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+6. **Open a Pull Request**
 
-Commit your changes: git commit -m 'Add amazing feature'
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-Push to the branch: git push origin feature/amazing-feature
+---
 
-Open a Pull Request
+## 🔑 Environment Variables
 
-See CONTRIBUTING.md for more info.
+Create a `.env` file in the root directory:
 
-## 🌍 About the Project
-Duka supports the African Ruby Community, promoting open source and software craftsmanship in East Africa since 2010. This shop helps fund meetups, workshops, and swag for the community.
+```env
+# Database
+DATABASE_URL=postgresql://localhost/duka_development
+
+# Rails
+RAILS_ENV=development
+SECRET_KEY_BASE=your_secret_key
+
+# Admin
+ADMIN_EMAIL=admin@arcduka.com
+ADMIN_PASSWORD=change_me_in_production
+
+# Payment (Optional - for production)
+MPESA_CONSUMER_KEY=your_key
+MPESA_CONSUMER_SECRET=your_secret
+STRIPE_PUBLISHABLE_KEY=your_key
+STRIPE_SECRET_KEY=your_secret
+```
+
+---
+
+## 🚢 Deployment
+
+This project uses Kamal 2.0 for deployment:
+
+```bash
+# Setup deployment
+kamal setup
+
+# Deploy
+kamal deploy
+
+# Check status
+kamal app logs
+```
+
+See deployment documentation for detailed instructions.
+
+---
+
+## 📊 Key Features Explained
+
+### Cart System
+- Session-based cart (no login required)
+- Real-time updates with Turbo Streams
+- Optimistic UI for instant feedback
+- Stock validation before checkout
+
+### Checkout Flow
+1. Add items to cart
+2. Enter shipping information
+3. Select payment method (M-Pesa, Card, Bank Transfer, COD)
+4. Confirm order
+5. Receive confirmation email
+
+### Admin Panel
+- Powered by Avo for beautiful UI
+- Manage products, variants, and stock
+- View and process orders
+- User management with admin roles
+- Dashboard with key metrics
+
+---
+
+## 🌍 About the African Ruby Community
+
+ARC Duka supports the African Ruby Community, promoting open source and software craftsmanship in East Africa since 2010. Revenue from this shop helps fund:
+
+- Monthly meetups and workshops
+- Community swag and merchandise
+- Conference sponsorships
+- Educational initiatives
+
+---
 
 ## 📄 License
-Distributed under the MIT License. See LICENSE for details.
 
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- African Ruby Community members
+- All contributors to this project
+- Open source libraries and tools used
+
+---
+
+## 📞 Support
+
+- **Issues:** [GitHub Issues](https://github.com/nairuby/duka/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/nairuby/duka/discussions)
+- **Community:** [Nairuby Meetup](https://www.meetup.com/nairuby/)
+- **Email:** info@nairuby.org
+
+---
+
+**Made with ❤️ by the African Ruby Community**

@@ -1,0 +1,137 @@
+<%= render 'shared/navbar' %>
+
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Select Payment Method</h1>
+      <p class="text-sm sm:text-base text-gray-600">Order #<%= @order.order_number %></p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Payment Methods -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+          <%= form_with url: process_payment_checkout_path, method: :post do |f| %>
+            <div class="space-y-4">
+              
+              <!-- M-Pesa -->
+              <label class="block cursor-pointer">
+                <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-2xl text-green-600"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-gray-900">M-Pesa</h3>
+                        <p class="text-sm text-gray-600">Pay with M-Pesa mobile money</p>
+                      </div>
+                    </div>
+                    <%= f.radio_button :payment_method, 'mpesa', class: "w-5 h-5 text-red-600 focus:ring-red-500" %>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Card Payment -->
+              <label class="block cursor-pointer">
+                <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-credit-card text-2xl text-blue-600"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-gray-900">Card Payment</h3>
+                        <p class="text-sm text-gray-600">Visa, Mastercard, or other cards</p>
+                      </div>
+                    </div>
+                    <%= f.radio_button :payment_method, 'card', class: "w-5 h-5 text-red-600 focus:ring-red-500" %>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Bank Transfer -->
+              <label class="block cursor-pointer">
+                <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-university text-2xl text-purple-600"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-gray-900">Bank Transfer</h3>
+                        <p class="text-sm text-gray-600">Direct bank transfer</p>
+                      </div>
+                    </div>
+                    <%= f.radio_button :payment_method, 'bank_transfer', class: "w-5 h-5 text-red-600 focus:ring-red-500" %>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Cash on Delivery -->
+              <label class="block cursor-pointer">
+                <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                      <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-money-bill-wave text-2xl text-orange-600"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-gray-900">Cash on Delivery</h3>
+                        <p class="text-sm text-gray-600">Pay when you receive your order</p>
+                      </div>
+                    </div>
+                    <%= f.radio_button :payment_method, 'cash_on_delivery', class: "w-5 h-5 text-red-600 focus:ring-red-500" %>
+                  </div>
+                </div>
+              </label>
+
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8 space-y-4">
+              <%= f.submit "Continue to Payment", class: "w-full bg-red-600 text-white font-semibold py-4 px-6 rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" %>
+              
+              <%= link_to "Back to Checkout", new_checkout_path, class: "block w-full text-center text-gray-600 hover:text-red-600 transition-colors py-2" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-4">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Order Total</h2>
+          
+          <div class="space-y-3">
+            <div class="flex justify-between text-gray-600">
+              <span>Subtotal</span>
+              <span class="font-medium"><%= @order.currency %> <%= number_with_precision(@order.subtotal, precision: 2) %></span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>Shipping</span>
+              <span class="font-medium"><%= @order.currency %> <%= number_with_precision(@order.shipping_cost, precision: 2) %></span>
+            </div>
+            <div class="border-t pt-3 flex justify-between text-xl font-bold text-gray-800">
+              <span>Total</span>
+              <span><%= @order.currency %> <%= number_with_precision(@order.total, precision: 2) %></span>
+            </div>
+          </div>
+          
+          <!-- Shipping Info -->
+          <div class="mt-6 pt-6 border-t">
+            <h3 class="font-bold text-gray-900 mb-2 text-sm">Shipping To:</h3>
+            <p class="text-sm text-gray-600">
+              <%= @order.shipping_name %><br>
+              <%= @order.shipping_address %><br>
+              <%= @order.shipping_city %>, <%= @order.shipping_country %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/footer' %>

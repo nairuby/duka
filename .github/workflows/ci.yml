@@ -101,18 +101,21 @@ jobs:
       - name: Precompile assets
         env:
           RAILS_ENV: test
+          DB_HOST: localhost
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
         run: bin/rails assets:precompile
 
       - name: Setup test database
         env:
           RAILS_ENV: test
+          DB_HOST: localhost
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
         run: bin/rails db:create db:schema:load
 
       - name: Run RSpec tests
         env:
           RAILS_ENV: test
+          DB_HOST: localhost
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
         run: bundle exec rspec
 
