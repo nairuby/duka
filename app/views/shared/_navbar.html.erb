@@ -69,21 +69,21 @@
       <!-- Desktop Utility Icons -->
       <div class="hidden md:flex items-center space-x-4">
         <!-- Search Icon -->
-        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" style="display: none">
           <i class="fas fa-search text-xl"></i>
         </button>
         
         <!-- Shopping Cart with Notification -->
         <div class="relative">
-          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
             <i class="fas fa-shopping-cart text-xl"></i>
+            <!-- Cart Notification Badge -->
+            <% if current_cart.total_items > 0 %>
+              <span class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center pointer-events-none">
+                <%= render 'shared/cart_count', count: current_cart.total_items %>
+              </span>
+            <% end %>
           </button>
-          <!-- Cart Notification Badge -->
-          <% if current_cart.total_items > 0 %>
-            <div class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
-              <%= render 'shared/cart_count', count: current_cart.total_items %>
-            </div>
-          <% end %>
         </div>
       </div>
 
@@ -96,15 +96,15 @@
         
         <!-- Mobile Shopping Cart -->
         <div class="relative">
-          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+          <button data-controller="cart-preview" data-action="click->cart-preview#toggle" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
             <i class="fas fa-shopping-cart text-lg"></i>
+            <!-- Cart Notification Badge -->
+            <% if current_cart.total_items > 0 %>
+              <span class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center pointer-events-none">
+                <%= render 'shared/cart_count', count: current_cart.total_items %>
+              </span>
+            <% end %>
           </button>
-          <!-- Cart Notification Badge -->
-          <% if current_cart.total_items > 0 %>
-            <div class="absolute -top-2 -right-2 w-4 h-4 bg-red-600 rounded-full flex items-center justify-center">
-              <%= render 'shared/cart_count', count: current_cart.total_items %>
-            </div>
-          <% end %>
         </div>
         
         <!-- Mobile Menu Button -->
