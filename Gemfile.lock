@@ -50,6 +50,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
+    active_record_doctor (2.0.1)
+      activerecord (>= 7.0.0)
     activejob (8.1.1)
       activesupport (= 8.1.1)
       globalid (>= 0.3.6)
@@ -499,6 +501,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  active_record_doctor
   annotaterb (~> 4.20)
   avo (~> 3.0)
   bootsnap (~> 1.19)

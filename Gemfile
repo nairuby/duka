@@ -27,6 +27,7 @@ gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 gem "avo", "~> 3.0"
 
 group :development, :test do
+  gem 'active_record_doctor'
   gem "debug", "~> 1.11", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", "~> 7.1", require: false
   gem "rubocop-rails-omakase", "~> 1.1", require: false
