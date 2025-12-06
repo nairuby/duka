@@ -80,7 +80,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 5. **Visit the application**
    - Store: http://localhost:3000
    - Admin Panel: http://localhost:3000/avo
-   - Admin Login: `admin@arcduka.com` / `password123`
+   - Admin Login: `admin@duka.com` / `admin123456`
 
 ### Option 2: Dev Container (Recommended)
 

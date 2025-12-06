@@ -39,7 +39,7 @@ Avo.configure do |config|
   # }
   # config.raise_error_on_missing_policy = false
   config.authorization_client = nil
-  config.explicit_authorization = true
+  config.explicit_authorization = false  # Allow all authenticated admin users to access data
 
   ## == Localization ==
   # config.locale = 'en-US'

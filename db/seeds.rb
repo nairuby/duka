@@ -1,3 +1,21 @@
+# Create Admin User
+puts "Creating admin user..."
+admin = User.find_or_create_by!(email: "admin@duka.com") do |user|
+  user.password = "admin123456"
+  user.password_confirmation = "admin123456"
+  user.admin = true
+end
+
+if admin.persisted?
+  puts "✅ Admin user created/found: #{admin.email}"
+  puts "   Password: admin123456"
+  puts "   Access Avo at: /avo"
+else
+  puts "❌ Failed to create admin user"
+end
+
+puts "\n" + "="*50 + "\n"
+
 # Clear existing data
 Variant.destroy_all
 Product.destroy_all
@@ -10,7 +28,7 @@ products_data = [
     price: 29.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/3B82F6/FFFFFF?text=Premium+T-Shirt",
-    category: "Apparel",
+    category: "Shirts",
     sizes: [ "XS", "S", "M", "L", "XL" ],
     colors: [ "Black", "White", "Navy", "Gray" ]
   },
@@ -20,7 +38,7 @@ products_data = [
     price: 89.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/1F2937/FFFFFF?text=Denim+Jacket",
-    category: "Apparel",
+    category: "Hoodies",
     sizes: [ "S", "M", "L", "XL" ],
     colors: [ "Blue", "Black", "Light Blue" ]
   },
@@ -30,7 +48,7 @@ products_data = [
     price: 18.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Ruby+Mug",
-    category: "Drinkware",
+    category: "Mugs",
     sizes: [ "Standard" ],
     colors: [ "Red", "Black", "White" ]
   },
@@ -40,7 +58,7 @@ products_data = [
     price: 65.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/7C3AED/FFFFFF?text=Dev+Hoodie",
-    category: "Apparel",
+    category: "Hoodies",
     sizes: [ "S", "M", "L", "XL", "XXL" ],
     colors: [ "Black", "Gray", "Navy" ]
   },
@@ -60,7 +78,7 @@ products_data = [
     price: 12.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/10B981/FFFFFF?text=Stickers",
-    category: "Accessories",
+    category: "Stickers",
     sizes: [ "Pack" ],
     colors: [ "Mixed" ]
   },
@@ -80,7 +98,7 @@ products_data = [
     price: 45.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/EC4899/FFFFFF?text=Polo+Shirt",
-    category: "Apparel",
+    category: "Shirts",
     sizes: [ "S", "M", "L", "XL" ],
     colors: [ "White", "Navy", "Red" ]
   },
@@ -90,7 +108,7 @@ products_data = [
     price: 28.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/059669/FFFFFF?text=Water+Bottle",
-    category: "Drinkware",
+    category: "Mugs",
     sizes: [ "500ml" ],
     colors: [ "Silver", "Black", "Blue" ]
   },
@@ -100,7 +118,7 @@ products_data = [
     price: 39.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/B45309/FFFFFF?text=Laptop+Sleeve",
-    category: "Accessories",
+    category: "Bags",
     sizes: [ "13 inch", "15 inch" ],
     colors: [ "Brown", "Black", "Gray" ]
   },
@@ -120,7 +138,7 @@ products_data = [
     price: 24.99,
     currency: "USD",
     image_url: "https://via.placeholder.com/400x400/374151/FFFFFF?text=Tumbler",
-    category: "Drinkware",
+    category: "Mugs",
     sizes: [ "16oz" ],
     colors: [ "Black", "Silver", "Red" ]
   }
@@ -135,7 +153,8 @@ products_data.each_with_index do |product_data, index|
     description: product_data[:description],
     price: product_data[:price],
     currency: product_data[:currency],
-    image_url: product_data[:image_url]
+    image_url: product_data[:image_url],
+    category: product_data[:category]
   )
 
   # Create variants for each product

@@ -24,15 +24,52 @@ Welcome to the ARC Duka development guide! This document will help you get start
    rails db:setup
    ```
 
-2. **Create admin user**
+2. **Setup database and seed data**
    ```bash
-   rails runner "User.create!(email: 'admin@test.com', password: 'password', admin: true)"
+   rails db:setup  # Creates DB, runs migrations, and seeds
    ```
+   
+   This automatically creates:
+   - **Admin user:** `admin@duka.com` / `admin123456`
+   - **12 sample products** with 81 variants
+   - Full e-commerce catalog ready for testing
 
-3. **Seed sample data**
-   ```bash
-   rails db:seed
-   ```
+### Admin User Setup
+
+The admin user is automatically created when you run `rails db:seed`. You can access the admin panel at `/avo` with these credentials:
+
+**Development Credentials:**
+- Email: `admin@duka.com`
+- Password: `admin123456`
+
+> **⚠️ Security Note:** Change the password immediately in production! This is only for development.
+
+**Manual Admin User Creation:**
+
+If you need to create an admin user manually:
+
+```bash
+# Via Rails console
+rails console
+User.create!(
+  email: 'your@email.com',
+  password: 'your_password',
+  password_confirmation: 'your_password',
+  admin: true
+)
+```
+
+Or via Rails runner:
+
+```bash
+rails runner "User.create!(email: 'admin@test.com', password: 'password123', password_confirmation: 'password123', admin: true)"
+```
+
+**Verify Admin User:**
+
+```bash
+rails runner "user = User.find_by(email: 'admin@duka.com'); puts 'Email: #{user.email}'; puts 'Admin? #{user.admin?}'"
+```
 
 4. **Start development server**
    ```bash
