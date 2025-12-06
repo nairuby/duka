@@ -83,13 +83,13 @@
         </div>
 
         <!-- Search Icon -->
-        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" style="display: none">
+        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" style="display: none" aria-label="Search">
           <i class="fas fa-search text-xl"></i>
         </button>
         
         <!-- Shopping Cart with Notification -->
         <div class="relative">
-          <button onclick="window.openCart()" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
+          <button onclick="window.openCart()" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50" aria-label="Open cart">
             <i class="fas fa-shopping-cart text-xl"></i>
             <!-- Cart Notification Badge -->
             <% if current_cart.total_items > 0 %>
@@ -104,13 +104,13 @@
       <!-- Mobile Utility Icons and Menu Button -->
       <div class="flex md:hidden items-center space-x-3">
         <!-- Mobile Search Icon -->
-        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200">
+        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" aria-label="Search">
           <i class="fas fa-search text-lg"></i>
         </button>
         
         <!-- Mobile Shopping Cart -->
         <div class="relative">
-          <button onclick="window.openCart()" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50">
+          <button onclick="window.openCart()" class="text-gray-700 hover:text-red-600 transition-colors duration-200 p-2 -m-2 rounded-md hover:bg-red-50" aria-label="Open cart">
             <i class="fas fa-shopping-cart text-lg"></i>
             <!-- Cart Notification Badge -->
             <% if current_cart.total_items > 0 %>
@@ -122,7 +122,7 @@
         </div>
         
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-button" class="text-gray-700 hover:text-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 rounded-md p-1">
+        <button id="mobile-menu-button" class="text-gray-700 hover:text-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 rounded-md p-1" aria-label="Toggle mobile menu">
           <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
         </button>
       </div>

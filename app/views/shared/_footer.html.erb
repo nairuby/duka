@@ -22,7 +22,7 @@
         <div class="flex space-x-4">
 
           <% arc_social_media_links.each do |link| %>
-            <a href="<%= link[:url] %>" class="text-gray-600 hover:text-red-600 transition-colors">
+            <a href="<%= link[:url] %>" class="text-gray-600 hover:text-red-600 transition-colors" aria-label="<%= link[:platform].humanize %>">
               <i class="fab <%= link[:icon] %> text-2xl"></i>
             </a>
           <% end %>

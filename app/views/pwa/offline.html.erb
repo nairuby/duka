@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Duka</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+      body {
+          font-family: "Outfit", sans-serif;
+      }
+  </style>
+</head>
+<body class="h-full bg-gray-50 flex items-center justify-center">
+  <div class="text-center px-4 max-w-lg mx-auto">
+    <div class="mb-6 text-red-600">
+      <i class="fas fa-wifi-slash text-6xl"></i>
+    </div>
+    
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">You are offline</h1>
+    
+    <p class="text-gray-600 mb-8 text-lg">
+      It looks like you've lost your internet connection. 
+      Please check your network settings and try again.
+    </p>
+    
+    <button onclick="window.location.reload()" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+      <i class="fas fa-redo-alt mr-2"></i>
+      Try Again
+    </button>
+  </div>
+</body>
+</html>
