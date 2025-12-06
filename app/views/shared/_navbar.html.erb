@@ -68,6 +68,20 @@
       
       <!-- Desktop Utility Icons -->
       <div class="hidden md:flex items-center space-x-4">
+        <!-- Currency Selector -->
+        <div class="relative group">
+          <button class="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors duration-200">
+            <span class="font-medium"><%= Current.currency %></span>
+            <i class="fas fa-chevron-down text-xs"></i>
+          </button>
+          <div class="absolute right-0 mt-2 w-24 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="py-1">
+              <%= button_to "KES", currency_path(currency: "KES"), method: :patch, class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 #{'font-bold text-red-600' if Current.currency == 'KES'}" %>
+              <%= button_to "USD", currency_path(currency: "USD"), method: :patch, class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 #{'font-bold text-red-600' if Current.currency == 'USD'}" %>
+            </div>
+          </div>
+        </div>
+
         <!-- Search Icon -->
         <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" style="display: none">
           <i class="fas fa-search text-xl"></i>

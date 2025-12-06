@@ -25,6 +25,7 @@
 #  user_email           :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  user_id              :uuid
 #
 # Indexes
 #
@@ -33,6 +34,11 @@
 #  index_orders_on_payment_status  (payment_status)
 #  index_orders_on_session_token   (session_token)
 #  index_orders_on_status          (status)
+#  index_orders_on_user_id         (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 require 'rails_helper'
 

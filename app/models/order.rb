@@ -25,6 +25,7 @@
 #  user_email           :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  user_id              :uuid
 #
 # Indexes
 #
@@ -33,6 +34,11 @@
 #  index_orders_on_payment_status  (payment_status)
 #  index_orders_on_session_token   (session_token)
 #  index_orders_on_status          (status)
+#  index_orders_on_user_id         (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 class Order < ApplicationRecord
   belongs_to :user, optional: true
@@ -66,6 +72,8 @@ class Order < ApplicationRecord
 
   def self.create_from_cart(cart, user, checkout_params)
     transaction do
+      target_currency = cart.currency || Current.currency || "KES"
+
       order = new(
         user: user,
         email: checkout_params[:email],
@@ -74,28 +82,40 @@ class Order < ApplicationRecord
         shipping_address: checkout_params[:shipping_address],
         shipping_city: checkout_params[:shipping_city],
         shipping_postal_code: checkout_params[:shipping_postal_code],
-        shipping_country: checkout_params[:shipping_country] || "Kenya",
+        shipping_country: checkout_params[:shipping_country] || (Current.country_code == "KE" ? "Kenya" : "Kenya"), # Defaulting to Kenya as requested
         notes: checkout_params[:notes],
-        currency: cart.currency || "KES",
+        currency: target_currency,
         status: "pending",
         payment_status: "pending"
       )
 
       # Create order items from cart
       cart.items.each do |cart_item|
+        # Convert product price to target currency
+        price_in_target_currency = CurrencyConverter.convert(cart_item.product.price, "USD", target_currency)
+        subtotal_in_target_currency = CurrencyConverter.convert(cart_item.subtotal, "USD", target_currency)
+
         order.order_items.build(
           product: cart_item.product,
           variant: cart_item.variant,
           quantity: cart_item.quantity,
-          price: cart_item.product.price,
-          subtotal: cart_item.subtotal,
+          price: price_in_target_currency,
+          subtotal: subtotal_in_target_currency,
           product_name: cart_item.product.name,
           variant_details: cart_item.variant ? "#{cart_item.variant.size} / #{cart_item.variant.color}" : nil
         )
       end
 
-      order.subtotal = cart.total
-      order.shipping_cost = calculate_shipping(order)
+      # Convert total to target currency
+      order.subtotal = CurrencyConverter.convert(cart.total, "USD", target_currency)
+      
+      # Shipping calculation (if strict 0.0, conversion is trivial, but good practice to handle)
+      shipping_cost_value = calculate_shipping(order) 
+      # If shipping calculation ever returns non-zero in specific currency, we might need conversion here too.
+      # For now, assuming calculate_shipping returns 0.0 or a value in base currency (if we change it later).
+      # Since it's 0.0, we just assign it.
+      order.shipping_cost = shipping_cost_value
+      
       order.save!
 
       order
@@ -105,13 +125,15 @@ class Order < ApplicationRecord
   def self.calculate_shipping(order)
     # Simple shipping calculation - can be enhanced later
     if order.shipping_country == "Kenya"
-      if order.shipping_city&.downcase == "nairobi"
-        200.0 # KES 200 for Nairobi
-      else
-        500.0 # KES 500 for other Kenyan cities
-      end
+      0.0 # Free shipping for now
+      # if order.shipping_city&.downcase == "nairobi"
+      #   200.0 # KES 200 for Nairobi
+      # else
+      #   500.0 # KES 500 for other Kenyan cities
+      # end
     else
-      1500.0 # KES 1500 for international
+      0.0 # Free shipping for international too for now
+      # 1500.0 # KES 1500 for international
     end
   end
 

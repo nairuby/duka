@@ -54,7 +54,7 @@
                 <i class="fas fa-plus"></i>
               </button>
             </div>
-            <p class="text-sm font-bold text-red-600"><%= item.product.currency %><%= number_with_precision(item.subtotal, precision: 2) %></p>
+            <p class="text-sm font-bold text-red-600"><%= format_price(item.subtotal) %></p>
           </div>
         </div>
         
@@ -70,7 +70,7 @@
   <div class="border-t p-6 space-y-4">
     <div class="flex justify-between text-lg font-bold text-gray-800">
       <span>Total</span>
-      <span>USD <%= number_with_precision(cart.total, precision: 2) %></span>
+      <span><%= format_price(cart.total) %></span>
     </div>
     
     <%= link_to cart_path, class: "w-full bg-white text-gray-700 py-3 rounded-xl border-2 border-gray-200 hover:border-red-600 hover:text-red-600 transition-all duration-200 flex items-center justify-center space-x-2 mb-2" do %>
@@ -103,7 +103,7 @@
             </div>
             <div class="flex-1 min-w-0">
               <h4 class="text-sm font-bold text-gray-800 truncate"><%= product.name %></h4>
-              <p class="text-sm font-bold text-red-600"><%= product.currency %><%= number_with_precision(product.price, precision: 2) %></p>
+              <p class="text-sm font-bold text-red-600"><%= format_price(product.price) %></p>
             </div>
           <% end %>
         <% end %>

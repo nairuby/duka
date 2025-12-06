@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     delete "clear", action: :clear
   end
 
+  resource :currency, only: [ :update ], controller: :currencies
+
   # Checkout routes
   resource :checkout, only: [ :new, :create ] do
     get :payment, on: :collection

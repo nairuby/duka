@@ -73,7 +73,7 @@
                 
                 <div class="flex items-center justify-between">
                   <span class="text-xl font-bold text-gray-800">
-                    <%= product.currency %><%= number_with_precision(product.price, precision: 2) %>
+                    <%= format_price(product.price) %>
                   </span>
                   <div class="bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-all duration-200 flex items-center space-x-1 transform hover:scale-105">
                     <i class="fa-solid fa-eye text-xs"></i>

@@ -48,7 +48,7 @@
           <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4"><%= @product.name %></h1>
           <div class="flex items-baseline space-x-3 mb-4">
             <p class="text-3xl sm:text-4xl font-bold text-red-600">
-              <%= @product.currency %><%= number_with_precision(@product.price, precision: 2) %>
+              <%= format_price(@product.price) %>
             </p>
           </div>
         </div>
@@ -272,7 +272,7 @@
               </div>
               <div class="p-4">
                 <h3 class="font-bold text-gray-800 mb-2 line-clamp-1"><%= product.name %></h3>
-                <p class="text-lg font-bold text-red-600"><%= product.currency %><%= number_with_precision(product.price, precision: 2) %></p>
+                <p class="text-lg font-bold text-red-600"><%= format_price(product.price) %></p>
               </div>
             <% end %>
           <% end %>
