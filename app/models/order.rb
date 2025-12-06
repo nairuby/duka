@@ -108,14 +108,14 @@ class Order < ApplicationRecord
 
       # Convert total to target currency
       order.subtotal = CurrencyConverter.convert(cart.total, "USD", target_currency)
-      
+
       # Shipping calculation (if strict 0.0, conversion is trivial, but good practice to handle)
-      shipping_cost_value = calculate_shipping(order) 
+      shipping_cost_value = calculate_shipping(order)
       # If shipping calculation ever returns non-zero in specific currency, we might need conversion here too.
       # For now, assuming calculate_shipping returns 0.0 or a value in base currency (if we change it later).
       # Since it's 0.0, we just assign it.
       order.shipping_cost = shipping_cost_value
-      
+
       order.save!
 
       order

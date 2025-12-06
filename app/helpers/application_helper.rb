@@ -31,10 +31,10 @@ module ApplicationHelper
 
   def format_price(amount)
     currency = Current.currency || "KES"
-    
+
     # Assuming base price is always in USD as per product seeds
     converted_amount = CurrencyConverter.convert(amount, "USD", currency)
-    
+
     number_to_currency(converted_amount, unit: currency + " ", precision: 2)
   end
 end

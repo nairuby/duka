@@ -5,7 +5,7 @@ RSpec.describe "Currency Agnosticism", type: :request do
     it "defaults to Kenya/KES when no location is found or default is used" do
       # Mock Geocoder to return nil/default behavior
       allow(Geocoder).to receive(:search).and_return([])
-      
+
       # Spy on the Current setters
       expect(Current).to receive(:country_code=).with("KE")
       expect(Current).to receive(:currency=).with("KES")
@@ -37,7 +37,7 @@ RSpec.describe "Currency Agnosticism", type: :request do
       }
 
       order = Order.create_from_cart(cart_service, nil, checkout_params)
-      
+
       expect(order.shipping_country).to eq("Kenya")
       expect(order.currency).to eq("KES")
     end
