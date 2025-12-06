@@ -40,7 +40,7 @@
               <div class="flex-1">
                 <h3 class="font-bold text-gray-800 mb-1"><%= item.display_name %></h3>
                 <p class="text-sm text-gray-600 mb-2"><%= item.product.category %></p>
-                <p class="text-lg font-bold text-red-600"><%= item.product.currency %><%= number_with_precision(item.subtotal, precision: 2) %></p>
+                <p class="text-lg font-bold text-red-600"><%= format_price(item.subtotal) %></p>
               </div>
               
               <!-- Quantity Controls -->
@@ -70,7 +70,7 @@
             <div class="space-y-3 mb-6">
               <div class="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span class="font-medium">USD <%= number_with_precision(@cart.subtotal, precision: 2) %></span>
+                <span class="font-medium"><%= format_price(@cart.subtotal) %></span>
               </div>
               <div class="flex justify-between text-gray-600">
                 <span>Shipping</span>
@@ -78,7 +78,7 @@
               </div>
               <div class="border-t pt-3 flex justify-between text-lg font-bold text-gray-800">
                 <span>Total</span>
-                <span>USD <%= number_with_precision(@cart.total, precision: 2) %></span>
+                <span><%= format_price(@cart.total) %></span>
               </div>
             </div>
             
@@ -113,7 +113,7 @@
                 </div>
                 <div class="p-4">
                   <h3 class="font-bold text-gray-800 mb-2 line-clamp-1"><%= product.name %></h3>
-                  <p class="text-lg font-bold text-red-600"><%= product.currency %><%= number_with_precision(product.price, precision: 2) %></p>
+                  <p class="text-lg font-bold text-red-600"><%= format_price(product.price) %></p>
                 </div>
               <% end %>
             <% end %>

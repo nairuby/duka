@@ -129,9 +129,9 @@
               
               <!-- Pricing -->
               <div class="flex items-center justify-center space-x-2 sm:space-x-3 mb-4">
-                <span class="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600"><%= @featured_product.currency %><%= number_with_precision(@featured_product.price, precision: 0) %></span>
+                <span class="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600"><%= format_price(@featured_product.price) %></span>
                 <% if @featured_product.price < 35 %>
-                  <span class="text-lg sm:text-xl text-gray-400 line-through">$39</span>
+                  <span class="text-lg sm:text-xl text-gray-400 line-through"><%= format_price(39) %></span>
                 <% end %>
               </div>
               

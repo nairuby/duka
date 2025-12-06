@@ -76,8 +76,8 @@ class CartService
   end
 
   def currency
-    # Get currency from first item's product, default to KES
-    items.first&.product&.currency || "KES"
+    # Prefer Current.currency if available, then product's currency, then default KES
+    Current.currency || items.first&.product&.currency || "KES"
   end
 
   def suggested_products(limit: 4)

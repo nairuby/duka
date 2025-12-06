@@ -47,3 +47,5 @@ group :test do
   gem "selenium-webdriver", "~> 4.34"
   gem "simplecov", require: false
 end
+
+gem "geocoder", "~> 1.8"

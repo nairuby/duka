@@ -108,8 +108,8 @@ RSpec.describe "Landing Page", type: :system do
     it "displays product prices" do
       visit root_path
 
-      expect(page).to have_content("USD29.99")
-      expect(page).to have_content("USD18.99")
+      expect(page).to have_content("KES 3,868.71")
+      expect(page).to have_content("KES 2,449.71")
     end
 
     it "has view details buttons" do

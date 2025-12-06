@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_22_192238) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_05_234917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -119,11 +119,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_192238) do
     t.decimal "total", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "updated_at", null: false
     t.string "user_email"
+    t.uuid "user_id"
     t.index ["email"], name: "index_orders_on_email"
     t.index ["order_number"], name: "index_orders_on_order_number", unique: true
     t.index ["payment_status"], name: "index_orders_on_payment_status"
     t.index ["session_token"], name: "index_orders_on_session_token"
     t.index ["status"], name: "index_orders_on_status"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -182,5 +184,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_192238) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "order_items", "variants"
+  add_foreign_key "orders", "users"
   add_foreign_key "variants", "products"
 end
