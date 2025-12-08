@@ -4,7 +4,7 @@ gem "bootsnap", "~> 1.19", require: false
 gem "devise", "~> 4.9", ">= 4.9.4"
 gem "dotenv-rails", "~> 3.2"
 gem "font-awesome-sass", "~> 6.7", ">= 6.7.2"
-gem "friendly_id", "~> 5.5", ">= 5.5.1"
+gem "friendly_id", "~> 5.6"
 gem "hotwire-rails", "~> 0.1.3"
 gem "image_processing", "~> 1.14"
 gem "importmap-rails", "~> 2.2"
