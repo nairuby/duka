@@ -39,9 +39,6 @@ class CheckoutsController < ApplicationController
     payment_method = params[:payment_method]
 
     case payment_method
-    when "mpesa"
-      # Redirect to M-Pesa payment flow (to be implemented)
-      redirect_to mpesa_payment_path(@order), notice: "Redirecting to M-Pesa payment..."
     when "card"
       # Redirect to card payment (Stripe/PayPal - to be implemented)
       redirect_to card_payment_path(@order), notice: "Redirecting to card payment..."

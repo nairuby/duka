@@ -25,6 +25,7 @@ gem "thruster", "~> 0.1.15", require: false
 gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 gem "avo", "~> 3.27"
+gem "faraday", "~> 2.7"
 
 group :development, :test do
   gem "active_record_doctor"
@@ -46,6 +47,7 @@ group :test do
   gem "capybara", "~> 3.40"
   gem "selenium-webdriver", "~> 4.34"
   gem "simplecov", require: false
+  gem "rantly", "~> 2.0"
 end
 
 gem "geocoder", "~> 1.8"

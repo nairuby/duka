@@ -12,7 +12,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 - 🛒 Browse products by category (Shirts, Hoodies, Mugs, Accessories, etc.)
 - 🎨 Product variants (sizes, colors) with stock tracking
 - 🛍️ Real-time shopping cart with instant updates
-- 💳 Multiple payment methods (M-Pesa, Card, Bank Transfer, Cash on Delivery)
+- 💳 Multiple payment methods (Card, Bank Transfer, Cash on Delivery)
 - 📱 Fully responsive mobile-first design
 - 🔐 Secure checkout with guest and authenticated options
 - 📧 Order confirmation and tracking
@@ -36,7 +36,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 - **JavaScript:** Hotwire (Turbo + Stimulus)
 - **Admin Panel:** Avo 3.0
 - **Authentication:** Devise
-- **Payment Ready:** M-Pesa, Stripe, Paystack integration points
+- **Payment Ready:** Stripe, Paystack integration points
 - **Deployment:** Kamal 2.0
 
 ---
@@ -208,8 +208,6 @@ ADMIN_EMAIL=admin@arcduka.com
 ADMIN_PASSWORD=change_me_in_production
 
 # Payment (Optional - for production)
-MPESA_CONSUMER_KEY=your_key
-MPESA_CONSUMER_SECRET=your_secret
 STRIPE_PUBLISHABLE_KEY=your_key
 STRIPE_SECRET_KEY=your_secret
 ```
@@ -246,7 +244,7 @@ See deployment documentation for detailed instructions.
 ### Checkout Flow
 1. Add items to cart
 2. Enter shipping information
-3. Select payment method (M-Pesa, Card, Bank Transfer, COD)
+3. Select payment method (Card, Bank Transfer, COD)
 4. Confirm order
 5. Receive confirmation email
 

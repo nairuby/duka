@@ -8,9 +8,12 @@
 #  email                :string
 #  notes                :text
 #  order_number         :string
+#  payment_completed_at :datetime
+#  payment_initiated_at :datetime
 #  payment_method       :string
 #  payment_reference    :string
 #  payment_status       :string           default("pending")
+#  payment_timeout_at   :datetime
 #  phone                :string
 #  session_token        :string
 #  shipping_address     :jsonb
@@ -43,11 +46,12 @@
 class Order < ApplicationRecord
   belongs_to :user, optional: true
   has_many :order_items, dependent: :destroy
+  has_many :payment_transactions, dependent: :destroy
 
   # Status constants
   STATUSES = %w[pending confirmed processing shipped delivered cancelled].freeze
   PAYMENT_STATUSES = %w[pending paid failed refunded].freeze
-  PAYMENT_METHODS = %w[mpesa card bank_transfer cash_on_delivery].freeze
+  PAYMENT_METHODS = %w[card bank_transfer cash_on_delivery].freeze
 
   # Validations
   validates :order_number, presence: true, uniqueness: true
@@ -157,6 +161,10 @@ class Order < ApplicationRecord
     return false unless can_be_cancelled?
 
     update!(status: "cancelled")
+  end
+
+  def can_retry_payment?
+    payment_status == 'failed'
   end
 
   private

@@ -8,9 +8,12 @@
 #  email                :string
 #  notes                :text
 #  order_number         :string
+#  payment_completed_at :datetime
+#  payment_initiated_at :datetime
 #  payment_method       :string
 #  payment_reference    :string
 #  payment_status       :string           default("pending")
+#  payment_timeout_at   :datetime
 #  phone                :string
 #  session_token        :string
 #  shipping_address     :jsonb

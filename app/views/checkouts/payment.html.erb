@@ -15,24 +15,6 @@
           <%= form_with url: process_payment_checkout_path, method: :post do |f| %>
             <div class="space-y-4">
               
-              <!-- M-Pesa -->
-              <label class="block cursor-pointer">
-                <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-4">
-                      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-mobile-alt text-2xl text-green-600"></i>
-                      </div>
-                      <div>
-                        <h3 class="font-bold text-gray-900">M-Pesa</h3>
-                        <p class="text-sm text-gray-600">Pay with M-Pesa mobile money</p>
-                      </div>
-                    </div>
-                    <%= f.radio_button :payment_method, 'mpesa', class: "w-5 h-5 text-red-600 focus:ring-red-500" %>
-                  </div>
-                </div>
-              </label>
-
               <!-- Card Payment -->
               <label class="block cursor-pointer">
                 <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
@@ -105,9 +87,11 @@
           <h2 class="text-xl font-bold text-gray-900 mb-4">Order Total</h2>
           
           <div class="space-y-3">
+            <div class="flex justify-between">
               <span>Subtotal</span>
               <span class="font-medium"><%= format_price(@order.subtotal) %></span>
             </div>
+            <div class="flex justify-between">
               <span>Shipping</span>
               <span class="font-medium"><%= format_price(@order.shipping_cost) %></span>
             </div>

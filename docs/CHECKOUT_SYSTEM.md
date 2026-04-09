@@ -13,7 +13,7 @@ The checkout system is a flexible, payment-agnostic architecture designed for th
 - `user_id`: Optional - supports guest checkout
 - `email`, `phone`: Contact information
 - `status`: Order lifecycle (pending, confirmed, processing, shipped, delivered, cancelled)
-- `payment_method`: mpesa, card, bank_transfer, cash_on_delivery
+- `payment_method`: card, bank_transfer, cash_on_delivery
 - `payment_status`: pending, paid, failed, refunded
 - `payment_reference`: External payment reference
 - `subtotal`, `shipping_cost`, `total`: Pricing
@@ -99,10 +99,9 @@ pending → paid
 
 #### Payment Selection (`app/views/checkouts/payment.html.erb`)
 **Payment Methods:**
-1. **M-Pesa** - Mobile money (most popular in Kenya)
-2. **Card Payment** - Visa/Mastercard
-3. **Bank Transfer** - Direct bank transfer
-4. **Cash on Delivery** - Pay when receiving order
+#### 1. Card Payment - Visa/Mastercard
+2. **Bank Transfer** - Direct bank transfer
+3. **Cash on Delivery** - Pay when receiving order
 
 **Features:**
 - Visual payment method cards
@@ -136,19 +135,7 @@ Located in: `Order.calculate_shipping(order)`
 
 The system is designed to easily integrate with:
 
-#### 1. M-Pesa (Recommended for Kenya)
-**Popular Options:**
-- **Safaricom Daraja API** (Official)
-- **Flutterwave** (Aggregator)
-- **Paystack** (Aggregator)
-
-**Integration Point:**
-- Add M-Pesa controller/service
-- Update `process_payment` action
-- Handle STK Push callback
-- Mark order as paid on success
-
-#### 2. Card Payments
+#### 1. Card Payments
 **Options:**
 - **Stripe** (International)
 - **Paystack** (Africa-focused)
@@ -160,13 +147,13 @@ The system is designed to easily integrate with:
 - Redirect to payment page
 - Handle webhook callbacks
 
-#### 3. Bank Transfer
+#### 2. Bank Transfer
 **Current Flow:**
 - Shows bank details
 - Manual verification by admin
 - Admin marks as paid in Avo panel
 
-#### 4. Cash on Delivery
+#### 3. Cash on Delivery
 **Current Flow:**
 - Order confirmed immediately
 - Payment collected on delivery
@@ -214,40 +201,34 @@ The system supports guest checkout:
 
 ### Recommended Next Steps
 
-1. **M-Pesa Integration**
-   - Implement Daraja API or Flutterwave
-   - Add STK Push functionality
-   - Handle payment callbacks
-   - Send payment confirmations
-
-2. **Email Notifications**
+1. **Email Notifications**
    - Order confirmation emails
    - Shipping notifications
    - Payment receipts
    - Delivery confirmations
 
-3. **Order Tracking**
+2. **Order Tracking**
    - Tracking number integration
    - Status update notifications
    - Estimated delivery dates
 
-4. **Inventory Management**
+3. **Inventory Management**
    - Reduce stock on order confirmation
    - Restore stock on cancellation
    - Low stock alerts
 
-5. **Customer Account Features**
+4. **Customer Account Features**
    - Order history page
    - Saved addresses
    - Reorder functionality
    - Order cancellation requests
 
-6. **Advanced Shipping**
+5. **Advanced Shipping**
    - Multiple shipping methods
    - Real-time shipping quotes
    - Courier integration (DHL, Posta Kenya, etc.)
 
-7. **Payment Features**
+6. **Payment Features**
    - Partial payments
    - Payment plans
    - Refund processing
@@ -321,11 +302,6 @@ For questions or issues:
 3. Contact the development team
 
 ## Payment Provider Resources
-
-### M-Pesa
-- [Safaricom Daraja API](https://developer.safaricom.co.ke/)
-- [Flutterwave M-Pesa](https://developer.flutterwave.com/docs/mpesa)
-- [Paystack Mobile Money](https://paystack.com/docs/payments/mobile-money)
 
 ### Card Payments
 - [Stripe Documentation](https://stripe.com/docs)
