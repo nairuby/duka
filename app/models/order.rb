@@ -164,7 +164,7 @@ class Order < ApplicationRecord
   end
 
   def can_retry_payment?
-    payment_status == 'failed'
+    payment_status == "failed"
   end
 
   private

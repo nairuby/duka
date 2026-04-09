@@ -52,23 +52,23 @@ class PaymentTransaction < ApplicationRecord
   before_save :set_processed_at, if: :status_changed?
 
   def successful?
-    status == 'completed'
+    status == "completed"
   end
 
   def failed?
-    status == 'failed'
+    status == "failed"
   end
 
   def pending?
-    status == 'pending'
+    status == "pending"
   end
 
   def stk_push?
-    transaction_type == 'stk_push'
+    transaction_type == "stk_push"
   end
 
   def callback?
-    transaction_type == 'callback'
+    transaction_type == "callback"
   end
 
   private
