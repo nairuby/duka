@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   resource :checkout, only: [ :new, :create ] do
     get :payment, on: :collection
     post :process_payment, on: :collection
+    get :mpesa_status, on: :collection
+  end
+
+  namespace :payments do
+    post "quikk_callback", to: "callbacks#quikk"
   end
 
   get "orders/:id/confirmation", to: "checkouts#confirmation", as: :order_confirmation

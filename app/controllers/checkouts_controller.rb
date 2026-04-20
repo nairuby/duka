@@ -38,6 +38,10 @@ class CheckoutsController < ApplicationController
     @order = Order.find(session[:pending_order_id])
     payment_method = params[:payment_method]
 
+    if @order.payment_method == "mpesa" && (@order.payment_status == "pending" || @order.payment_status == "started")
+      return redirect_to mpesa_status_checkout_path(id: @order.id), alert: "A payment is already in progress for this order."
+    end
+
     case payment_method
     when "card"
       # Redirect to card payment (Stripe/PayPal - to be implemented)
@@ -51,11 +55,42 @@ class CheckoutsController < ApplicationController
       @order.update(payment_method: "cash_on_delivery", status: "confirmed")
       clear_cart
       redirect_to order_confirmation_path(@order), notice: "Order confirmed! Pay on delivery."
+    when "mpesa"
+      initiate_mpesa_payment
     else
       redirect_to payment_checkout_path, alert: "Please select a valid payment method."
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to cart_path, alert: "Order not found. Please try again."
+  end
+
+  def mpesa_status
+    @order = Order.find(params[:id])
+    @payment = @order.payment_transactions.by_type("stk_push").recent.first
+
+    if params[:timeout] == "true" && @order.payment_status == "started"
+      # Trigger search API check
+      quikk = Quikk::Client.new
+      response = quikk.search(@order.quikk_request_id)
+      
+      if response["status"] == "SUCCESS"
+        @order.update!(
+          payment_status: "paid",
+          status: "confirmed",
+          mpesa_receipt: response["mpesa_receipt"],
+          payment_completed_at: Time.current
+        )
+      elsif response["status"] == "FAILED"
+        @order.update!(payment_status: "failed")
+      elsif @order.payment_status == "started"
+        @order.update!(payment_status: "timed_out")
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { status: @order.payment_status, payment_status: @payment&.status } }
+    end
   end
 
   def confirmation
@@ -66,6 +101,50 @@ class CheckoutsController < ApplicationController
   end
 
   private
+
+  def initiate_mpesa_payment
+    phone = params[:mpesa_phone]
+    if phone.blank?
+      return redirect_to payment_checkout_path, alert: "Please provide an M-Pesa phone number."
+    end
+
+    # Create payment transaction
+    payment = @order.payment_transactions.create!(
+      transaction_type: "stk_push",
+      status: "started",
+      amount: @order.total,
+      phone_number: phone
+    )
+
+    quikk = Quikk::Client.new
+    response = quikk.charge(
+      amount: @order.total,
+      phone_number: phone,
+      reference: "ORDER-#{@order.id}",
+      description: "Payment for Order #{@order.order_number}"
+    )
+
+    if response["request_id"]
+      payment.update!(
+        status: "pending",
+        external_reference: response["request_id"],
+        raw_response: response
+      )
+      @order.update!(
+        payment_method: "mpesa",
+        payment_status: "started",
+        payment_initiated_at: Time.current,
+        quikk_request_id: response["request_id"]
+      )
+      redirect_to mpesa_status_checkout_path(id: @order.id)
+    else
+      payment.update!(status: "failed", raw_response: response, error_message: response["error"] || response["message"])
+      redirect_to payment_checkout_path, alert: "M-Pesa payment failed to initiate: #{response['message'] || 'Unknown error'}"
+    end
+  rescue => e
+    Rails.logger.error("M-Pesa Initiation Error: #{e.message}")
+    redirect_to payment_checkout_path, alert: "An error occurred while initiating M-Pesa payment."
+  end
 
   def checkout_params
     params.require(:order).permit(

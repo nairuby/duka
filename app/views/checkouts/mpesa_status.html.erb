@@ -1,0 +1,46 @@
+<%= render 'shared/navbar' %>
+
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8" 
+     data-controller="mpesa-polling" 
+     data-mpesa-polling-url-value="<%= mpesa_status_checkout_path(id: @order.id, format: :json) %>"
+     data-mpesa-polling-redirect-url-value="<%= order_confirmation_path(@order) %>">
+  
+  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-8 text-center">
+    <div class="mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+        <i class="fas fa-mobile-alt text-3xl text-green-600"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900">M-Pesa Payment</h2>
+      <p class="text-gray-600 mt-2">Order #<%= @order.order_number %></p>
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 text-left">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <i class="fas fa-info-circle text-blue-400"></i>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              An STK Push has been sent to <strong><%= @payment&.phone_number || @order.phone %></strong>. 
+              Please enter your M-Pesa PIN on your phone to complete the payment.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <!-- Loading Indicator -->
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mb-4"></div>
+        <p class="text-sm text-gray-500" data-mpesa-polling-target="status">Waiting for payment confirmation...</p>
+        <p class="text-xs text-gray-400 mt-2">Estimated completion time: 60 seconds</p>
+      </div>
+
+      <div class="pt-6 border-t border-gray-100">
+        <%= link_to "Cancel and try another method", payment_checkout_path, class: "text-sm text-red-600 hover:text-red-700 font-medium" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/footer' %>

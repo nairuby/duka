@@ -12,8 +12,8 @@ class Avo::Resources::Product < Avo::BaseResource
     field :description, as: :textarea, rows: 4
     field :price, as: :number, required: true, min: 0, step: 0.01, sortable: true
     field :currency, as: :select,
-      options: { "USD" => "USD", "KES" => "KES", "EUR" => "EUR", "GBP" => "GBP" },
-      default: "USD",
+      options: { "KES" => "KES", "USD" => "USD", "EUR" => "EUR", "GBP" => "GBP" },
+      default: "KES",
       required: true
     field :category, as: :select,
       options: Product::CATEGORIES.map { |c| [ c, c ] }.to_h,

@@ -8,8 +8,7 @@
 #  external_reference :string
 #  phone_number       :string
 #  processed_at       :datetime
-#  request_payload    :text
-#  response_payload   :text
+#  raw_response       :jsonb
 #  status             :string           not null
 #  transaction_type   :string           not null
 #  created_at         :datetime         not null

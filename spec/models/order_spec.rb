@@ -6,6 +6,7 @@
 #  billing_address      :jsonb
 #  currency             :string           default("KES")
 #  email                :string
+#  mpesa_receipt        :string
 #  notes                :text
 #  order_number         :string
 #  payment_completed_at :datetime
@@ -28,6 +29,7 @@
 #  user_email           :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  quikk_request_id     :string
 #  user_id              :uuid
 #
 # Indexes
