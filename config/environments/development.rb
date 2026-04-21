@@ -78,4 +78,7 @@ Rails.application.configure do
 
   # Allows ngrok subdomains
   config.hosts << /.*\.ngrok-free\.app$/
+
+  # Allow cloudflare tunnels
+  config.hosts << /.*\.trycloudflare\.com$/
 end

@@ -1,5 +1,5 @@
 class CheckoutsController < ApplicationController
-  before_action :ensure_cart_not_empty, only: [ :new, :create ]
+  before_action :ensure_cart_not_empty, only: [:new, :create]
 
   def new
     @order = Order.new(
@@ -68,24 +68,28 @@ class CheckoutsController < ApplicationController
     @order = Order.find(params[:id])
     @payment = @order.payment_transactions.by_type("stk_push").recent.first
 
-    if params[:timeout] == "true" && @order.payment_status == "started"
-      # Trigger search API check
-      quikk = Quikk::Client.new
-      response = quikk.search(@order.quikk_request_id)
-      
-      if response["status"] == "SUCCESS"
-        @order.update!(
-          payment_status: "paid",
-          status: "confirmed",
-          mpesa_receipt: response["mpesa_receipt"],
-          payment_completed_at: Time.current
-        )
-      elsif response["status"] == "FAILED"
-        @order.update!(payment_status: "failed")
-      elsif @order.payment_status == "started"
-        @order.update!(payment_status: "timed_out")
-      end
-    end
+    # Commented out: search API timeout check (not configured yet)
+    # if params[:timeout] == "true" && @order.payment_status == "started"
+    #   # Trigger search API check
+    #   quikk = Quikk::Client.new
+    #   response = quikk.search(@order.quikk_request_id)
+    #   attributes = response.dig("data", "attributes") || {}
+    #   txn_status = response.dig("data", "attributes", "txn_status")
+    #   receipt = attributes("mpesa_receipt") || attributes("receipt")
+    #
+    #   if txn_status == "SUCCESS" || txn_status == "SUCCESSFUL"
+    #     @order.update!(
+    #       payment_status: "paid",
+    #       status: "confirmed",
+    #       mpesa_receipt: receipt,
+    #       payment_completed_at: Time.current
+    #     )
+    #   elsif txn_status == "FAILED"
+    #     @order.update!(payment_status: "failed")
+    #   else
+    #     @order.update!(payment_status: "timed_out")
+    #   end
+    # end
 
     respond_to do |format|
       format.html
@@ -95,7 +99,10 @@ class CheckoutsController < ApplicationController
 
   def confirmation
     @order = Order.find(params[:id])
-    clear_cart if @order.payment_status == "paid" || @order.payment_method == "cash_on_delivery"
+    # Clear cart for any terminal payment state, not just "paid"
+    if @order.payment_status == "paid" || @order.payment_method == "cash_on_delivery"
+      clear_cart
+    end
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: "Order not found."
   end
@@ -124,18 +131,20 @@ class CheckoutsController < ApplicationController
       description: "Payment for Order #{@order.order_number}"
     )
 
-    if response["request_id"]
+    request_id = response.dig("data", "id")
+    if request_id.present?
       payment.update!(
         status: "pending",
-        external_reference: response["request_id"],
+        external_reference: request_id,
         raw_response: response
       )
       @order.update!(
         payment_method: "mpesa",
         payment_status: "started",
         payment_initiated_at: Time.current,
-        quikk_request_id: response["request_id"]
+        quikk_request_id: request_id
       )
+      Mpesa::VerifyPaymentJob.perform_later(@order.id)
       redirect_to mpesa_status_checkout_path(id: @order.id)
     else
       payment.update!(status: "failed", raw_response: response, error_message: response["error"] || response["message"])

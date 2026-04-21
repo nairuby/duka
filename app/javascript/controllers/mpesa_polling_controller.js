@@ -22,7 +22,15 @@ export default class extends Controller {
       this.attempts++
       
       try {
-        const response = await fetch(this.urlValue)
+        const response = await fetch(this.urlValue, {
+          headers: { "Accept": "application/json" } // explicitly request json
+        })
+
+        if (!response.ok) {
+          console.error("Polling request failed:", response.status)
+          return // don't stop polling, just skip this attempt
+        }
+
         const data = await response.json()
 
         if (data.status === 'paid') {
@@ -32,19 +40,21 @@ export default class extends Controller {
           this.stopPolling()
           this.statusTarget.textContent = "Payment failed. Redirecting back..."
           setTimeout(() => {
-            window.location.href = '/checkout/payment?alert=Payment failed'
+            window.location.href = '/checkout/payment'
           }, 2000)
         } else if (this.attempts >= this.maxAttempts) {
           this.stopPolling()
           this.statusTarget.textContent = "Payment timed out. Running final check..."
-          // Final check
-          const finalResponse = await fetch(this.urlValue + "&timeout=true")
-          const finalData = await finalResponse.json()
-          if (finalData.status === 'paid') {
-            window.location.href = this.redirectUrlValue
-          } else {
-            this.statusTarget.textContent = "Payment timed out. Please try again or use another method."
-          }
+          
+          // Commented out because search API is not configured yet
+          // // Final check
+          // const finalResponse = await fetch(this.urlValue + "?timeout=true")
+          // const finalData = await finalResponse.json()
+          // if (finalData.status === 'paid') {
+          //   window.location.href = this.redirectUrlValue
+          // } else {
+          //   this.statusTarget.textContent = "Payment timed out. Please try again or use another method."
+          // }
         }
       } catch (error) {
         console.error("Polling error:", error)
