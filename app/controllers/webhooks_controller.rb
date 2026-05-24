@@ -24,12 +24,21 @@ class WebhooksController < ApplicationController
 
     request_id = payload.dig('data', 'id')
     attributes = payload.dig('data', 'attributes') || {}
-    txn_status = attributes['txn_status']
+    txn_status = attributes['txn_status'].to_s.upcase
+    resource_id = attributes['resource_id'].presence || attributes['txn_charge_id'].presence
+    response_id = attributes['response_id'].presence
 
-    order = Order.find_by(quikk_request_id: request_id)
+    # Callback id can be either Quikk request id or developer-provided id (e.g. ORDER-<uuid>)
+    candidate_ids = [request_id, resource_id, response_id].compact_blank
+    order = Order.where(quikk_request_id: candidate_ids).first
+
+    if order.nil? && request_id.to_s.start_with?("ORDER-")
+      possible_order_id = request_id.delete_prefix("ORDER-")
+      order = Order.find_by(id: possible_order_id)
+    end
 
     if order.nil?
-      Rails.logger.error("Order not found for Quikk request_id: #{request_id}")
+      Rails.logger.error("Order not found for Quikk callback ids: request_id=#{request_id}, resource_id=#{resource_id}, response_id=#{response_id}")
       return render json: { message: "Order not found" }, status: :not_found
     end
 
@@ -40,15 +49,15 @@ class WebhooksController < ApplicationController
 
       order.payment_transactions.create!(
         transaction_type: "callback",
-        status: txn_status == 'SUCCESS' ? 'success' : 'failed',
+        status: success_status?(txn_status, attributes) ? 'success' : 'failed',
         amount: attributes['amount'],
-        phone_number: attributes['customer_no'],
-        external_reference: request_id,
+        phone_number: attributes['customer_no'] || attributes['sender_no'],
+        external_reference: (resource_id || response_id || request_id),
         raw_response: payload,
-        error_message: attributes['message']
+        error_message: attributes['message'] || payload.dig("meta", "detail")
       )
 
-      if txn_status == 'SUCCESS'
+      if success_status?(txn_status, attributes)
         order.update!(
           payment_status: 'paid',
           status: 'confirmed',
@@ -61,5 +70,15 @@ class WebhooksController < ApplicationController
     end
 
     render json: { message: "OK" }, status: :ok
+  end
+
+  private
+
+  def success_status?(txn_status, attributes)
+    return true if %w[SUCCESS SUCCESSFUL COMPLETED PAID].include?(txn_status)
+    return false if %w[FAILED FAIL ERROR DECLINED CANCELLED CANCELED].include?(txn_status)
+
+    # Quikk payin callbacks may omit txn_status; txn_id generally indicates a settled success callback.
+    attributes["txn_id"].present?
   end
 end

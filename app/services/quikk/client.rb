@@ -1,4 +1,8 @@
 require "base64"
+require "net/http"
+require "openssl"
+require "json"
+require "time"
 
 module Quikk
   class Client
@@ -14,6 +18,7 @@ module Quikk
       payload = {
         data: {
           type: "charge",
+          id: reference,
           attributes: {
             amount: amount.to_i,
             customer_type: "msisdn",
@@ -47,10 +52,13 @@ module Quikk
       http.use_ssl = true
 
       request_date = Time.now.httpdate
-      request = Net::HTTP::Post.new(uri, build_headers(request_date))
-      request.body = payload.to_json
+      request_body = payload.to_json
+      headers = build_headers(request_date)
+      request = Net::HTTP::Post.new(uri, headers)
+      request.body = request_body
 
       Rails.logger.debug("Quikk POST #{uri} | Body: #{request.body}")
+      Rails.logger.debug("Quikk Headers | Date: #{headers['Date']} | Authorization: #{headers['Authorization']}")
       execute_with_retries { http.request(request) }
     end
 
@@ -60,14 +68,15 @@ module Quikk
       http.use_ssl = true
 
       request_date = Time.now.httpdate
-      request = Net::HTTP::Get.new(uri, build_headers(request_date))
+      headers = build_headers(request_date)
+      request = Net::HTTP::Get.new(uri, headers)
+      Rails.logger.debug("Quikk Headers | Date: #{headers['Date']} | Authorization: #{headers['Authorization']}")
 
       execute_with_retries { http.request(request) }
     end
 
     def build_headers(request_date)
-      x_custom = "custom" # Quikk expects this literal value
-
+      x_custom = "custom"
       {
         "Content-Type" => "application/vnd.api+json",
         "Accept" => "application/vnd.api+json",
@@ -78,13 +87,11 @@ module Quikk
     end
 
     def build_authorization(request_date, x_custom)
-      # Signing string must include BOTH headers, newline-separated
       signing_string = "date: #{request_date}\nx-custom: #{x_custom}"
 
       raw_signature = Base64.strict_encode64(
         OpenSSL::HMAC.digest("SHA256", @api_secret, signing_string)
       )
-
       url_encoded_signature = URI.encode_www_form_component(raw_signature)
 
       Rails.logger.debug("Quikk signing string: #{signing_string}")
