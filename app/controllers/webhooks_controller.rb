@@ -9,7 +9,7 @@ class WebhooksController < ApplicationController
     unless Rails.env.production?
       Rails.logger.info("Skipping Quikk Signature verification in #{Rails.env}")
     else
-      signature = request.headers['X-Quikk-Signature']
+      signature = request.headers["X-Quikk-Signature"]
       quikk_client = Quikk::Client.new
       unless quikk_client.verify_signature(body, signature)
         Rails.logger.warn("Invalid Quikk Signature from IP: #{request.remote_ip}")
@@ -22,14 +22,14 @@ class WebhooksController < ApplicationController
     # Log the full payload so we can see the structure
     Rails.logger.info("Quikk Webhook Payload: #{payload.inspect}")
 
-    request_id = payload.dig('data', 'id')
-    attributes = payload.dig('data', 'attributes') || {}
-    txn_status = attributes['txn_status'].to_s.upcase
-    resource_id = attributes['resource_id'].presence || attributes['txn_charge_id'].presence
-    response_id = attributes['response_id'].presence
+    request_id = payload.dig("data", "id")
+    attributes = payload.dig("data", "attributes") || {}
+    txn_status = attributes["txn_status"].to_s.upcase
+    resource_id = attributes["resource_id"].presence || attributes["txn_charge_id"].presence
+    response_id = attributes["response_id"].presence
 
     # Callback id can be either Quikk request id or developer-provided id (e.g. ORDER-<uuid>)
-    candidate_ids = [request_id, resource_id, response_id].compact_blank
+    candidate_ids = [ request_id, resource_id, response_id ].compact_blank
     order = Order.where(quikk_request_id: candidate_ids).first
 
     if order.nil? && request_id.to_s.start_with?("ORDER-")
@@ -42,30 +42,30 @@ class WebhooksController < ApplicationController
       return render json: { message: "Order not found" }, status: :not_found
     end
 
-    return render json: { message: "Already processed" }, status: :ok if order.payment_status == 'paid'
+    return render json: { message: "Already processed" }, status: :ok if order.payment_status == "paid"
 
     order.with_lock do
-      return render json: { message: "Already processed" }, status: :ok if order.payment_status == 'paid'
+      return render json: { message: "Already processed" }, status: :ok if order.payment_status == "paid"
 
       order.payment_transactions.create!(
         transaction_type: "callback",
-        status: success_status?(txn_status, attributes) ? 'success' : 'failed',
-        amount: attributes['amount'],
-        phone_number: attributes['customer_no'] || attributes['sender_no'],
+        status: success_status?(txn_status, attributes) ? "success" : "failed",
+        amount: attributes["amount"],
+        phone_number: attributes["customer_no"] || attributes["sender_no"],
         external_reference: (resource_id || response_id || request_id),
         raw_response: payload,
-        error_message: attributes['message'] || payload.dig("meta", "detail")
+        error_message: attributes["message"] || payload.dig("meta", "detail")
       )
 
       if success_status?(txn_status, attributes)
         order.update!(
-          payment_status: 'paid',
-          status: 'confirmed',
-          mpesa_receipt: attributes['mpesa_receipt'] || attributes['receipt'],
+          payment_status: "paid",
+          status: "confirmed",
+          mpesa_receipt: attributes["mpesa_receipt"] || attributes["receipt"],
           payment_completed_at: Time.current
         )
       else
-        order.update!(payment_status: 'failed')
+        order.update!(payment_status: "failed")
       end
     end
 

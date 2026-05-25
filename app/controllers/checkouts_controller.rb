@@ -1,5 +1,5 @@
 class CheckoutsController < ApplicationController
-  before_action :ensure_cart_not_empty, only: [:new, :create]
+  before_action :ensure_cart_not_empty, only: [ :new, :create ]
 
   def new
     @order = Order.new(
