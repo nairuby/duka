@@ -10,8 +10,8 @@ class HomeController < ApplicationController
     @featured_product = Product.first || Product.new(
       name: "Heritage Ruby Tee",
       description: "Limited Edition • African Inspired Design",
-      price: 29.00,
-      currency: "USD",
+      price: 3500.00,
+      currency: "KES",
       category: "Shirts"
     )
 

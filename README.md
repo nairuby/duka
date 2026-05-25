@@ -191,26 +191,38 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
-## 🔑 Environment Variables
+## 🔑 Configuration (Rails Credentials)
 
-Create a `.env` file in the root directory:
+This project uses **Rails encrypted credentials** for sensitive configuration (including Quikk API keys), not plain `.env` secrets.
 
-```env
-# Database
-DATABASE_URL=postgresql://localhost/duka_development
+### Edit development credentials
 
-# Rails
-RAILS_ENV=development
-SECRET_KEY_BASE=your_secret_key
-
-# Admin
-ADMIN_EMAIL=admin@arcduka.com
-ADMIN_PASSWORD=change_me_in_production
-
-# Payment (Optional - for production)
-STRIPE_PUBLISHABLE_KEY=your_key
-STRIPE_SECRET_KEY=your_secret
+```bash
+EDITOR="code --wait" rails credentials:edit --environment development
 ```
+
+Add:
+
+```yml
+quikk:
+  api_key: your_quikk_api_key
+  api_secret: your_quikk_api_secret
+  shortcode: "174379"
+```
+
+### Edit production credentials
+
+```bash
+EDITOR="code --wait" rails credentials:edit --environment production
+```
+
+Add the same `quikk` keys for production values.
+
+### Notes
+
+- Keep `config/master.key` private and never commit it.
+- `config/credentials/*.yml.enc` files are safe to commit.
+- Non-sensitive local settings (if any) can still go in `.env`.
 
 ---
 
@@ -286,8 +298,8 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 - **Issues:** [GitHub Issues](https://github.com/nairuby/duka/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/nairuby/duka/discussions)
-- **Community:** [Nairuby Meetup](https://www.meetup.com/nairuby/)
-- **Email:** info@nairuby.org
+- **Community:** [African Ruby Community](https://rubycommunity.africa/)
+- **Email:** organisers@rubyconf.africa
 
 ---
 

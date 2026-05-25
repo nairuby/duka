@@ -22,6 +22,12 @@ Rails.application.routes.draw do
     post :process_payment, on: :collection
   end
 
+  # For the Quikk Webhook (Push)
+  post "payments/callback", to: "webhooks#quikk"
+
+  # For the User-facing Status Page (Polling/ActionCable)
+  get "checkout/mpesa_status/:id", to: "checkouts#mpesa_status", as: :mpesa_status_checkout
+
   get "orders/:id/confirmation", to: "checkouts#confirmation", as: :order_confirmation
   resources :orders, only: [ :index, :show ]
 

@@ -30,7 +30,7 @@ gem "faraday", "~> 2.7"
 group :development, :test do
   gem "active_record_doctor"
   gem "debug", "~> 1.11", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "brakeman", "~> 7.1", require: false
+  gem "brakeman", "~> 8.0", require: false
   gem "rubocop-rails-omakase", "~> 1.1", require: false
   gem "rspec-rails", "~> 8.0", ">= 8.0.1"
 end

@@ -9,7 +9,7 @@ class Admin::ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    @product = Product.new(currency: "KES")
   end
 
   def create

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_120048) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_20_225436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -101,6 +101,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_120048) do
     t.datetime "created_at", null: false
     t.string "currency", default: "KES"
     t.string "email"
+    t.string "mpesa_receipt"
     t.text "notes"
     t.string "order_number"
     t.datetime "payment_completed_at"
@@ -110,6 +111,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_120048) do
     t.string "payment_status", default: "pending"
     t.datetime "payment_timeout_at"
     t.string "phone"
+    t.string "quikk_request_id"
     t.string "session_token"
     t.jsonb "shipping_address"
     t.string "shipping_city"
@@ -139,8 +141,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_120048) do
     t.uuid "order_id", null: false
     t.string "phone_number"
     t.datetime "processed_at"
-    t.text "request_payload"
-    t.text "response_payload"
+    t.jsonb "raw_response"
     t.string "status", null: false
     t.string "transaction_type", null: false
     t.datetime "updated_at", null: false

@@ -6,6 +6,7 @@
 #  billing_address      :jsonb
 #  currency             :string           default("KES")
 #  email                :string
+#  mpesa_receipt        :string
 #  notes                :text
 #  order_number         :string
 #  payment_completed_at :datetime
@@ -28,6 +29,7 @@
 #  user_email           :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  quikk_request_id     :string
 #  user_id              :uuid
 #
 # Indexes
@@ -50,8 +52,8 @@ class Order < ApplicationRecord
 
   # Status constants
   STATUSES = %w[pending confirmed processing shipped delivered cancelled].freeze
-  PAYMENT_STATUSES = %w[pending paid failed refunded].freeze
-  PAYMENT_METHODS = %w[card bank_transfer cash_on_delivery].freeze
+  PAYMENT_STATUSES = %w[pending paid failed refunded started timed_out].freeze
+  PAYMENT_METHODS = %w[card bank_transfer cash_on_delivery mpesa].freeze
 
   # Validations
   validates :order_number, presence: true, uniqueness: true
@@ -96,8 +98,8 @@ class Order < ApplicationRecord
       # Create order items from cart
       cart.items.each do |cart_item|
         # Convert product price to target currency
-        price_in_target_currency = CurrencyConverter.convert(cart_item.product.price, "USD", target_currency)
-        subtotal_in_target_currency = CurrencyConverter.convert(cart_item.subtotal, "USD", target_currency)
+        price_in_target_currency = CurrencyConverter.convert(cart_item.product.price, "KES", target_currency)
+        subtotal_in_target_currency = CurrencyConverter.convert(cart_item.subtotal, "KES", target_currency)
 
         order.order_items.build(
           product: cart_item.product,
@@ -111,7 +113,7 @@ class Order < ApplicationRecord
       end
 
       # Convert total to target currency
-      order.subtotal = CurrencyConverter.convert(cart.total, "USD", target_currency)
+      order.subtotal = CurrencyConverter.convert(cart.total, "KES", target_currency)
 
       # Shipping calculation (if strict 0.0, conversion is trivial, but good practice to handle)
       shipping_cost_value = calculate_shipping(order)
