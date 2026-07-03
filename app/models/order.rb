@@ -53,7 +53,7 @@ class Order < ApplicationRecord
   # Status constants
   STATUSES = %w[pending confirmed processing shipped delivered cancelled].freeze
   PAYMENT_STATUSES = %w[pending paid failed refunded started timed_out].freeze
-  PAYMENT_METHODS = %w[card bank_transfer cash_on_delivery mpesa].freeze
+  PAYMENT_METHODS = %w[card cash_on_delivery mpesa].freeze
 
   # Validations
   validates :order_number, presence: true, uniqueness: true
@@ -65,6 +65,7 @@ class Order < ApplicationRecord
   validates :subtotal, :total, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :shipping_cost, numericality: { greater_than_or_equal_to: 0 }
   validates :shipping_name, :shipping_address, :shipping_city, :shipping_country, presence: true
+  validate :payment_method_not_bank_transfer, on: :update
 
   # Callbacks
   before_validation :generate_order_number, on: :create
@@ -170,6 +171,12 @@ class Order < ApplicationRecord
   end
 
   private
+
+  def payment_method_not_bank_transfer
+    if payment_method == "bank_transfer"
+      errors.add(:payment_method, "Bank transfers are no longer supported")
+    end
+  end
 
   def generate_order_number
     self.order_number ||= "ORD-#{Time.current.strftime('%Y%m%d')}-#{SecureRandom.hex(4).upcase}"

@@ -1,5 +1,5 @@
 class CheckoutsController < ApplicationController
-  before_action :ensure_cart_not_empty, only: [ :new, :create ]
+  before_action :ensure_cart_not_empty, only: [:new, :create]
 
   def new
     @order = Order.new(
@@ -46,10 +46,10 @@ class CheckoutsController < ApplicationController
     when "card"
       # Redirect to card payment (Stripe/PayPal - to be implemented)
       redirect_to card_payment_path(@order), notice: "Redirecting to card payment..."
-    when "bank_transfer"
+    # when "bank_transfer"
       # Show bank transfer instructions
-      @order.update(payment_method: "bank_transfer")
-      redirect_to bank_transfer_instructions_path(@order)
+      # @order.update(payment_method: "bank_transfer")
+      # redirect_to bank_transfer_instructions_path(@order)
     when "cash_on_delivery"
       # Mark as cash on delivery
       @order.update(payment_method: "cash_on_delivery", status: "confirmed")
