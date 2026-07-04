@@ -19,7 +19,7 @@ RSpec.describe "Checkouts", type: :request do
 
   before do
     # Mock session
-    post "/checkouts", params: { order: { email: order.email } } # This is just to satisfy any session needs if they existed, but we'll manually set session in the test if needed. 
+    post "/checkouts", params: { order: { email: order.email } } # This is just to satisfy any session needs if they existed, but we'll manually set session in the test if needed.
     # Actually, we can just set the session directly in the request if using some gems, but in plain RSpec request specs we can't easily.
     # However, process_payment uses session[:pending_order_id]
   end
@@ -28,13 +28,13 @@ RSpec.describe "Checkouts", type: :request do
     it "enqueues a confirmation email for cash on delivery" do
       # We need to simulate the session. In request specs, we can use a workaround or just call the controller action if it was a controller spec.
       # Since it's a request spec, we'll try to set the session by visiting the payment page first if it sets it.
-      
-      # Let's try to bypass the session by mocking Order.find in the controller if possible, 
+
+      # Let's try to bypass the session by mocking Order.find in the controller if possible,
       # but request specs should be end-to-end.
-      
+
       # Another way:
       allow_any_instance_of(CheckoutsController).to receive(:session).and_return({ pending_order_id: order.id })
-      
+
       ActiveJob::Base.queue_adapter = :test
       expect {
         post "/checkout/process_payment", params: { payment_method: "cash_on_delivery" }
