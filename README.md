@@ -36,7 +36,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 - **JavaScript:** Hotwire (Turbo + Stimulus)
 - **Admin Panel:** Avo 3.0
 - **Authentication:** Devise
-- **Payment Ready:** Stripe, Paystack integration points
+- **Payment Ready:** Stripe, Paystack integration points [Tentative]
 - **Deployment:** Kamal 2.0
 
 ---
@@ -45,11 +45,11 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 
 ### Prerequisites
 
-- Ruby 3.4.7+
+- Ruby 4.0.0+
 - Rails 8.1+
 - PostgreSQL 14+
 - Node.js 18+
-- Yarn or npm
+- Yarn or pnpm
 
 ### Option 1: Local Setup
 
