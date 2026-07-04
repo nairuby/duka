@@ -48,5 +48,36 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#mark_as_paid!" do
+    let(:order) do
+      Order.create!(
+        email: "customer@example.com",
+        phone: "0712345678",
+        shipping_name: "Jane Doe",
+        shipping_address: "123 Street",
+        shipping_city: "Nairobi",
+        shipping_postal_code: "00100",
+        shipping_country: "Kenya",
+        subtotal: 1000,
+        total: 1000,
+        status: "pending",
+        payment_status: "pending"
+      )
+    end
+
+    it "updates status to confirmed and payment_status to paid" do
+      order.mark_as_paid!("REF123")
+      expect(order.status).to eq("confirmed")
+      expect(order.payment_status).to eq("paid")
+      expect(order.mpesa_receipt).to eq("REF123")
+      expect(order.payment_completed_at).to be_present
+    end
+
+    it "enqueues a confirmation email" do
+      ActiveJob::Base.queue_adapter = :test
+      expect {
+        order.mark_as_paid!("REF123")
+      }.to have_enqueued_mail(OrderMailer, :confirmation).with(order)
+    end
+  end
 end

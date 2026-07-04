@@ -92,6 +92,7 @@ class Order < ApplicationRecord
         shipping_country: checkout_params[:shipping_country] || (Current.country_code == "KE" ? "Kenya" : "Kenya"), # Defaulting to Kenya as requested
         notes: checkout_params[:notes],
         currency: target_currency,
+        session_token: cart.session_id,
         status: "pending",
         payment_status: "pending"
       )
@@ -147,9 +148,13 @@ class Order < ApplicationRecord
   def mark_as_paid!(payment_ref = nil)
     update!(
       payment_status: "paid",
+      mpesa_receipt: payment_ref, # Assuming payment_ref is the receipt for mpesa
       payment_reference: payment_ref,
-      status: "confirmed"
+      status: "confirmed",
+      payment_completed_at: Time.current
     )
+    CartService.new(session_token).clear if session_token.present?
+    OrderMailer.confirmation(self).deliver_later
   end
 
   def mark_as_failed!

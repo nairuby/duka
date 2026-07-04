@@ -53,6 +53,7 @@ class CheckoutsController < ApplicationController
     when "cash_on_delivery"
       # Mark as cash on delivery
       @order.update(payment_method: "cash_on_delivery", status: "confirmed")
+      OrderMailer.confirmation(@order).deliver_later
       clear_cart
       redirect_to order_confirmation_path(@order), notice: "Order confirmed! Pay on delivery."
     when "mpesa"
@@ -175,7 +176,8 @@ class CheckoutsController < ApplicationController
   end
 
   def clear_cart
-    session.delete(:cart)
+    current_cart.clear
+    session.delete(:cart_id)
     session.delete(:pending_order_id)
   end
 end

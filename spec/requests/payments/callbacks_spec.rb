@@ -44,8 +44,11 @@ RSpec.describe "Payments::Callbacks", type: :request do
     let(:body) { payload.to_json }
     let(:signature) { OpenSSL::HMAC.hexdigest('SHA256', api_secret, body) }
 
-    it "updates the order and payment transaction on success" do
-      post "/payments/callback", params: body, headers: { 'X-Quikk-Signature' => signature, 'CONTENT_TYPE' => 'application/json' }
+    it "updates the order and payment transaction on success and enqueues confirmation email" do
+      ActiveJob::Base.queue_adapter = :test
+      expect {
+        post "/payments/callback", params: body, headers: { 'X-Quikk-Signature' => signature, 'CONTENT_TYPE' => 'application/json' }
+      }.to have_enqueued_mail(OrderMailer, :confirmation)
 
       expect(response).to have_http_status(:ok)
       order.reload

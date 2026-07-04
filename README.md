@@ -191,6 +191,64 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
+I'd add this immediately after the **Rails Credentials** section (or as a new subsection within it), since it's part of the payment gateway setup.
+
+---
+
+### Payment Callback (Sandbox Testing)
+
+When testing payments locally, Quikk must be able to reach your application's callback endpoint. Since `localhost` is not publicly accessible, expose your local Rails server using a tunnel such as Cloudflare Tunnel.
+
+For example:
+
+```bash
+cloudflared tunnel --url http://localhost:3000
+```
+
+This will provide a public URL similar to:
+
+```text
+https://wallpaper-plus-get-glass.trycloudflare.com
+```
+
+Configure the following callback URL in your **Quikk Sandbox** dashboard:
+
+```text
+https://wallpaper-plus-get-glass.trycloudflare.com/payments/callback
+```
+
+The callback endpoint used by this application is:
+
+```text
+/payments/callback
+```
+
+> **Note:** Every time you start a new temporary Cloudflare Tunnel, the generated URL changes. Update the callback URL in the Quikk Sandbox dashboard accordingly, unless you are using a permanent tunnel or custom domain.
+
+### Quikk Sandbox API Keys
+
+Quikk uses separate API credentials for **Sandbox** and **Production**.
+
+When setting up the project for development:
+
+1. Create a new **Sandbox** application in Quikk.
+2. Generate fresh Sandbox API keys.
+3. Add them to your development Rails credentials.
+
+```yaml
+quikk:
+  api_key: your_sandbox_api_key
+  api_secret: your_sandbox_api_secret
+  shortcode: "174379"
+```
+
+> **Important:** Quikk Sandbox API keys expire relatively quickly. If authentication suddenly begins failing, generate a new set of Sandbox API keys and update your Rails credentials.
+
+For production deployments, use a separate set of **Production** API keys in `config/credentials/production.yml.enc`.
+
+
+---
+
 ## 🔑 Configuration (Rails Credentials)
 
 This project uses **Rails encrypted credentials** for sensitive configuration (including Quikk API keys), not plain `.env` secrets.
@@ -201,22 +259,6 @@ This project uses **Rails encrypted credentials** for sensitive configuration (i
 EDITOR="code --wait" rails credentials:edit --environment development
 ```
 
-Add:
-
-```yml
-quikk:
-  api_key: your_quikk_api_key
-  api_secret: your_quikk_api_secret
-  shortcode: "174379"
-```
-
-### Edit production credentials
-
-```bash
-EDITOR="code --wait" rails credentials:edit --environment production
-```
-
-Add the same `quikk` keys for production values.
 
 ### Notes
 

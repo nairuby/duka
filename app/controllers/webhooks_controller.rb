@@ -58,12 +58,7 @@ class WebhooksController < ApplicationController
       )
 
       if success_status?(txn_status, attributes)
-        order.update!(
-          payment_status: "paid",
-          status: "confirmed",
-          mpesa_receipt: attributes["mpesa_receipt"] || attributes["receipt"],
-          payment_completed_at: Time.current
-        )
+        order.mark_as_paid!(attributes["mpesa_receipt"] || attributes["receipt"])
       else
         order.update!(payment_status: "failed")
       end
