@@ -37,7 +37,7 @@
 
               <!-- Bank Transfer -->
               <!-- Bank Transfer -->
-              <label class="block cursor-pointer opacity-50">
+              <label class="block cursor-pointer opacity-50" style="display: none;">
                 <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md pointer-events-none">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
@@ -55,7 +55,7 @@
               </label>
 
               <!-- Cash on Delivery -->
-              <label class="block cursor-pointer">
+              <label class="block cursor-pointer" style="display: none;">
                 <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-red-500 transition-all duration-200 hover:shadow-md">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
@@ -67,7 +67,7 @@
                         <p class="text-sm text-gray-600">Pay when you receive your order</p>
                       </div>
                     </div>
-                    <%= f.radio_button :payment_method, 'cash_on_delivery', class: "w-5 h-5 text-red-600 focus:ring-red-500", 
+                    <%= f.radio_button :payment_method, 'cash_on_delivery', class: "w-5 h-5 text-red-600 focus:ring-red-500",
                         data: { action: "change->payment-method#togglePhone" } %>
                   </div>
                 </div>
