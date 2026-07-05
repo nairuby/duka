@@ -80,4 +80,68 @@ RSpec.describe Order, type: :model do
       }.to have_enqueued_mail(OrderMailer, :confirmation).with(order)
     end
   end
+
+  describe "#confirm!" do
+    let(:order) do
+      Order.create!(
+        email: "customer@example.com",
+        phone: "0712345678",
+        shipping_name: "Jane Doe",
+        shipping_address: "123 Street",
+        shipping_city: "Nairobi",
+        shipping_postal_code: "00100",
+        shipping_country: "Kenya",
+        subtotal: 1000,
+        total: 1000,
+        status: "pending",
+        payment_status: "pending"
+      )
+    end
+
+    it "updates status to confirmed and sets payment_completed_at" do
+      order.confirm!
+      expect(order.status).to eq("confirmed")
+      expect(order.payment_completed_at).to be_present
+    end
+
+    it "enqueues a confirmation email" do
+      ActiveJob::Base.queue_adapter = :test
+      expect {
+        order.confirm!
+      }.to have_enqueued_mail(OrderMailer, :confirmation).with(order)
+    end
+  end
+
+  describe "payment method validation" do
+    it "prevents new bank_transfer orders" do
+      order = Order.new(payment_method: "bank_transfer")
+      order.valid?(:create)
+      expect(order.errors[:payment_method]).to include("Bank transfers are no longer supported")
+    end
+
+    it "allows existing bank_transfer orders to be saved" do
+      # Bypass validation for creation to simulate existing record
+      order = Order.new(
+        email: "customer@example.com",
+        phone: "0712345678",
+        shipping_name: "Jane Doe",
+        shipping_address: "123 Street",
+        shipping_city: "Nairobi",
+        shipping_postal_code: "00100",
+        shipping_country: "Kenya",
+        subtotal: 1000,
+        total: 1000,
+        status: "pending",
+        payment_status: "pending",
+        payment_method: "bank_transfer"
+      )
+      # Trigger order number generation which normally happens on create
+      order.valid? 
+      order.save!(validate: false)
+
+      order.status = "confirmed"
+      expect(order.save).to be_truthy
+      expect(order.reload.status).to eq("confirmed")
+    end
+  end
 end

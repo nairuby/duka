@@ -53,7 +53,7 @@ class Order < ApplicationRecord
   # Status constants
   STATUSES = %w[pending confirmed processing shipped delivered cancelled].freeze
   PAYMENT_STATUSES = %w[pending paid failed refunded started timed_out].freeze
-  PAYMENT_METHODS = %w[card cash_on_delivery mpesa].freeze
+  PAYMENT_METHODS = %w[card cash_on_delivery mpesa bank_transfer].freeze
 
   # Validations
   validates :order_number, presence: true, uniqueness: true
@@ -65,7 +65,7 @@ class Order < ApplicationRecord
   validates :subtotal, :total, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :shipping_cost, numericality: { greater_than_or_equal_to: 0 }
   validates :shipping_name, :shipping_address, :shipping_city, :shipping_country, presence: true
-  validate :payment_method_not_bank_transfer, on: :update
+  validate :payment_method_not_bank_transfer, on: :create
 
   # Callbacks
   before_validation :generate_order_number, on: :create
@@ -149,7 +149,13 @@ class Order < ApplicationRecord
     update!(
       payment_status: "paid",
       mpesa_receipt: payment_ref, # Assuming payment_ref is the receipt for mpesa
-      payment_reference: payment_ref,
+      payment_reference: payment_ref
+    )
+    confirm!
+  end
+
+  def confirm!
+    update!(
       status: "confirmed",
       payment_completed_at: Time.current
     )

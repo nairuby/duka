@@ -38,8 +38,8 @@ class PaymentTransaction < ApplicationRecord
   # Validations
   validates :transaction_type, inclusion: { in: TRANSACTION_TYPES }
   validates :status, inclusion: { in: STATUSES }
-  validates :amount, presence: true, numericality: { greater_than: 0 }
-  validates :phone_number, presence: true, format: { with: /\A\+254\d{9}\z/, message: "must be a valid Kenyan phone number" }
+  validates :amount, presence: true, numericality: { greater_than: 0 }, if: :stk_push?
+  validates :phone_number, presence: true, format: { with: /\A\+254\d{9}\z/, message: "must be a valid Kenyan phone number" }, if: :stk_push?
 
   # Scopes
   scope :by_type, ->(type) { where(transaction_type: type) }
@@ -74,19 +74,7 @@ class PaymentTransaction < ApplicationRecord
   private
 
   def normalize_phone_number
-    return if phone_number.blank?
-
-    # Remove non-digits
-    normalized = phone_number.gsub(/\D/, "")
-
-    # Handle 07... and 01... formats
-    normalized.gsub!(/^0/, "254")
-
-    # Ensure it starts with 254
-    normalized = "254#{normalized}" unless normalized.start_with?("254")
-
-    # Prepend +
-    self.phone_number = "+#{normalized}"
+    self.phone_number = PhoneNormalizer.normalize(phone_number, with_plus: true)
   end
 
   def set_processed_at

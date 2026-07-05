@@ -50,6 +50,8 @@ module Quikk
       uri = URI.parse("#{BASE_URL}#{path}")
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
+      http.open_timeout = 10
+      http.read_timeout = 15
 
       request_date = Time.now.httpdate
       request_body = payload.to_json
@@ -66,6 +68,8 @@ module Quikk
       uri = URI.parse("#{BASE_URL}#{path}")
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
+      http.open_timeout = 10
+      http.read_timeout = 15
 
       request_date = Time.now.httpdate
       headers = build_headers(request_date)
@@ -102,14 +106,7 @@ module Quikk
     end
 
     def format_phone(phone)
-      digits = phone.to_s.gsub(/\D/, "")
-      if digits.start_with?("0")
-        digits.sub(/^0/, "254")
-      elsif digits.start_with?("254")
-        digits
-      else
-        "254#{digits}"
-      end
+      PhoneNormalizer.normalize(phone, with_plus: false)
     end
 
     def execute_with_retries(max_retries = 3)

@@ -13,7 +13,7 @@ class Avo::Resources::PaymentTransaction < Avo::BaseResource
     field :external_reference, as: :text
     field :amount, as: :number
     field :phone_number, as: :text
-    field :request_payload, as: :textarea
+    field :raw_response, as: :code, language: "json"
     field :response_payload, as: :textarea
     field :processed_at, as: :date_time
     field :error_message, as: :textarea
