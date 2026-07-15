@@ -4,7 +4,7 @@ module Mpesa
 
     def perform(order_id, phone)
       order = Order.find(order_id)
-      
+
       # Create payment transaction
       payment = order.payment_transactions.create!(
         transaction_type: "stk_push",

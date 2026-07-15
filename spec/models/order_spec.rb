@@ -136,7 +136,7 @@ RSpec.describe Order, type: :model do
         payment_method: "bank_transfer"
       )
       # Trigger order number generation which normally happens on create
-      order.valid? 
+      order.valid?
       order.save!(validate: false)
 
       order.status = "confirmed"

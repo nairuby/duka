@@ -3,7 +3,7 @@ module PhoneNormalizer
     return nil if phone.blank?
 
     digits = phone.to_s.gsub(/\D/, "")
-    
+
     # Handle 0... format
     if digits.start_with?("0")
       digits = "254#{digits[1..]}"
