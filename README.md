@@ -12,7 +12,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 - 🛒 Browse products by category (Shirts, Hoodies, Mugs, Accessories, etc.)
 - 🎨 Product variants (sizes, colors) with stock tracking
 - 🛍️ Real-time shopping cart with instant updates
-- 💳 Multiple payment methods (M-Pesa, Card, Bank Transfer, Cash on Delivery)
+- 💳 Multiple payment methods (Card, Bank Transfer, Cash on Delivery)
 - 📱 Fully responsive mobile-first design
 - 🔐 Secure checkout with guest and authenticated options
 - 📧 Order confirmation and tracking
@@ -36,7 +36,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 - **JavaScript:** Hotwire (Turbo + Stimulus)
 - **Admin Panel:** Avo 3.0
 - **Authentication:** Devise
-- **Payment Ready:** M-Pesa, Stripe, Paystack integration points
+- **Payment Ready:** Stripe, Paystack integration points [Tentative]
 - **Deployment:** Kamal 2.0
 
 ---
@@ -45,11 +45,11 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 
 ### Prerequisites
 
-- Ruby 3.4.7+
+- Ruby 4.0.0+
 - Rails 8.1+
 - PostgreSQL 14+
 - Node.js 18+
-- Yarn or npm
+- Yarn or pnpm
 
 ### Option 1: Local Setup
 
@@ -191,28 +191,80 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
-## 🔑 Environment Variables
+I'd add this immediately after the **Rails Credentials** section (or as a new subsection within it), since it's part of the payment gateway setup.
 
-Create a `.env` file in the root directory:
+---
 
-```env
-# Database
-DATABASE_URL=postgresql://localhost/duka_development
+### Payment Callback (Sandbox Testing)
 
-# Rails
-RAILS_ENV=development
-SECRET_KEY_BASE=your_secret_key
+When testing payments locally, Quikk must be able to reach your application's callback endpoint. Since `localhost` is not publicly accessible, expose your local Rails server using a tunnel such as Cloudflare Tunnel.
 
-# Admin
-ADMIN_EMAIL=admin@arcduka.com
-ADMIN_PASSWORD=change_me_in_production
+For example:
 
-# Payment (Optional - for production)
-MPESA_CONSUMER_KEY=your_key
-MPESA_CONSUMER_SECRET=your_secret
-STRIPE_PUBLISHABLE_KEY=your_key
-STRIPE_SECRET_KEY=your_secret
+```bash
+cloudflared tunnel --url http://localhost:3000
 ```
+
+This will provide a public URL similar to:
+
+```text
+https://wallpaper-plus-get-glass.trycloudflare.com
+```
+
+Configure the following callback URL in your **Quikk Sandbox** dashboard:
+
+```text
+https://wallpaper-plus-get-glass.trycloudflare.com/payments/callback
+```
+
+The callback endpoint used by this application is:
+
+```text
+/payments/callback
+```
+
+> **Note:** Every time you start a new temporary Cloudflare Tunnel, the generated URL changes. Update the callback URL in the Quikk Sandbox dashboard accordingly, unless you are using a permanent tunnel or custom domain.
+
+### Quikk Sandbox API Keys
+
+Quikk uses separate API credentials for **Sandbox** and **Production**.
+
+When setting up the project for development:
+
+1. Create a new **Sandbox** application in Quikk.
+2. Generate fresh Sandbox API keys.
+3. Add them to your development Rails credentials.
+
+```yaml
+quikk:
+  api_key: your_sandbox_api_key
+  api_secret: your_sandbox_api_secret
+  shortcode: "174379"
+```
+
+> **Important:** Quikk Sandbox API keys expire relatively quickly. If authentication suddenly begins failing, generate a new set of Sandbox API keys and update your Rails credentials.
+
+For production deployments, use a separate set of **Production** API keys in `config/credentials/production.yml.enc`.
+
+
+---
+
+## 🔑 Configuration (Rails Credentials)
+
+This project uses **Rails encrypted credentials** for sensitive configuration (including Quikk API keys), not plain `.env` secrets.
+
+### Edit development credentials
+
+```bash
+EDITOR="code --wait" rails credentials:edit --environment development
+```
+
+
+### Notes
+
+- Keep `config/master.key` private and never commit it.
+- `config/credentials/*.yml.enc` files are safe to commit.
+- Non-sensitive local settings (if any) can still go in `.env`.
 
 ---
 
@@ -246,7 +298,7 @@ See deployment documentation for detailed instructions.
 ### Checkout Flow
 1. Add items to cart
 2. Enter shipping information
-3. Select payment method (M-Pesa, Card, Bank Transfer, COD)
+3. Select payment method (Card, Bank Transfer, COD)
 4. Confirm order
 5. Receive confirmation email
 
@@ -288,8 +340,8 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 - **Issues:** [GitHub Issues](https://github.com/nairuby/duka/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/nairuby/duka/discussions)
-- **Community:** [Nairuby Meetup](https://www.meetup.com/nairuby/)
-- **Email:** info@nairuby.org
+- **Community:** [African Ruby Community](https://rubycommunity.africa/)
+- **Email:** organisers@rubyconf.africa
 
 ---
 

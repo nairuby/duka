@@ -22,6 +22,14 @@ Rails.application.configure do
   # Configure public file server for tests with cache-control for performance.
   config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
 
+  # Avoid requiring encrypted credentials during test boot.
+  config.secret_key_base = "test-secret-key-base"
+  # config.credentials.content_path = Rails.root.join("config/credentials/development.yml.enc")
+  # config.credentials.key_path = Rails.root.join("config/credentials/development.key")
+  config.active_record.encryption.primary_key = "test-primary-key-32-chars-minimum!!"
+  config.active_record.encryption.deterministic_key = "test-deterministic-key-32-char!!"
+  config.active_record.encryption.key_derivation_salt = "test-key-derivation-salt"
+
   # Show full error reports.
   config.consider_all_requests_local = true
   config.cache_store = :null_store

@@ -13,7 +13,7 @@ The checkout system is a flexible, payment-agnostic architecture designed for th
 - `user_id`: Optional - supports guest checkout
 - `email`, `phone`: Contact information
 - `status`: Order lifecycle (pending, confirmed, processing, shipped, delivered, cancelled)
-- `payment_method`: mpesa, card, bank_transfer, cash_on_delivery
+- `payment_method`: card, bank_transfer, cash_on_delivery
 - `payment_status`: pending, paid, failed, refunded
 - `payment_reference`: External payment reference
 - `subtotal`, `shipping_cost`, `total`: Pricing
@@ -99,10 +99,9 @@ pending → paid
 
 #### Payment Selection (`app/views/checkouts/payment.html.erb`)
 **Payment Methods:**
-1. **M-Pesa** - Mobile money (most popular in Kenya)
-2. **Card Payment** - Visa/Mastercard
-3. **Bank Transfer** - Direct bank transfer
-4. **Cash on Delivery** - Pay when receiving order
+#### 1. Card Payment - Visa/Mastercard
+2. **Bank Transfer** - Direct bank transfer
+3. **Cash on Delivery** - Pay when receiving order
 
 **Features:**
 - Visual payment method cards
@@ -136,19 +135,211 @@ Located in: `Order.calculate_shipping(order)`
 
 The system is designed to easily integrate with:
 
-#### 1. M-Pesa (Recommended for Kenya)
-**Popular Options:**
-- **Safaricom Daraja API** (Official)
-- **Flutterwave** (Aggregator)
-- **Paystack** (Aggregator)
+### Quikk Webhook Callback (Tunnel Testing)
 
-**Integration Point:**
-- Add M-Pesa controller/service
-- Update `process_payment` action
-- Handle STK Push callback
-- Mark order as paid on success
+For local testing via Cloudflare Tunnel, set Quikk callback/webhook URL to your public tunnel domain plus the Rails webhook path:
 
-#### 2. Card Payments
+`https://<your-tunnel-domain>/payments/callback`
+
+Example used in this project:
+
+`https://cab-bool-wmam-furnished.trycloudflare.com/payments/callback`
+
+Route reference:
+- `POST /payments/callback` → `webhooks#quikk` (`config/routes.rb`)
+
+Quikk API docs:
+- https://app.swaggerhub.com/apis/zegetech/Handaki/1.0#/
+
+### Quikk Integration Playbook (Reusable Across Apps)
+
+Use this section as the standard implementation blueprint for other ecommerce apps and fintech solutions.
+
+#### 1. Required Routes
+
+Add a webhook callback endpoint:
+
+```ruby
+post "payments/callback", to: "webhooks#quikk"
+```
+
+Add a payment status polling endpoint for customer UI:
+
+```ruby
+get "checkout/mpesa_status/:id", to: "checkouts#mpesa_status", as: :mpesa_status_checkout
+```
+
+#### 2. Required Order Fields
+
+Your order/payment aggregate should have:
+- `payment_method`
+- `payment_status` (`pending`, `started`, `paid`, `failed`, etc.)
+- `quikk_request_id`
+- `payment_initiated_at`
+- `payment_completed_at`
+- `mpesa_receipt` (optional but useful)
+
+#### 3. Outbound Charge Request (Quikk Client)
+
+Current working request shape:
+
+```json
+{
+  "data": {
+    "type": "charge",
+    "id": "ORDER-<order-id>",
+    "attributes": {
+      "amount": 1,
+      "customer_type": "msisdn",
+      "customer_no": "2547XXXXXXXX",
+      "short_code": "174379",
+      "reference": "ORDER-<order-id>",
+      "posted_at": "2026-05-24T02:00:22.566284Z"
+    }
+  }
+}
+```
+
+#### 4. Quikk HMAC Authentication (Working Profile)
+
+Headers used in this project:
+- `Date: <HTTP GMT date>`
+- `X-Custom: custom`
+- `Authorization: keyId="...",algorithm="hmac-sha256",headers="date x-custom",signature="..."`
+
+Signing string:
+
+```text
+date: <Date header value>
+x-custom: custom
+```
+
+Signature generation:
+- HMAC-SHA256 with API secret
+- Base64 encode raw digest
+- URL-encode base64 output before placing in `Authorization` header
+
+Implementation location:
+- `app/services/quikk/client.rb`
+
+#### 5. Webhook Parsing Rules (Important for Portability)
+
+Quikk callback payloads can vary by product flow. Do not assume only one identifier field.
+
+Always handle these IDs:
+- `data.id` (can be `ORDER-<order-id>` or provider-generated)
+- `attributes.txn_charge_id` (often matches your stored `quikk_request_id`)
+- `attributes.resource_id`
+- `attributes.response_id`
+
+Order lookup strategy:
+1. Try `quikk_request_id` using all non-empty callback IDs.
+2. If `data.id` starts with `ORDER-`, extract UUID and find by order id.
+
+Phone number mapping for callback transaction record:
+- `attributes.customer_no || attributes.sender_no`
+
+Status mapping strategy:
+- Success if `txn_status` in `SUCCESS|SUCCESSFUL|COMPLETED|PAID`
+- Failure if `txn_status` in `FAILED|FAIL|ERROR|DECLINED|CANCELLED|CANCELED`
+- Fallback: if `txn_status` missing and `txn_id` present, treat as success
+
+Implementation location:
+- `app/controllers/webhooks_controller.rb`
+
+#### 6. Customer Polling UX Pattern
+
+Polling endpoint should return JSON with order payment status:
+
+```json
+{ "status": "paid", "payment_status": "pending" }
+```
+
+Frontend behavior:
+- If `status == "paid"`: redirect to confirmation page
+- If `status == "failed"`: redirect to payment retry page
+- Else keep polling for a bounded period
+
+Implementation locations:
+- `app/controllers/checkouts_controller.rb` (`mpesa_status`)
+- `app/javascript/controllers/mpesa_polling_controller.js`
+
+#### 7. Environment Configuration Contract
+
+For each environment, define:
+- `quikk.api_key`
+- `quikk.api_secret`
+- `quikk.shortcode`
+
+Use test credentials with:
+- `https://tryapi.quikk.dev/v1`
+
+Use production credentials with:
+- `https://api.quikk.dev/v1`
+
+#### 8. Operations and Maintainability Standards (Open Source Friendly)
+
+Adopt these standards so teams can maintain this integration long-term:
+- Keep all provider-specific logic in `app/services/quikk/client.rb`.
+- Keep webhook normalization/mapping in one controller method.
+- Use clear logs with stable prefixes (`Quikk POST`, `Quikk Webhook Payload`, `Order not found...`).
+- Avoid hardcoding business behavior in JS; source truth remains server `payment_status`.
+- Add regression tests for:
+  - callback with `data.id = ORDER-<id>`
+  - callback with only `txn_charge_id`
+  - callback with missing `txn_status` but present `txn_id`
+  - callback idempotency (already paid order)
+
+#### 9. Copy-Paste Checklist for New Apps
+
+- [ ] Add routes for charge polling and callback webhook.
+- [ ] Add order/payment fields and indexes.
+- [ ] Copy Quikk client service (`client.rb`) and update credential source.
+- [ ] Copy webhook controller callback mapping logic.
+- [ ] Copy frontend polling controller and status page wiring.
+- [ ] Configure public callback URL in Quikk dashboard.
+- [ ] Test end-to-end with sandbox tunnel URL.
+- [ ] Validate idempotency and retry behavior.
+- [ ] Remove sensitive debug logging in production.
+
+### Incident Report: STK Wait Page Stuck After Successful Payment
+
+#### Summary
+
+The payment could complete on M-Pesa, but the user remained on the "Waiting for payment confirmation" page.
+
+#### Actual Cause
+
+- Quikk callback reached `POST /payments/callback`, but webhook processing crashed before updating `order.payment_status`.
+- Main crash: `success_status?` was called with the wrong number of arguments, causing an exception and transaction rollback.
+- Additional payload mapping mismatches:
+  - callback used `sender_no` while code expected `customer_no`
+  - callback identifiers varied (`data.id`, `txn_charge_id`, `resource_id`, `response_id`)
+  - some success callbacks had no `txn_status`, only `txn_id`
+
+#### Impact
+
+- Order stayed at `payment_status = started`
+- Polling endpoint never returned `paid`
+- Frontend polling controller never redirected to confirmation
+
+#### Fix Applied
+
+- Corrected `success_status?` call signature
+- Normalized callback ID lookup across `data.id`, `txn_charge_id`, `resource_id`, `response_id`, and `ORDER-<uuid>` fallback
+- Mapped phone field as `customer_no || sender_no`
+- Improved success/failure resolution:
+  - success for `SUCCESS|SUCCESSFUL|COMPLETED|PAID`
+  - failure for `FAILED|FAIL|ERROR|DECLINED|CANCELLED|CANCELED`
+  - fallback success when `txn_id` exists and `txn_status` is missing
+
+#### Prevention
+
+- Keep provider-specific callback normalization centralized in `WebhooksController`
+- Add regression tests for callback payload variants and idempotency
+- Keep temporary auth/debug logs only during troubleshooting
+
+#### 1. Card Payments
 **Options:**
 - **Stripe** (International)
 - **Paystack** (Africa-focused)
@@ -160,13 +351,13 @@ The system is designed to easily integrate with:
 - Redirect to payment page
 - Handle webhook callbacks
 
-#### 3. Bank Transfer
+#### 2. Bank Transfer
 **Current Flow:**
 - Shows bank details
 - Manual verification by admin
 - Admin marks as paid in Avo panel
 
-#### 4. Cash on Delivery
+#### 3. Cash on Delivery
 **Current Flow:**
 - Order confirmed immediately
 - Payment collected on delivery
@@ -214,40 +405,34 @@ The system supports guest checkout:
 
 ### Recommended Next Steps
 
-1. **M-Pesa Integration**
-   - Implement Daraja API or Flutterwave
-   - Add STK Push functionality
-   - Handle payment callbacks
-   - Send payment confirmations
-
-2. **Email Notifications**
+1. **Email Notifications**
    - Order confirmation emails
    - Shipping notifications
    - Payment receipts
    - Delivery confirmations
 
-3. **Order Tracking**
+2. **Order Tracking**
    - Tracking number integration
    - Status update notifications
    - Estimated delivery dates
 
-4. **Inventory Management**
+3. **Inventory Management**
    - Reduce stock on order confirmation
    - Restore stock on cancellation
    - Low stock alerts
 
-5. **Customer Account Features**
+4. **Customer Account Features**
    - Order history page
    - Saved addresses
    - Reorder functionality
    - Order cancellation requests
 
-6. **Advanced Shipping**
+5. **Advanced Shipping**
    - Multiple shipping methods
    - Real-time shipping quotes
    - Courier integration (DHL, Posta Kenya, etc.)
 
-7. **Payment Features**
+6. **Payment Features**
    - Partial payments
    - Payment plans
    - Refund processing
@@ -321,11 +506,6 @@ For questions or issues:
 3. Contact the development team
 
 ## Payment Provider Resources
-
-### M-Pesa
-- [Safaricom Daraja API](https://developer.safaricom.co.ke/)
-- [Flutterwave M-Pesa](https://developer.flutterwave.com/docs/mpesa)
-- [Paystack Mobile Money](https://paystack.com/docs/payments/mobile-money)
 
 ### Card Payments
 - [Stripe Documentation](https://stripe.com/docs)

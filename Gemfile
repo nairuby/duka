@@ -25,11 +25,12 @@ gem "thruster", "~> 0.1.15", require: false
 gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 gem "avo", "~> 3.27"
+gem "faraday", "~> 2.7"
 
 group :development, :test do
   gem "active_record_doctor"
   gem "debug", "~> 1.11", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "brakeman", "~> 7.1", require: false
+  gem "brakeman", "~> 8.0", require: false
   gem "rubocop-rails-omakase", "~> 1.1", require: false
   gem "rspec-rails", "~> 8.0", ">= 8.0.1"
 end
@@ -46,6 +47,7 @@ group :test do
   gem "capybara", "~> 3.40"
   gem "selenium-webdriver", "~> 4.34"
   gem "simplecov", require: false
+  gem "rantly", "~> 2.0"
 end
 
 gem "geocoder", "~> 1.8"

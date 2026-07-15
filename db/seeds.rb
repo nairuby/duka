@@ -17,6 +17,10 @@ end
 puts "\n" + "="*50 + "\n"
 
 # Clear existing data
+OrderItem.destroy_all
+CartItem.destroy_all
+PaymentTransaction.destroy_all
+Order.destroy_all
 Variant.destroy_all
 Product.destroy_all
 
@@ -25,8 +29,8 @@ products_data = [
   {
     name: "Premium Cotton T-Shirt",
     description: "A comfortable and stylish cotton t-shirt made from premium materials. Perfect for casual wear or layering. Features a classic fit with reinforced seams for durability.",
-    price: 29.99,
-    currency: "USD",
+    price: 3870,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/3B82F6/FFFFFF?text=Premium+T-Shirt",
     category: "Shirts",
     sizes: [ "XS", "S", "M", "L", "XL" ],
@@ -35,8 +39,8 @@ products_data = [
   {
     name: "Denim Jacket",
     description: "Classic denim jacket with a modern twist. Made from high-quality denim with a comfortable fit. Features multiple pockets and adjustable cuffs.",
-    price: 89.99,
-    currency: "USD",
+    price: 11600,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/1F2937/FFFFFF?text=Denim+Jacket",
     category: "Hoodies",
     sizes: [ "S", "M", "L", "XL" ],
@@ -45,8 +49,8 @@ products_data = [
   {
     name: "Ruby Coffee Mug",
     description: "Premium ceramic mug featuring the iconic Ruby logo. Perfect for your morning coffee or afternoon tea. Dishwasher and microwave safe.",
-    price: 18.99,
-    currency: "USD",
+    price: 2450,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Ruby+Mug",
     category: "Mugs",
     sizes: [ "Standard" ],
@@ -55,8 +59,8 @@ products_data = [
   {
     name: "Developer Hoodie",
     description: "Cozy hoodie with African-inspired patterns and Ruby community branding. Made from premium fleece for ultimate comfort during long coding sessions.",
-    price: 65.99,
-    currency: "USD",
+    price: 8500,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/7C3AED/FFFFFF?text=Dev+Hoodie",
     category: "Hoodies",
     sizes: [ "S", "M", "L", "XL", "XXL" ],
@@ -65,8 +69,8 @@ products_data = [
   {
     name: "Coding Notebook",
     description: "Professional notebook with grid pages perfect for sketching algorithms and taking notes. Features a durable cover with Ruby community branding.",
-    price: 15.99,
-    currency: "USD",
+    price: 2050,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/F59E0B/FFFFFF?text=Notebook",
     category: "Accessories",
     sizes: [ "A5" ],
@@ -75,8 +79,8 @@ products_data = [
   {
     name: "Tech Sticker Pack",
     description: "Collection of 20 high-quality vinyl stickers featuring Ruby gems, African patterns, and programming humor. Perfect for laptops and water bottles.",
-    price: 12.99,
-    currency: "USD",
+    price: 1650,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/10B981/FFFFFF?text=Stickers",
     category: "Stickers",
     sizes: [ "Pack" ],
@@ -85,8 +89,8 @@ products_data = [
   {
     name: "Wireless Mouse Pad",
     description: "Large gaming mouse pad with wireless charging zone. Features Ruby community artwork and provides smooth tracking for any mouse type.",
-    price: 34.99,
-    currency: "USD",
+    price: 4500,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/6366F1/FFFFFF?text=Mouse+Pad",
     category: "Accessories",
     sizes: [ "Large" ],
@@ -95,8 +99,8 @@ products_data = [
   {
     name: "Heritage Polo Shirt",
     description: "Elegant polo shirt combining modern style with traditional African patterns. Made from breathable cotton blend for comfort and durability.",
-    price: 45.99,
-    currency: "USD",
+    price: 5900,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/EC4899/FFFFFF?text=Polo+Shirt",
     category: "Shirts",
     sizes: [ "S", "M", "L", "XL" ],
@@ -105,8 +109,8 @@ products_data = [
   {
     name: "Insulated Water Bottle",
     description: "Double-wall insulated water bottle keeps drinks cold for 24 hours or hot for 12 hours. Features Ruby community logo and leak-proof design.",
-    price: 28.99,
-    currency: "USD",
+    price: 3750,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/059669/FFFFFF?text=Water+Bottle",
     category: "Mugs",
     sizes: [ "500ml" ],
@@ -115,8 +119,8 @@ products_data = [
   {
     name: "Laptop Sleeve",
     description: "Protective laptop sleeve with padding and African-inspired design. Fits most 13-15 inch laptops with additional pocket for accessories.",
-    price: 39.99,
-    currency: "USD",
+    price: 5150,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/B45309/FFFFFF?text=Laptop+Sleeve",
     category: "Bags",
     sizes: [ "13 inch", "15 inch" ],
@@ -125,8 +129,8 @@ products_data = [
   {
     name: "Ruby Gem Pin Set",
     description: "Collectible enamel pin set featuring different Ruby gems and African symbols. High-quality metal construction with secure backing.",
-    price: 22.99,
-    currency: "USD",
+    price: 2950,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Pin+Set",
     category: "Accessories",
     sizes: [ "Set of 5" ],
@@ -135,8 +139,8 @@ products_data = [
   {
     name: "Code & Coffee Tumbler",
     description: "Travel tumbler perfect for developers on the go. Features double-wall insulation and a spill-proof lid. Decorated with coding quotes.",
-    price: 24.99,
-    currency: "USD",
+    price: 3200,
+    currency: "KES",
     image_url: "https://via.placeholder.com/400x400/374151/FFFFFF?text=Tumbler",
     category: "Mugs",
     sizes: [ "16oz" ],

@@ -22,6 +22,12 @@ Rails.application.routes.draw do
     post :process_payment, on: :collection
   end
 
+  # For the Quikk Webhook (Push)
+  post "payments/callback", to: "webhooks#quikk"
+
+  # For the User-facing Status Page (Polling/ActionCable)
+  get "checkout/mpesa_status/:id", to: "checkouts#mpesa_status", as: :mpesa_status_checkout
+
   get "orders/:id/confirmation", to: "checkouts#confirmation", as: :order_confirmation
   resources :orders, only: [ :index, :show ]
 
@@ -45,8 +51,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
   root "home#index"

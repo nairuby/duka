@@ -16,8 +16,7 @@ module Duka
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.autoload_paths << Rails.root.join("app/services")
-    config.eager_load_paths << Rails.root.join("app/services")
+    config.paths.add "app/services", eager_load: true
 
     # Configuration for the application, engines, and railties goes here.
     #

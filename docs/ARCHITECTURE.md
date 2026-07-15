@@ -125,7 +125,7 @@ Order
 ├── email (string)
 ├── phone (string)
 ├── status (enum: pending, confirmed, processing, shipped, delivered, cancelled)
-├── payment_method (enum: mpesa, card, bank_transfer, cash_on_delivery)
+├── payment_method (enum: card, bank_transfer, cash_on_delivery)
 ├── payment_status (enum: pending, paid, failed, refunded)
 ├── subtotal (decimal)
 ├── shipping_cost (decimal)
@@ -520,7 +520,6 @@ add_index :cart_items, [:session_id, :product_id, :variant_id], unique: true
 DATABASE_URL
 SECRET_KEY_BASE
 RAILS_ENV
-MPESA_CONSUMER_KEY
 STRIPE_SECRET_KEY
 ```
 
@@ -533,7 +532,6 @@ STRIPE_SECRET_KEY
 ## Future Enhancements
 
 ### Planned Features
-- [ ] M-Pesa payment integration
 - [ ] Email notifications
 - [ ] Order tracking
 - [ ] Inventory management

@@ -6,11 +6,15 @@
 #  billing_address      :jsonb
 #  currency             :string           default("KES")
 #  email                :string
+#  mpesa_receipt        :string
 #  notes                :text
 #  order_number         :string
+#  payment_completed_at :datetime
+#  payment_initiated_at :datetime
 #  payment_method       :string
 #  payment_reference    :string
 #  payment_status       :string           default("pending")
+#  payment_timeout_at   :datetime
 #  phone                :string
 #  session_token        :string
 #  shipping_address     :jsonb
@@ -25,6 +29,7 @@
 #  user_email           :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  quikk_request_id     :string
 #  user_id              :uuid
 #
 # Indexes
@@ -43,11 +48,12 @@
 class Order < ApplicationRecord
   belongs_to :user, optional: true
   has_many :order_items, dependent: :destroy
+  has_many :payment_transactions, dependent: :destroy
 
   # Status constants
   STATUSES = %w[pending confirmed processing shipped delivered cancelled].freeze
-  PAYMENT_STATUSES = %w[pending paid failed refunded].freeze
-  PAYMENT_METHODS = %w[mpesa card bank_transfer cash_on_delivery].freeze
+  PAYMENT_STATUSES = %w[pending paid failed refunded started timed_out].freeze
+  PAYMENT_METHODS = %w[card cash_on_delivery mpesa bank_transfer].freeze
 
   # Validations
   validates :order_number, presence: true, uniqueness: true
@@ -59,6 +65,7 @@ class Order < ApplicationRecord
   validates :subtotal, :total, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :shipping_cost, numericality: { greater_than_or_equal_to: 0 }
   validates :shipping_name, :shipping_address, :shipping_city, :shipping_country, presence: true
+  validate :payment_method_not_bank_transfer, on: :create
 
   # Callbacks
   before_validation :generate_order_number, on: :create
@@ -85,6 +92,7 @@ class Order < ApplicationRecord
         shipping_country: checkout_params[:shipping_country] || (Current.country_code == "KE" ? "Kenya" : "Kenya"), # Defaulting to Kenya as requested
         notes: checkout_params[:notes],
         currency: target_currency,
+        session_token: cart.session_id,
         status: "pending",
         payment_status: "pending"
       )
@@ -92,8 +100,8 @@ class Order < ApplicationRecord
       # Create order items from cart
       cart.items.each do |cart_item|
         # Convert product price to target currency
-        price_in_target_currency = CurrencyConverter.convert(cart_item.product.price, "USD", target_currency)
-        subtotal_in_target_currency = CurrencyConverter.convert(cart_item.subtotal, "USD", target_currency)
+        price_in_target_currency = CurrencyConverter.convert(cart_item.product.price, "KES", target_currency)
+        subtotal_in_target_currency = CurrencyConverter.convert(cart_item.subtotal, "KES", target_currency)
 
         order.order_items.build(
           product: cart_item.product,
@@ -107,7 +115,7 @@ class Order < ApplicationRecord
       end
 
       # Convert total to target currency
-      order.subtotal = CurrencyConverter.convert(cart.total, "USD", target_currency)
+      order.subtotal = CurrencyConverter.convert(cart.total, "KES", target_currency)
 
       # Shipping calculation (if strict 0.0, conversion is trivial, but good practice to handle)
       shipping_cost_value = calculate_shipping(order)
@@ -140,9 +148,19 @@ class Order < ApplicationRecord
   def mark_as_paid!(payment_ref = nil)
     update!(
       payment_status: "paid",
-      payment_reference: payment_ref,
-      status: "confirmed"
+      mpesa_receipt: payment_ref, # Assuming payment_ref is the receipt for mpesa
+      payment_reference: payment_ref
     )
+    confirm!
+  end
+
+  def confirm!
+    update!(
+      status: "confirmed",
+      payment_completed_at: Time.current
+    )
+    CartService.new(session_token).clear if session_token.present?
+    OrderMailer.confirmation(self).deliver_later
   end
 
   def mark_as_failed!
@@ -159,7 +177,17 @@ class Order < ApplicationRecord
     update!(status: "cancelled")
   end
 
+  def can_retry_payment?
+    payment_status == "failed"
+  end
+
   private
+
+  def payment_method_not_bank_transfer
+    if payment_method == "bank_transfer"
+      errors.add(:payment_method, "Bank transfers are no longer supported")
+    end
+  end
 
   def generate_order_number
     self.order_number ||= "ORD-#{Time.current.strftime('%Y%m%d')}-#{SecureRandom.hex(4).upcase}"

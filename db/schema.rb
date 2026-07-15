@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_05_234917) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_20_225436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -101,12 +101,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_234917) do
     t.datetime "created_at", null: false
     t.string "currency", default: "KES"
     t.string "email"
+    t.string "mpesa_receipt"
     t.text "notes"
     t.string "order_number"
+    t.datetime "payment_completed_at"
+    t.datetime "payment_initiated_at"
     t.string "payment_method"
     t.string "payment_reference"
     t.string "payment_status", default: "pending"
+    t.datetime "payment_timeout_at"
     t.string "phone"
+    t.string "quikk_request_id"
     t.string "session_token"
     t.jsonb "shipping_address"
     t.string "shipping_city"
@@ -126,6 +131,26 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_234917) do
     t.index ["session_token"], name: "index_orders_on_session_token"
     t.index ["status"], name: "index_orders_on_status"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "payment_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.text "error_message"
+    t.string "external_reference"
+    t.uuid "order_id", null: false
+    t.string "phone_number"
+    t.datetime "processed_at"
+    t.jsonb "raw_response"
+    t.string "status", null: false
+    t.string "transaction_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_reference"], name: "index_payment_transactions_on_external_reference"
+    t.index ["order_id"], name: "index_payment_transactions_on_order_id"
+    t.index ["phone_number"], name: "index_payment_transactions_on_phone_number"
+    t.index ["processed_at"], name: "index_payment_transactions_on_processed_at"
+    t.index ["status"], name: "index_payment_transactions_on_status"
+    t.index ["transaction_type"], name: "index_payment_transactions_on_transaction_type"
   end
 
   create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -185,5 +210,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_234917) do
   add_foreign_key "order_items", "products"
   add_foreign_key "order_items", "variants"
   add_foreign_key "orders", "users"
+  add_foreign_key "payment_transactions", "orders"
   add_foreign_key "variants", "products"
 end
