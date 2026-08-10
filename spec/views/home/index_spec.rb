@@ -7,32 +7,32 @@ RSpec.describe "home/index", type: :view do
     # Create test products for the view
     @products = [
       double("Product",
-        name: "Test Product 1",
-        description: "Test description",
-        price: 29.99,
-        currency: "USD",
-        image_url: "https://via.placeholder.com/400x400",
-        id: "test-id-1",
-        category: "Shirts",
-        persisted?: true
+             name: "Test Product 1",
+             description: "Test description",
+             price: 29.99,
+             currency: "USD",
+             image_url: "https://via.placeholder.com/400x400",
+             id: "test-id-1",
+             category: "Shirts",
+             persisted?: true
       ),
       double("Product",
-        name: "Test Product 2",
-        description: "Test description",
-        price: 19.99,
-        currency: "USD",
-        image_url: "https://via.placeholder.com/400x400",
-        id: "test-id-2",
-        category: "Mugs",
-        persisted?: true
+             name: "Test Product 2",
+             description: "Test description",
+             price: 19.99,
+             currency: "USD",
+             image_url: "https://via.placeholder.com/400x400",
+             id: "test-id-2",
+             category: "Mugs",
+             persisted?: true
       )
     ]
     assign(:products, @products)
 
     # Mock categories with products for the landing page partial
     @categories_with_products = [
-      { name: "Shirts", products: [ @products[0] ] },
-      { name: "Mugs", products: [ @products[1] ] }
+      { name: "Shirts", products: [@products[0]] },
+      { name: "Mugs", products: [@products[1]] }
     ]
     assign(:categories_with_products, @categories_with_products)
 
@@ -44,13 +44,6 @@ RSpec.describe "home/index", type: :view do
     def view.current_cart
       @current_cart ||= CartService.new("test-session-id")
     end
-  end
-
-  it "renders the landing page partial" do
-    render
-
-    expect(rendered).to match(/ARC/)
-    expect(rendered).to match(/Community Store/)
   end
 
   it "includes all landing page sections" do

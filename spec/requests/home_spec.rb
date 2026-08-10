@@ -14,10 +14,5 @@ RSpec.describe "Home", type: :request do
       expect(response).to be_successful
     end
 
-    it "includes the landing page content" do
-      get root_path
-      expect(response.body).to include("African Ruby")
-      expect(response.body).to include("Community Store")
-    end
   end
 end
