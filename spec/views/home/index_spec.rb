@@ -31,8 +31,8 @@ RSpec.describe "home/index", type: :view do
 
     # Mock categories with products for the landing page partial
     @categories_with_products = [
-      { name: "Shirts", products: [@products[0]] },
-      { name: "Mugs", products: [@products[1]] }
+      { name: "Shirts", products: [ @products[0] ] },
+      { name: "Mugs", products: [ @products[1] ] }
     ]
     assign(:categories_with_products, @categories_with_products)
 

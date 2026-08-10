@@ -8,7 +8,6 @@ RSpec.describe "Landing Page", type: :system do
   end
 
   describe "Navbar" do
-
     it "has navigation links" do
       visit root_path
 
