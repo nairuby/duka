@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
   def index
+    # About us page
+    def about; end
     # Get products grouped by category (limit 4 per category for preview)
     @categories_with_products = Product::CATEGORIES.map do |category|
       products = Product.where(category: category).limit(4)

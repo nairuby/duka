@@ -2,20 +2,20 @@
 <footer class="bg-pink-50">
   <!-- Top red line separator -->
   <div class="h-1 bg-red-600"></div>
-  
+
   <div class="max-w-7xl mx-auto px-4 py-16">
-    
+
     <!-- Main Footer Content -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-      
+
       <!-- African Ruby Column -->
       <div class="lg:col-span-1">
         <div class="flex items-center mb-4">
-          <div class="w-10 h-10 bg-red-600 rounded flex items-center justify-center mr-3">
-            <span class="text-white font-bold text-xl">R</span>
-          </div>
-          <span class="text-xl font-bold text-gray-800">ARC Duka</span>
+          <%= link_to root_path, class: "inline-block transition-transform duration-200 hover:scale-105" do %>
+            <%= image_tag('arc_logo_coloured.png', alt: "RubyCommunity Africa Logo", class: 'w-36 mb-4') %>
+          <% end %>
         </div>
+
         <p class="text-gray-600 text-sm mb-6 leading-relaxed">
           Celebrating African excellence in Ruby development through quality merchandise and community building.
         </p>
@@ -48,7 +48,7 @@
         <h3 class="text-lg font-bold text-red-700 mb-4">Community</h3>
         <ul class="space-y-2">
           <li><%= link_to "Ruby Community Africa", "https://rubycommunity.africa", target: "_blank", rel: "noopener noreferrer", class: "text-gray-600 text-sm hover:text-red-600 transition-colors" %></li>
-          <li><%= link_to "Events", "https://rubyconf.africa/", target: "_blank", rel: "noopener noreferrer", class: "text-gray-600 text-sm hover:text-red-600 transition-colors" %></li>
+          <li><%= link_to "Conference", "https://rubyconf.africa/", target: "_blank", rel: "noopener noreferrer", class: "text-gray-600 text-sm hover:text-red-600 transition-colors" %></li>
           <li><%= link_to "Meetups", "https://www.meetup.com/african_ruby_community/", target: "_blank", rel: "noopener noreferrer", class: "text-gray-600 text-sm hover:text-red-600 transition-colors" %></li>
           <li><%= link_to "Blog", "https://rubyconf.africa/blog", target: "_blank", rel: "noopener noreferrer", class: "text-gray-600 text-sm hover:text-red-600 transition-colors", style: "display: none" %></li>
         </ul>
@@ -62,7 +62,7 @@
           <li><%= link_to "Shopping Cart", cart_path, class: "text-gray-600 text-sm hover:text-red-600 transition-colors" %></li>
           <li><a href="#" class="text-gray-600 text-sm hover:text-red-600 transition-colors" style="display: none" >Shipping Info</a></li>
           <li><a href="#" class="text-gray-600 text-sm hover:text-red-600 transition-colors" style="display: none">Returns Policy</a></li>
-          <li><a href="#" class="text-gray-600 text-sm hover:text-red-600 transition-colors">FAQ</a></li>
+          <li><a href="#" class="text-gray-600 text-sm hover:text-red-600 transition-colors" style="display: none">FAQ</a></li>
         </ul>
       </div>
 
@@ -76,7 +76,7 @@
       <div class="text-gray-600 text-sm mb-4 md:mb-0">
         © <%= Time.current.year %> African Ruby Community. Made with <span class="text-red-600">❤️</span> by ARC.
       </div>
-      <div class="flex space-x-6">
+      <div class="flex space-x-6" style="display: none">
         <a href="#" class="text-gray-600 text-sm hover:text-red-600 transition-colors">Privacy Policy</a>
         <a href="#" class="text-gray-600 text-sm hover:text-red-600 transition-colors">Terms of Service</a>
       </div>
