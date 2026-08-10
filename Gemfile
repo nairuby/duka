@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "bootsnap", "~> 1.19", require: false
-gem "devise", "~> 4.9", ">= 4.9.4"
+gem "devise", "~> 5.0"
 gem "dotenv-rails", "~> 3.2"
 gem "font-awesome-sass", "~> 6.7", ">= 6.7.2"
 gem "friendly_id", "~> 5.5", ">= 5.5.1"
