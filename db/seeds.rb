@@ -31,7 +31,7 @@ products_data = [
     description: "A comfortable and stylish cotton t-shirt made from premium materials. Perfect for casual wear or layering. Features a classic fit with reinforced seams for durability.",
     price: 3870,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/3B82F6/FFFFFF?text=Premium+T-Shirt",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Shirts",
     sizes: [ "XS", "S", "M", "L", "XL" ],
     colors: [ "Black", "White", "Navy", "Gray" ]
@@ -41,7 +41,7 @@ products_data = [
     description: "Classic denim jacket with a modern twist. Made from high-quality denim with a comfortable fit. Features multiple pockets and adjustable cuffs.",
     price: 11600,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/1F2937/FFFFFF?text=Denim+Jacket",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Hoodies",
     sizes: [ "S", "M", "L", "XL" ],
     colors: [ "Blue", "Black", "Light Blue" ]
@@ -51,7 +51,7 @@ products_data = [
     description: "Premium ceramic mug featuring the iconic Ruby logo. Perfect for your morning coffee or afternoon tea. Dishwasher and microwave safe.",
     price: 2450,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Ruby+Mug",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Mugs",
     sizes: [ "Standard" ],
     colors: [ "Red", "Black", "White" ]
@@ -61,7 +61,7 @@ products_data = [
     description: "Cozy hoodie with African-inspired patterns and Ruby community branding. Made from premium fleece for ultimate comfort during long coding sessions.",
     price: 8500,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/7C3AED/FFFFFF?text=Dev+Hoodie",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Hoodies",
     sizes: [ "S", "M", "L", "XL", "XXL" ],
     colors: [ "Black", "Gray", "Navy" ]
@@ -71,7 +71,7 @@ products_data = [
     description: "Professional notebook with grid pages perfect for sketching algorithms and taking notes. Features a durable cover with Ruby community branding.",
     price: 2050,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/F59E0B/FFFFFF?text=Notebook",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Accessories",
     sizes: [ "A5" ],
     colors: [ "Black", "Red", "Blue" ]
@@ -81,7 +81,7 @@ products_data = [
     description: "Collection of 20 high-quality vinyl stickers featuring Ruby gems, African patterns, and programming humor. Perfect for laptops and water bottles.",
     price: 1650,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/10B981/FFFFFF?text=Stickers",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Stickers",
     sizes: [ "Pack" ],
     colors: [ "Mixed" ]
@@ -91,7 +91,7 @@ products_data = [
     description: "Large gaming mouse pad with wireless charging zone. Features Ruby community artwork and provides smooth tracking for any mouse type.",
     price: 4500,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/6366F1/FFFFFF?text=Mouse+Pad",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Accessories",
     sizes: [ "Large" ],
     colors: [ "Black", "Gray" ]
@@ -101,7 +101,7 @@ products_data = [
     description: "Elegant polo shirt combining modern style with traditional African patterns. Made from breathable cotton blend for comfort and durability.",
     price: 5900,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/EC4899/FFFFFF?text=Polo+Shirt",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Shirts",
     sizes: [ "S", "M", "L", "XL" ],
     colors: [ "White", "Navy", "Red" ]
@@ -109,9 +109,9 @@ products_data = [
   {
     name: "Insulated Water Bottle",
     description: "Double-wall insulated water bottle keeps drinks cold for 24 hours or hot for 12 hours. Features Ruby community logo and leak-proof design.",
-    price: 3750,
+    price: 1,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/059669/FFFFFF?text=Water+Bottle",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Mugs",
     sizes: [ "500ml" ],
     colors: [ "Silver", "Black", "Blue" ]
@@ -121,7 +121,7 @@ products_data = [
     description: "Protective laptop sleeve with padding and African-inspired design. Fits most 13-15 inch laptops with additional pocket for accessories.",
     price: 5150,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/B45309/FFFFFF?text=Laptop+Sleeve",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Bags",
     sizes: [ "13 inch", "15 inch" ],
     colors: [ "Brown", "Black", "Gray" ]
@@ -129,9 +129,9 @@ products_data = [
   {
     name: "Ruby Gem Pin Set",
     description: "Collectible enamel pin set featuring different Ruby gems and African symbols. High-quality metal construction with secure backing.",
-    price: 2950,
+    price: 1,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/DC2626/FFFFFF?text=Pin+Set",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Accessories",
     sizes: [ "Set of 5" ],
     colors: [ "Mixed" ]
@@ -141,7 +141,7 @@ products_data = [
     description: "Travel tumbler perfect for developers on the go. Features double-wall insulation and a spill-proof lid. Decorated with coding quotes.",
     price: 3200,
     currency: "KES",
-    image_url: "https://via.placeholder.com/400x400/374151/FFFFFF?text=Tumbler",
+    image_url: "https://ih1.redbubble.net/image.523774428.2277/st,small,507x507-pad,600x600,f8f8f8.u3.jpg",
     category: "Mugs",
     sizes: [ "16oz" ],
     colors: [ "Black", "Silver", "Red" ]

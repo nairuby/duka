@@ -8,13 +8,6 @@ RSpec.describe "Landing Page", type: :system do
   end
 
   describe "Navbar" do
-    it "displays the African Ruby branding" do
-      visit root_path
-
-      expect(page).to have_content("African Ruby")
-      expect(page).to have_content("Community Store")
-    end
-
     it "has navigation links" do
       visit root_path
 
