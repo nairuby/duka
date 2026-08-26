@@ -41,6 +41,12 @@ group :development do
   gem "byebug", "~> 12.0"
   gem "hotwire-livereload", "~> 2.1"
   gem "web-console", "~> 4.2", ">= 4.2.1"
+
+  # Capistrano - deployment gems
+  gem "capistrano", "~> 3.19"
+  gem "capistrano-asdf"
+  gem "capistrano-passenger", "~> 0.2.0"
+  gem "capistrano-rails", "~> 1.4"
 end
 
 group :test do
