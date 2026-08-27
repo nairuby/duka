@@ -18,6 +18,11 @@ module Duka
 
     config.paths.add "app/services", eager_load: true
 
+    # Tell Zeitwek to leave app/avo alone - Avo's engine manages it
+    config.after_initialize do
+      Rails.autoloaders.main.ignore(Rails.root.join("app/avo"))
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
