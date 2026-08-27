@@ -18,10 +18,9 @@ module Duka
 
     config.paths.add "app/services", eager_load: true
 
-    # Tell Zeitwek to leave app/avo alone - Avo's engine manages it
-    config.after_initialize do
-      Rails.autoloaders.main.ignore(Rails.root.join("app/avo"))
-    end
+    # Tell Zeitwerk to leave app/avo alone — Avo's engine manages it.
+    # Must run before eager loading, not after, so we use a direct call here.
+    Rails.autoloaders.main.ignore(Rails.root.join("app/avo"))
 
     # Configuration for the application, engines, and railties goes here.
     #
