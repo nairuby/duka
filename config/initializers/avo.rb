@@ -7,7 +7,7 @@ Avo.configure do |config|
   # config.prefix_path = "/internal"
 
   # Where should the user be redirected when visiting the `/avo` url
-  config.home_path = "/avo/dashboards/stock_overview"
+  # config.home_path = nil
 
   ## == Licensing ==
   # config.license_key = ENV['AVO_LICENSE_KEY']
