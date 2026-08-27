@@ -5,6 +5,37 @@
  * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
  * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
  * depending on specificity.
- *
+ * require font-awesome
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Flash Message Animations */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Login Page Enhancements */
+.login-container {
+  min-height: 100vh;
+}
+
+/* Focus states for better accessibility */
+input:focus {
+  outline: none;
+}
+
+/* Smooth transitions */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

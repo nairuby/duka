@@ -1,0 +1,11 @@
+<div data-controller="cart-preview">
+  <!-- Cart Preview Sidebar -->
+  <div id="cart_preview" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50" data-cart-preview-target="preview">
+    <div id="cart_preview_content" class="h-full flex flex-col">
+      <%= render 'carts/preview_content', cart: cart %>
+    </div>
+  </div>
+
+  <!-- Backdrop with Blur -->
+  <div id="cart_backdrop" class="fixed inset-0 bg-black/30 backdrop-blur-sm hidden z-40 transition-all duration-300" data-cart-preview-target="backdrop" data-action="click->cart-preview#close"></div>
+</div>

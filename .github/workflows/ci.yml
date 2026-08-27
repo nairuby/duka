@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -87,7 +87,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config google-chrome-stable
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -98,14 +98,29 @@ jobs:
       - name: Make bin scripts executable
         run: chmod +x bin/*
 
-      - name: Run tests
+      - name: Precompile assets
         env:
           RAILS_ENV: test
+          DB_HOST: localhost
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
-        run: bin/rails db:test:prepare test test:system
+        run: bin/rails assets:precompile
+
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          DB_HOST: localhost
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: bin/rails db:create db:schema:load
+
+      - name: Run RSpec tests
+        env:
+          RAILS_ENV: test
+          DB_HOST: localhost
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: bundle exec rspec
 
       - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: screenshots

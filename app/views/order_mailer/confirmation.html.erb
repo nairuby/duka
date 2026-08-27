@@ -1,0 +1,52 @@
+<h1>Order Confirmation: <%= @order.order_number %></h1>
+
+<p>Thank you for your order!</p>
+
+<h3>Order Details:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order_items.each do |item| %>
+      <tr>
+        <td>
+          <%= item.product_name %>
+          <% if item.variant_details.present? %>
+            <br><small><%= item.variant_details %></small>
+          <% end %>
+        </td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.subtotal, unit: @order.currency + " ") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="2" align="right">Subtotal:</th>
+      <td><%= number_to_currency(@order.subtotal, unit: @order.currency + " ") %></td>
+    </tr>
+    <tr>
+      <th colspan="2" align="right">Shipping:</th>
+      <td><%= number_to_currency(@order.shipping_cost, unit: @order.currency + " ") %></td>
+    </tr>
+    <tr>
+      <th colspan="2" align="right">Total:</th>
+      <td><strong><%= number_to_currency(@order.total, unit: @order.currency + " ") %></strong></td>
+    </tr>
+  </tfoot>
+</table>
+
+<h3>Shipping Address:</h3>
+<p>
+  <%= @order.shipping_name %><br>
+  <%= @order.shipping_address %><br>
+  <%= @order.shipping_city %>, <%= @order.shipping_postal_code %><br>
+  <%= @order.shipping_country %>
+</p>
+
+<p>We'll notify you once your order has been shipped.</p>

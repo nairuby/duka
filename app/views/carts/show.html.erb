@@ -1,0 +1,127 @@
+<%= render 'shared/navbar' %>
+
+<!-- Cart Page -->
+<section class="py-16 px-4 bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Shopping Cart</h1>
+      <p class="text-sm sm:text-base text-gray-600"><%= @cart.total_items %> <%= @cart.total_items == 1 ? 'item' : 'items' %> in your cart</p>
+    </div>
+
+    <% if @cart.empty? %>
+      <!-- Empty Cart State -->
+      <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+        <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
+        <p class="text-gray-600 mb-6">Add some products to get started!</p>
+        <%= link_to root_path, class: "inline-flex items-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-200" do %>
+          <i class="fas fa-arrow-left"></i>
+          <span>Continue Shopping</span>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2 space-y-4">
+          <% @cart.items.each do |item| %>
+            <div class="bg-white rounded-xl shadow-md p-6 flex items-center space-x-4">
+              <!-- Product Image -->
+              <div class="w-24 h-24 bg-gray-100 rounded-lg flex-shrink-0 overflow-hidden">
+                <% if item.product.image_url.present? %>
+                  <%= image_tag item.product.image_url, alt: item.product.name, class: "w-full h-full object-cover" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center">
+                    <i class="fas fa-image text-3xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              
+              <!-- Product Details -->
+              <div class="flex-1">
+                <h3 class="font-bold text-gray-800 mb-1"><%= item.display_name %></h3>
+                <p class="text-sm text-gray-600 mb-2"><%= item.product.category %></p>
+                <p class="text-lg font-bold text-red-600"><%= format_price(item.subtotal) %></p>
+              </div>
+              
+              <!-- Quantity Controls -->
+              <div class="flex items-center space-x-3">
+                <%= button_to update_quantity_cart_path(item.id), method: :patch, params: { quantity: item.quantity - 1 }, class: "w-8 h-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center" do %>
+                  <i class="fas fa-minus text-sm"></i>
+                <% end %>
+                <span class="w-12 text-center font-bold"><%= item.quantity %></span>
+                <%= button_to update_quantity_cart_path(item.id), method: :patch, params: { quantity: item.quantity + 1 }, class: "w-8 h-8 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center" do %>
+                  <i class="fas fa-plus text-sm"></i>
+                <% end %>
+              </div>
+              
+              <!-- Remove Button -->
+              <%= button_to remove_item_cart_path(item.id), method: :delete, class: "text-red-600 hover:text-red-700 transition-colors", data: { confirm: "Remove this item?" } do %>
+                <i class="fas fa-trash"></i>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-lg p-6 sticky top-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+            
+            <div class="space-y-3 mb-6">
+              <div class="flex justify-between text-gray-600">
+                <span>Subtotal</span>
+                <span class="font-medium"><%= format_price(@cart.subtotal) %></span>
+              </div>
+              <div class="flex justify-between text-gray-600">
+                <span>Shipping</span>
+                <span class="font-medium">Calculated at checkout</span>
+              </div>
+              <div class="border-t pt-3 flex justify-between text-lg font-bold text-gray-800">
+                <span>Total</span>
+                <span><%= format_price(@cart.total) %></span>
+              </div>
+            </div>
+            
+            <%= link_to new_checkout_path, class: "w-full bg-red-600 text-white py-3 rounded-xl hover:bg-red-700 transition-all duration-200 flex items-center justify-center space-x-2 mb-3" do %>
+              <span class="font-bold">Proceed to Checkout</span>
+              <i class="fas fa-arrow-right"></i>
+            <% end %>
+            
+            <%= link_to root_path, class: "w-full bg-white text-gray-700 py-3 rounded-xl border-2 border-gray-200 hover:border-red-600 hover:text-red-600 transition-all duration-200 flex items-center justify-center space-x-2" do %>
+              <i class="fas fa-arrow-left"></i>
+              <span class="font-medium">Continue Shopping</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- You May Also Like -->
+      <% if @suggested_products.any? %>
+        <div class="mt-16">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8">You May Also Like</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <% @suggested_products.each do |product| %>
+              <%= link_to product_path(product), class: "group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" do %>
+                <div class="relative overflow-hidden h-48 bg-gray-100">
+                  <% if product.image_url.present? %>
+                    <%= image_tag product.image_url, alt: product.name, class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" %>
+                  <% else %>
+                    <div class="w-full h-full flex items-center justify-center">
+                      <i class="fas fa-image text-4xl text-gray-300"></i>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="p-4">
+                  <h3 class="font-bold text-gray-800 mb-2 line-clamp-1"><%= product.name %></h3>
+                  <p class="text-lg font-bold text-red-600"><%= format_price(product.price) %></p>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<%= render 'shared/footer' %>

@@ -35,3 +35,18 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Ignore IntelliJ's project specifit settings files
+/.idea
+
+# Ignore Kiro
+/.kiro
+FRONTEND_INTEGRATION_GUIDE.md
+/coverage
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+

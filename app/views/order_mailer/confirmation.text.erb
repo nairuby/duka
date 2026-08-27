@@ -1,0 +1,22 @@
+Order Confirmation: <%= @order.order_number %>
+
+Thank you for your order!
+
+Order Details:
+--------------
+<% @order_items.each do |item| %>
+<%= item.product_name %><%= " (#{item.variant_details})" if item.variant_details.present? %> x <%= item.quantity %>: <%= number_to_currency(item.subtotal, unit: @order.currency + " ") %>
+<% end %>
+
+Subtotal: <%= number_to_currency(@order.subtotal, unit: @order.currency + " ") %>
+Shipping: <%= number_to_currency(@order.shipping_cost, unit: @order.currency + " ") %>
+Total: <%= number_to_currency(@order.total, unit: @order.currency + " ") %>
+
+Shipping Address:
+-----------------
+<%= @order.shipping_name %>
+<%= @order.shipping_address %>
+<%= @order.shipping_city %>, <%= @order.shipping_postal_code %>
+<%= @order.shipping_country %>
+
+We'll notify you once your order has been shipped.

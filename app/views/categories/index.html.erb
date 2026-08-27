@@ -1,0 +1,76 @@
+<%= render 'shared/navbar' %>
+
+<!-- All Categories Page -->
+<section class="py-16 px-4 bg-white min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">Shop by Category</h1>
+      <p class="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+        Find exactly what you're looking for. Browse our curated collections of Ruby community merchandise.
+      </p>
+      
+      <!-- Breadcrumb -->
+      <div class="flex items-center justify-center space-x-2 mt-6 text-sm text-gray-600">
+        <%= link_to root_path, class: "hover:text-red-600 transition-colors" do %>
+          <i class="fas fa-home"></i> Home
+        <% end %>
+        <span>/</span>
+        <span class="text-red-600 font-medium">Categories</span>
+      </div>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 md:gap-6">
+      <% 
+        categories = [
+          { name: 'Shirts', icon: 'fa-tshirt', description: 'T-shirts & tees', bg: 'from-red-50 to-pink-50', border: 'hover:border-red-200', icon_bg: 'bg-red-600', text: 'text-red-600' },
+          { name: 'Hoodies', icon: 'fa-vest', description: 'Cozy hoodies & sweatshirts', bg: 'from-blue-50 to-indigo-50', border: 'hover:border-blue-200', icon_bg: 'bg-blue-600', text: 'text-blue-600' },
+          { name: 'Hats', icon: 'fa-hat-cowboy', description: 'Caps & beanies', bg: 'from-green-50 to-emerald-50', border: 'hover:border-green-200', icon_bg: 'bg-green-600', text: 'text-green-600' },
+          { name: 'Bags', icon: 'fa-bag-shopping', description: 'Backpacks & totes', bg: 'from-yellow-50 to-amber-50', border: 'hover:border-yellow-200', icon_bg: 'bg-yellow-600', text: 'text-yellow-600' },
+          { name: 'Mugs', icon: 'fa-mug-hot', description: 'Mugs & drinkware', bg: 'from-orange-50 to-red-50', border: 'hover:border-orange-200', icon_bg: 'bg-orange-600', text: 'text-orange-600' },
+          { name: 'Stickers', icon: 'fa-note-sticky', description: 'Vinyl stickers & decals', bg: 'from-pink-50 to-rose-50', border: 'hover:border-pink-200', icon_bg: 'bg-pink-600', text: 'text-pink-600' },
+          { name: 'Accessories', icon: 'fa-gift', description: 'Tech gear & gifts', bg: 'from-purple-50 to-violet-50', border: 'hover:border-purple-200', icon_bg: 'bg-purple-600', text: 'text-purple-600' }
+        ]
+      %>
+      
+      <% categories.each do |category| %>
+        <%= link_to category_path(category[:name]), class: "group relative bg-gradient-to-br #{category[:bg]} rounded-2xl p-8 hover:shadow-xl transition-all duration-300 border-2 border-transparent #{category[:border]}" do %>
+          <div class="flex flex-col items-center text-center space-y-4">
+            <!-- Icon Container -->
+            <div class="w-20 h-20 <%= category[:icon_bg] %> rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <i class="fas <%= category[:icon] %> text-white text-3xl"></i>
+            </div>
+            
+            <!-- Category Name -->
+            <h3 class="text-xl font-bold text-gray-800 group-hover:<%= category[:text] %> transition-colors"><%= category[:name] %></h3>
+            
+            <!-- Description -->
+            <p class="text-sm text-gray-600"><%= category[:description] %></p>
+            
+            <!-- Product Count -->
+            <% product_count = Product.where(category: category[:name]).count %>
+            <div class="text-xs <%= category[:text] %> font-medium">
+              <%= product_count %> <%= product_count == 1 ? 'product' : 'products' %>
+            </div>
+            
+            <!-- Arrow Icon -->
+            <div class="<%= category[:text] %> opacity-0 group-hover:opacity-100 transition-opacity">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="flex justify-center mt-12">
+      <%= link_to root_path, class: "inline-flex items-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-200 shadow-lg" do %>
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<%= render 'shared/footer' %>
