@@ -19,9 +19,7 @@ module Duka
     config.paths.add "app/services", eager_load: true
 
     # app/avo is managed by Avo's engine autoloader, not Rails' main Zeitwerk loader.
-    # Collapse the directory so Zeitwerk treats app/avo as a root namespace instead
-    # of inferring Avo:: prefixes from the path — this lets Avo::Cards::MetricCard
-    # resolve correctly in production eager load without hiding the files from Avo.
+    # Exclude it from Rails' Zeitwerk autoloader to avoid constant resolution conflicts.
     config.autoload_paths.delete(Rails.root.join("app/avo").to_s)
     config.eager_load_paths.delete(Rails.root.join("app/avo").to_s)
 
