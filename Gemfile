@@ -21,7 +21,7 @@ gem "solid_cache", "~> 1.0"
 gem "solid_queue", "~> 1.7"
 gem "stimulus-rails", "~> 1.3", ">= 1.3.4"
 gem "tailwindcss-rails", "~> 4.0"
-gem "thruster", "~> 0.1.15", require: false
+gem "thruster", "~> 0.1.26", require: false
 gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 gem "avo", "~> 4.1"
