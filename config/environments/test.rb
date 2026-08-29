@@ -17,7 +17,7 @@ Rails.application.configure do
 
   # Prevent Zeitwerk from managing app/avo directory to avoid loading Avo cards
   # before the Avo gem initializes its base classes
-  Rails.autoloaders.main.ignore(Rails.root.join("app/avo"))
+  # Rails.autoloaders.main.ignore(Rails.root.join("app/avo"))
 
   # Configure public file server for tests with cache-control for performance.
   config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }

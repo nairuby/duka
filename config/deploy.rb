@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.19.0"
+lock "~> 3.19.2"
 
 set :user, "ubuntu"
 set :application, "duka"

@@ -18,6 +18,11 @@ module Duka
 
     config.paths.add "app/services", eager_load: true
 
+    # app/avo is managed by Avo's engine autoloader, not Rails' main Zeitwerk loader.
+    # Exclude it from Rails' Zeitwerk autoloader to avoid constant resolution conflicts.
+    config.autoload_paths.delete(Rails.root.join("app/avo").to_s)
+    config.eager_load_paths.delete(Rails.root.join("app/avo").to_s)
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
