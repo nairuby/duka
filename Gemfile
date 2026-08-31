@@ -6,7 +6,7 @@ gem "dotenv-rails", "~> 3.2"
 gem "font-awesome-sass", "~> 6.7", ">= 6.7.2"
 gem "friendly_id", "~> 5.5", ">= 5.5.1"
 gem "hotwire-rails", "~> 0.1.3"
-gem "image_processing", "~> 1.14"
+gem "image_processing", "~> 2.0"
 gem "importmap-rails", "~> 2.2"
 gem "jbuilder", "~> 2.14"
 gem "kamal", "~> 2.9", require: false
