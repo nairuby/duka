@@ -6,7 +6,7 @@ require "time"
 
 module Quikk
   class Client
-    BASE_URL = "https://tryapi.quikk.dev/v1"
+    BASE_URL = Rails.env.production? ? "https://api.quikk.dev/v1" : "https://tryapi.quikk.dev/v1"
 
     def initialize(api_key = nil, api_secret = nil)
       @api_key = api_key || Rails.application.credentials.dig(:quikk, :api_key)
