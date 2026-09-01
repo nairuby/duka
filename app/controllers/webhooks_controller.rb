@@ -13,6 +13,8 @@ class WebhooksController < ApplicationController
       quikk_client = Quikk::Client.new
       unless quikk_client.verify_signature(body, signature)
         Rails.logger.warn("Invalid Quikk Signature from IP: #{request.remote_ip}")
+        Rails.logger.debug("Incoming Signature: #{signature}")
+        # Rails.logger.debug("Body: #{body}") # Be careful with PII
         return render json: { error: "Unauthorized" }, status: :unauthorized
       end
     end

@@ -38,10 +38,13 @@ module Quikk
 
     def verify_signature(body, signature)
       return false if signature.blank? || @api_secret.blank?
-      expected = Base64.strict_encode64(
+      expected_base64 = Base64.strict_encode64(
         OpenSSL::HMAC.digest("SHA256", @api_secret, body)
       )
-      ActiveSupport::SecurityUtils.secure_compare(expected, signature)
+      expected_hex = OpenSSL::HMAC.hexdigest("SHA256", @api_secret, body)
+
+      ActiveSupport::SecurityUtils.secure_compare(expected_base64, signature) ||
+        ActiveSupport::SecurityUtils.secure_compare(expected_hex, signature)
     end
 
     private
