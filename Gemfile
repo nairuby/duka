@@ -37,7 +37,7 @@ end
 
 group :development do
   gem "annotaterb", "~> 4.24"
-  gem "bullet", "~> 8.1"
+  gem "bullet", "~> 8.2"
   gem "byebug", "~> 13.0"
   gem "hotwire-livereload", "~> 2.1"
   gem "web-console", "~> 4.2", ">= 4.2.1"
