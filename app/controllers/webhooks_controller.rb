@@ -4,12 +4,22 @@ class WebhooksController < ApplicationController
   def quikk
     body = request.raw_post
 
-    # Quikk does not sign the charge callback (no signature scheme is defined for
-    # the `onData` callback in the Handaki API spec), so there is nothing to
-    # verify here. The endpoint is protected instead by requiring the callback to
-    # map to an order we actually initiated (see the lookup below); an unmatched
-    # payload is rejected with 404 and never touches an order.
-    payload = JSON.parse(body.presence || "{}")
+    # Skip signature verification in development/ sandbox
+
+    unless Rails.env.production?
+      Rails.logger.info("Skipping Quikk Signature verification in #{Rails.env}")
+    else
+      signature = request.headers["X-Quikk-Signature"]
+      quikk_client = Quikk::Client.new
+      unless quikk_client.verify_signature(body, signature)
+        Rails.logger.warn("Invalid Quikk Signature from IP: #{request.remote_ip}")
+        Rails.logger.debug("Incoming Signature: #{signature}")
+        # Rails.logger.debug("Body: #{body}") # Be careful with PII
+        return render json: { error: "Unauthorized" }, status: :unauthorized
+      end
+    end
+
+    payload = JSON.parse(body)
 
     # Log the full payload so we can see the structure
     Rails.logger.info("Quikk Webhook Payload: #{payload.inspect}")
