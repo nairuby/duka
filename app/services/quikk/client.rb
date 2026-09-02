@@ -36,14 +36,6 @@ module Quikk
       get("/mpesa/search/#{request_id}")
     end
 
-    def verify_signature(body, signature)
-      return false if signature.blank? || @api_secret.blank?
-      expected = Base64.strict_encode64(
-        OpenSSL::HMAC.digest("SHA256", @api_secret, body)
-      )
-      ActiveSupport::SecurityUtils.secure_compare(expected, signature)
-    end
-
     private
 
     def post(path, payload)
