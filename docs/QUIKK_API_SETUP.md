@@ -196,6 +196,13 @@ curl -X POST "https://tryapi.quikk.dev/v1/mpesa/charge" \
 
 ## 6. Handle Webhook Variants Safely
 
+**Quikk does not sign the charge callback.** The Handaki spec defines no signature
+scheme or auth header on the `onData` callback, so there is nothing to HMAC-verify
+on inbound requests (the HMAC in section 5 is for *outbound* calls only). The
+callback endpoint is protected by requiring the payload to resolve to an order we
+actually initiated — an unmatched callback is rejected with `404` and never
+mutates an order. Optionally add an IP allowlist for Quikk's egress range.
+
 Quikk callbacks may provide different ID fields depending on flow. Parse all when present:
 
 - `data.id`
@@ -214,9 +221,12 @@ Phone field fallback:
 
 Status mapping:
 
-- Success: `SUCCESS|SUCCESSFUL|COMPLETED|PAID`
-- Failure: `FAILED|FAIL|ERROR|DECLINED|CANCELLED|CANCELED`
-- Fallback: if `txn_status` is missing but `txn_id` exists, treat as success.
+- Success: `txn_status` in `SUCCESS|SUCCESSFUL|COMPLETED|PAID`
+- Failure: `txn_status` in `FAILED|FAIL|ERROR|DECLINED|CANCELLED|CANCELED`, or `meta.status` in `FAIL|FAILED|ERROR`
+- Fallback: real Quikk success callbacks omit `txn_status` — if `attributes.txn_id` is present, treat as success.
+
+Receipt: use `attributes.mpesa_receipt || attributes.receipt || attributes.txn_id`
+(Quikk's success callback carries the M-Pesa receipt in `txn_id`).
 
 Webhook controller location:
 
