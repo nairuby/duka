@@ -24,7 +24,7 @@ gem "tailwindcss-rails", "~> 4.0"
 gem "thruster", "~> 0.1.15", require: false
 gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
-gem "avo", "~> 4.1"
+gem "avo", "~> 4.2"
 gem "faraday", "~> 2.7"
 
 group :development, :test do
