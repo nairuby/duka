@@ -27,6 +27,11 @@ namespace :deploy do
     end
   end
 
+  # Production runs Active Job on Solid Queue (config/environments/production.rb),
+  # which needs a long-running supervisor (`bin/jobs`). Under Passenger there is
+  # no in-process option, so it runs as a systemd --user service. Without this
+  # restart, enqueued jobs (M-Pesa charge, order mailers) never run after a deploy.
+  # One-time server setup: see docs/DEPLOYMENT.md.
   desc "Restart Solid Queue"
   task :restart_solid_queue do
     on roles(:app) do
@@ -36,6 +41,5 @@ namespace :deploy do
 
   after :finishing, "deploy:cleanup"
   after :finishing, "deploy:restart"
-  # Uncomment the following line if you use systemd to manage Solid Queue
-  # after :finishing, 'deploy:restart_solid_queue'
+  after :finishing, "deploy:restart_solid_queue"
 end
