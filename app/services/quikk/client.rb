@@ -9,26 +9,28 @@ module Quikk
     BASE_URL = Rails.env.production? ? "https://api.quikk.dev/v1" : "https://tryapi.quikk.dev/v1"
 
     def initialize(api_key = nil, api_secret = nil)
-      @api_key = api_key || Rails.application.credentials.dig(:quikk, :api_key)
+      @api_key   = api_key    || Rails.application.credentials.dig(:quikk, :api_key)
       @api_secret = api_secret || Rails.application.credentials.dig(:quikk, :api_secret)
+      # short_code: the head office / paybill number registered on your Quikk account.
+      # till_no: set when your shortcode is a Buy Goods (Till) number. Quikk will use
+      # CustomerBuyGoodsOnline instead of the default CustomerPayBillOnline.
       @shortcode = Rails.application.credentials.dig(:quikk, :shortcode)
+      @till_no   = Rails.application.credentials.dig(:quikk, :till_no)
     end
 
     def charge(amount:, phone_number:, reference:, description:)
-      payload = {
-        data: {
-          type: "charge",
-          id: reference,
-          attributes: {
-            amount: amount.to_i,
-            customer_type: "msisdn",
-            customer_no: format_phone(phone_number),
-            short_code: @shortcode.to_s,
-            reference: reference,
-            posted_at: Time.now.utc.iso8601(6)
-          }
-        }
+      attributes = {
+        amount: amount.to_i,
+        customer_type: "msisdn",
+        customer_no: format_phone(phone_number),
+        short_code: @shortcode.to_s,
+        reference: reference,
+        posted_at: Time.now.utc.iso8601(6)
       }
+      # Including till_no switches the STK push to CustomerBuyGoodsOnline (Buy Goods / Till).
+      attributes[:till_no] = @till_no.to_s if @till_no.present?
+
+      payload = { data: { type: "charge", id: reference, attributes: attributes } }
       post("/mpesa/charge", payload)
     end
 
@@ -36,16 +38,16 @@ module Quikk
       get("/mpesa/search/#{request_id}")
     end
 
-#     def verify_signature(body, signature)
-#       return false if signature.blank? || @api_secret.blank?
-#       expected_base64 = Base64.strict_encode64(
-#         OpenSSL::HMAC.digest("SHA256", @api_secret, body)
-#       )
-#       expected_hex = OpenSSL::HMAC.hexdigest("SHA256", @api_secret, body)
+    #     def verify_signature(body, signature)
+    #       return false if signature.blank? || @api_secret.blank?
+    #       expected_base64 = Base64.strict_encode64(
+    #         OpenSSL::HMAC.digest("SHA256", @api_secret, body)
+    #       )
+    #       expected_hex = OpenSSL::HMAC.hexdigest("SHA256", @api_secret, body)
 
-#       ActiveSupport::SecurityUtils.secure_compare(expected_base64, signature) ||
-#         ActiveSupport::SecurityUtils.secure_compare(expected_hex, signature)
-#     end
+    #       ActiveSupport::SecurityUtils.secure_compare(expected_base64, signature) ||
+    #         ActiveSupport::SecurityUtils.secure_compare(expected_hex, signature)
+    #     end
 
     private
 
