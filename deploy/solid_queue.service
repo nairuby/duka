@@ -1,0 +1,29 @@
+# Solid Queue worker for ARC Duka (shop.rubycommunity.africa)
+#
+# Install as a systemd --user service on the app server (see docs/DEPLOYMENT.md):
+#   mkdir -p ~/.config/systemd/user
+#   cp /var/www/shop_rubycommunity_africa/current/deploy/solid_queue.service ~/.config/systemd/user/
+#   loginctl enable-linger "$USER"
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now solid_queue
+#
+# Capistrano restarts it after every deploy via `deploy:restart_solid_queue`.
+
+[Unit]
+Description=Solid Queue worker (ARC Duka)
+After=network.target
+
+[Service]
+Type=simple
+# `current` is the Capistrano release symlink; the deploy hook restarts this
+# unit so it always picks up the new release.
+WorkingDirectory=/var/www/shop_rubycommunity_africa/current
+# Login shell so it inherits the same environment (DB password, RAILS_MASTER_KEY,
+# etc.) that the Passenger app and manual `cap` runs use.
+ExecStart=/bin/bash -lc 'exec bin/jobs'
+Environment=RAILS_ENV=production
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
