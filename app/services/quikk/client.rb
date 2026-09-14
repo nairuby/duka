@@ -64,7 +64,7 @@ module Quikk
       request = Net::HTTP::Post.new(uri, headers)
       request.body = request_body
 
-      Rails.logger.debug("Quikk POST #{uri} | Body: #{request.body}")
+      Rails.logger.info("Quikk POST #{uri} | Body: #{request.body}")
       Rails.logger.debug("Quikk Headers | Date: #{headers['Date']} | Authorization: #{headers['Authorization']}")
       execute_with_retries { http.request(request) }
     end
