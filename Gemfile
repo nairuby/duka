@@ -15,7 +15,7 @@ gem "pg", "~> 1.6"
 gem "propshaft", "~> 1.3"
 gem "puma", "~> 8.0"
 gem "rails", "~> 8.1.1"
-gem "rubocop", "1.90.0"
+gem "rubocop", "1.91.0"
 gem "solid_cable", "~> 4.0"
 gem "solid_cache", "~> 1.0"
 gem "solid_queue", "~> 1.7"
@@ -24,7 +24,7 @@ gem "tailwindcss-rails", "~> 4.0"
 gem "thruster", "~> 0.1.15", require: false
 gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
-gem "avo", "~> 4.1"
+gem "avo", "~> 4.2"
 gem "faraday", "~> 2.7"
 
 group :development, :test do
@@ -51,7 +51,7 @@ end
 
 group :test do
   gem "capybara", "~> 3.40"
-  gem "selenium-webdriver", "~> 4.47"
+  gem "selenium-webdriver", "~> 4.49"
   gem "simplecov", require: false
   gem "rantly", "~> 3.0"
 end
