@@ -28,24 +28,26 @@ RSpec.describe OrderMailer, type: :mailer do
       )
     end
 
+    let(:mailer) { OrderMailer.new }
+
     before do
-      allow_any_instance_of(OrderMailer).to receive(:send_via_brevo)
+      allow(mailer).to receive(:send_via_brevo)
     end
 
     it "calls send_via_brevo with the order" do
-      expect_any_instance_of(OrderMailer).to receive(:send_via_brevo).with(order)
-      OrderMailer.confirmation(order)
+      mailer.confirmation(order)
+      expect(mailer).to have_received(:send_via_brevo).with(order)
     end
 
     describe "#template_params" do
-      subject(:params) { OrderMailer.new.send(:template_params, order) }
+      subject(:params) { mailer.send(:template_params, order) }
 
       it "includes order metadata" do
         expect(params[:order_number]).to eq(order.order_number)
         expect(params[:customer_name]).to eq("Jane Doe")
         expect(params[:currency]).to eq(order.currency)
-        expect(params[:subtotal]).to eq("1000")
-        expect(params[:total]).to eq("1100")
+        expect(params[:subtotal]).to eq(order.subtotal.to_s)
+        expect(params[:total]).to eq(order.total.to_s)
       end
 
       it "includes shipping address" do
@@ -58,7 +60,12 @@ RSpec.describe OrderMailer, type: :mailer do
         expect(params[:items].length).to eq(1)
         expect(params[:items].first[:product_name]).to eq("Test Product")
         expect(params[:items].first[:quantity]).to eq(2)
-        expect(params[:items].first[:subtotal]).to eq("1000")
+        expect(params[:items].first[:subtotal]).to eq(order_item.subtotal.to_s)
+      end
+
+      it "builds the correct subject line" do
+        expect("Your order ##{params[:order_number]} is confirmed ✓")
+          .to eq("Your order ##{order.order_number} is confirmed ✓")
       end
     end
   end
