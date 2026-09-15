@@ -52,5 +52,13 @@ RSpec.describe OrderMailer, type: :mailer do
       expect(html).to match("Test Product")
       expect(html).to match(number_to_currency(1000, unit: "KES "))
     end
+
+    it "sends the email via Brevo" do
+      api_instance = instance_double(Brevo::TransactionalEmailsApi)
+      allow(Brevo::TransactionalEmailsApi).to receive(:new).and_return(api_instance)
+      expect(api_instance).to receive(:send_transac_email).with(instance_of(Brevo::SendSmtpEmail))
+
+      OrderMailer.confirmation(order).deliver_now
+    end
   end
 end
