@@ -21,12 +21,11 @@ class OrderMailer < ApplicationMailer
   def send_via_brevo(to:, subject:, html_content:)
     api = Brevo::TransactionalEmailsApi.new
 
-    send_smtp_email = Brevo::SendSmtpEmail.new(
-      to: [ { email: to } ],
-      sender: { name: "Ruby Community Shop", email: "orders@shop.rubycommunity.africa" },
-      subject: subject,
-      html_content: html_content
-    )
+    send_smtp_email = Brevo::SendSmtpEmail.new
+    send_smtp_email.to = [ Brevo::SendSmtpEmailTo.new(email: to) ]
+    send_smtp_email.sender = Brevo::SendSmtpEmailSender.new(name: "Ruby Community Shop", email: "orders@shop.rubycommunity.africa")
+    send_smtp_email.subject = subject
+    send_smtp_email.html_content = html_content
 
     api.send_transac_email(send_smtp_email)
   rescue Brevo::ApiError => e
