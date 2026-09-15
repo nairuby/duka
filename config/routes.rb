@@ -24,8 +24,18 @@ Rails.application.routes.draw do
     post :process_payment, on: :collection
   end
 
-  # For the Quikk Webhook (Push)
+  # For the Daraja STK callback (Push). Register this exact URL as the
+  # callback URL on the Daraja app in the Safaricom developer portal.
+  post "payments/mpesa/callback", to: "webhooks#mpesa"
+
+  # Legacy Quikk webhook — kept for rollback, not currently wired to checkout.
   post "payments/callback", to: "webhooks#quikk"
+
+  # Cheap external monitor target: 200 if a Solid Queue worker has a recent
+  # heartbeat, 503 otherwise. Point an uptime check at this — the worker dying
+  # silently (no code error, just no process) is exactly what went unnoticed
+  # in production before.
+  get "healthz/jobs", to: "health#jobs"
 
   # For the User-facing Status Page (Polling/ActionCable)
   get "checkout/mpesa_status/:id", to: "checkouts#mpesa_status", as: :mpesa_status_checkout
