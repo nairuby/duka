@@ -1,5 +1,4 @@
 require "rails_helper"
-include ActionView::Helpers::NumberHelper
 
 RSpec.describe OrderMailer, type: :mailer do
   describe "confirmation" do
@@ -14,7 +13,7 @@ RSpec.describe OrderMailer, type: :mailer do
         shipping_postal_code: "00100",
         shipping_country: "Kenya",
         subtotal: 1000,
-        total: 1000,
+        total: 1100,
         status: "confirmed",
         payment_status: "paid"
       )
@@ -22,43 +21,45 @@ RSpec.describe OrderMailer, type: :mailer do
     let!(:order_item) do
       order.order_items.create!(
         product: product,
-        quantity: 1,
-        price: 1000,
+        quantity: 2,
+        price: 500,
         subtotal: 1000,
         product_name: product.name
       )
     end
 
-    # Render the confirmation template directly without triggering the Brevo API
-    let(:html) do
-      mailer = OrderMailer.new
-      mailer.instance_variable_set(:@order, order)
-      mailer.instance_variable_set(:@order_items, order.order_items)
-      mailer.render_to_string(
-        template: "order_mailer/confirmation",
-        layout: "mailer",
-        formats: [ :html ]
-      )
+    before do
+      allow_any_instance_of(OrderMailer).to receive(:send_via_brevo)
     end
 
-    it "renders the correct subject and recipient" do
-      expect("Order Confirmation - #{order.order_number}").to eq("Order Confirmation - #{order.order_number}")
-      expect(order.email).to eq("customer@example.com")
+    it "calls send_via_brevo with the order" do
+      expect_any_instance_of(OrderMailer).to receive(:send_via_brevo).with(order)
+      OrderMailer.confirmation(order)
     end
 
-    it "includes order details in the email body" do
-      expect(html).to match("Order Confirmation: #{order.order_number}")
-      expect(html).to match("Thank you for your order!")
-      expect(html).to match("Test Product")
-      expect(html).to match(number_to_currency(1000, unit: "KES "))
-    end
+    describe "#template_params" do
+      subject(:params) { OrderMailer.new.send(:template_params, order) }
 
-    it "sends the email via Brevo" do
-      api_instance = instance_double(Brevo::TransactionalEmailsApi)
-      allow(Brevo::TransactionalEmailsApi).to receive(:new).and_return(api_instance)
-      expect(api_instance).to receive(:send_transac_email).with(instance_of(Brevo::SendSmtpEmail))
+      it "includes order metadata" do
+        expect(params[:order_number]).to eq(order.order_number)
+        expect(params[:customer_name]).to eq("Jane Doe")
+        expect(params[:currency]).to eq(order.currency)
+        expect(params[:subtotal]).to eq("1000")
+        expect(params[:total]).to eq("1100")
+      end
 
-      OrderMailer.confirmation(order).deliver_now
+      it "includes shipping address" do
+        expect(params[:address_line_1]).to eq("123 Street")
+        expect(params[:city]).to eq("Nairobi")
+        expect(params[:country]).to eq("Kenya")
+      end
+
+      it "maps order items to the items array" do
+        expect(params[:items].length).to eq(1)
+        expect(params[:items].first[:product_name]).to eq("Test Product")
+        expect(params[:items].first[:quantity]).to eq(2)
+        expect(params[:items].first[:subtotal]).to eq("1000")
+      end
     end
   end
 end
