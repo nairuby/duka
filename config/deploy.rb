@@ -29,13 +29,15 @@ namespace :deploy do
 
   # Production runs Active Job on Solid Queue (config/environments/production.rb),
   # which needs a long-running supervisor (`bin/jobs`). Under Passenger there is
-  # no in-process option, so it runs as a systemd --user service. Without this
-  # restart, enqueued jobs (M-Pesa charge, order mailers) never run after a deploy.
-  # One-time server setup: see docs/DEPLOYMENT.md.
+  # no in-process option, so it runs as a system-level systemd service (not
+  # --user: that needs `loginctl enable-linger` and wasn't reliable here).
+  # Without this restart, enqueued jobs (M-Pesa charge, order mailers) never run
+  # after a deploy. Needs a NOPASSWD sudoers entry for this one command — and
+  # one-time server setup — see docs/DEPLOYMENT.md.
   desc "Restart Solid Queue"
   task :restart_solid_queue do
     on roles(:app) do
-      execute :systemctl, "--user", "restart", "solid_queue"
+      execute :sudo, :systemctl, "restart", "solid_queue"
     end
   end
 
