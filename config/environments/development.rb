@@ -40,15 +40,7 @@ Rails.application.configure do
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    user_name: Rails.application.credentials.dig(:brevo, :user_name),
-    password: Rails.application.credentials.dig(:brevo, :api_key),
-    address: "smtp-relay.brevo.com",
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+  # Email delivery handled via Brevo API (see config/initializers/brevo.rb and app/mailers/order_mailer.rb)
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

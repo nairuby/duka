@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@duka.rubycommunity.africa"
+  default from: "orders@shop.rubycommunity.africa"
   layout "mailer"
 end
