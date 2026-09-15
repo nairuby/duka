@@ -55,22 +55,13 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  # Raise delivery errors so SMTP failures are visible in logs.
+  config.action_mailer.raise_delivery_errors = true
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "shop.rubycommunity.africa" }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    user_name: Rails.application.credentials.dig(:brevo, :user_name),
-    password: Rails.application.credentials.dig(:brevo, :api_key),
-    address: "smtp-relay.brevo.com",
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+  # Email delivery handled via Brevo API (see config/initializers/brevo.rb and app/mailers/order_mailer.rb)
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
   # config.action_mailer.smtp_settings = {

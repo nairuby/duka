@@ -26,6 +26,7 @@ gem "turbo-rails", "~> 2.0"
 gem "tzinfo-data", "~> 1.2025", ">= 1.2025.2", platforms: %i[ windows jruby ]
 gem "avo", "~> 4.1"
 gem "faraday", "~> 2.7"
+gem "brevo", "~> 4.0"
 
 group :development, :test do
   gem "active_record_doctor"
