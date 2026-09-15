@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Health", type: :request do
   describe "GET /healthz/jobs" do
-    it "returns 503 when no Solid Queue worker has heartbeated recently" do
-      allow(SolidQueue::Process).to receive(:maximum).with(:last_heartbeat_at).and_return(10.minutes.ago)
-
+    it "returns 503 when solid_queue_processes has no recent heartbeat (or isn't provisioned in this env)" do
       get "/healthz/jobs"
 
       expect(response).to have_http_status(:service_unavailable)
@@ -12,7 +10,7 @@ RSpec.describe "Health", type: :request do
     end
 
     it "returns 200 when a worker heartbeated recently" do
-      allow(SolidQueue::Process).to receive(:maximum).with(:last_heartbeat_at).and_return(30.seconds.ago)
+      allow_any_instance_of(HealthController).to receive(:last_worker_heartbeat_at).and_return(30.seconds.ago)
 
       get "/healthz/jobs"
 
