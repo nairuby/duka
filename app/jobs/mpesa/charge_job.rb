@@ -13,30 +13,40 @@ module Mpesa
         phone_number: phone
       )
 
-      quikk = Quikk::Client.new
-      response = quikk.charge(
+      daraja = Daraja::Client.new
+      response = daraja.stk_push(
         amount: order.total,
         phone_number: phone,
-        reference: "ORDER-#{order.id}",
+        reference: order.order_number,
         description: "Payment for Order #{order.order_number}"
       )
 
-      request_id = response.dig("data", "id")
-      if request_id.present?
+      checkout_request_id = response["CheckoutRequestID"]
+      if response["ResponseCode"].to_s == "0" && checkout_request_id.present?
         payment.update!(
           status: "pending",
-          external_reference: request_id,
+          external_reference: checkout_request_id,
           raw_response: response
         )
+        # NOTE: quikk_request_id is the generic provider-request correlator used
+        # by both Quikk and Daraja (renaming it is a bigger migration than this
+        # cutover warrants) — it now holds Daraja's CheckoutRequestID.
         order.update!(
           payment_method: "mpesa",
           payment_status: "started",
           payment_initiated_at: Time.current,
-          quikk_request_id: request_id
+          quikk_request_id: checkout_request_id
         )
-        Mpesa::VerifyPaymentJob.perform_later(order.id)
+        # Give the customer time to see the prompt and enter their PIN before
+        # polling Safaricom — this is the reconciliation fallback for a lost
+        # callback, not the primary path.
+        Mpesa::VerifyPaymentJob.set(wait: 20.seconds).perform_later(order.id)
       else
-        payment.update!(status: "failed", raw_response: response, error_message: response["error"] || response["message"])
+        payment.update!(
+          status: "failed",
+          raw_response: response,
+          error_message: response["errorMessage"] || response["CustomerMessage"]
+        )
         order.update!(payment_status: "failed")
       end
     rescue => e
