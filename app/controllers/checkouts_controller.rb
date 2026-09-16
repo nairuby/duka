@@ -71,28 +71,9 @@ class CheckoutsController < ApplicationController
     @order = Order.find(params[:id])
     @payment = @order.payment_transactions.by_type("stk_push").recent.first
 
-    # Commented out: search API timeout check (not configured yet)
-    # if params[:timeout] == "true" && @order.payment_status == "started"
-    #   # Trigger search API check
-    #   quikk = Quikk::Client.new
-    #   response = quikk.search(@order.quikk_request_id)
-    #   attributes = response.dig("data", "attributes") || {}
-    #   txn_status = response.dig("data", "attributes", "txn_status")
-    #   receipt = attributes("mpesa_receipt") || attributes("receipt")
-    #
-    #   if txn_status == "SUCCESS" || txn_status == "SUCCESSFUL"
-    #     @order.update!(
-    #       payment_status: "paid",
-    #       status: "confirmed",
-    #       mpesa_receipt: receipt,
-    #       payment_completed_at: Time.current
-    #     )
-    #   elsif txn_status == "FAILED"
-    #     @order.update!(payment_status: "failed")
-    #   else
-    #     @order.update!(payment_status: "timed_out")
-    #   end
-    # end
+    # Reconciliation for a lost callback is handled out-of-band by
+    # Mpesa::VerifyPaymentJob polling Daraja's STK Query endpoint — see
+    # docs/DARAJA_SETUP.md. Nothing to trigger from this action.
 
     respond_to do |format|
       format.html
