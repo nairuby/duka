@@ -5,8 +5,8 @@ provider. Implemented in `app/services/daraja/client.rb`.
 
 ## Why not Quikk
 
-Quikk (`app/services/quikk/client.rb`, `docs/QUIKK_API_SETUP.md`) is still in
-the codebase but no longer wired to checkout. Every production charge against
+Quikk's code has since been removed from the codebase (see git history before
+this doc's commit if you need to see it). Every production charge against
 shortcode `3502158` / till `4362425` returned M-Pesa error `2029 — "Failed due
 to an unresolved reason type"` in under a second (before any STK prompt
 reached the phone), including after sending the correct `till_no` per Quikk's
@@ -62,8 +62,8 @@ callback URL to:
 https://<your-domain>/payments/mpesa/callback
 ```
 
-For local development, use a tunnel (cloudflared/ngrok) the same way
-`docs/QUIKK_API_SETUP.md` describes for Quikk.
+For local development, use a tunnel (cloudflared/ngrok) pointed at your dev
+server, and register that tunnel URL as the callback.
 
 ## 3. Request / Callback Shapes
 
@@ -136,5 +136,7 @@ customer-facing error and nobody noticed for days.
 ## 6. Rollback
 
 Quikk's code (`app/services/quikk/client.rb`, `WebhooksController#quikk`,
-`post "payments/callback"`) is left in place, dormant. To roll back, point
-`Mpesa::ChargeJob` at `Quikk::Client` again instead of `Daraja::Client`.
+`post "payments/callback"`) was removed once Daraja was confirmed working in
+production. To roll back, restore those from git history (the commit that
+removed them is titled "Delete Quikk::Client" etc. — search the log) and
+point `Mpesa::ChargeJob` at `Quikk::Client` again instead of `Daraja::Client`.
