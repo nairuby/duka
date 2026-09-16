@@ -50,3 +50,8 @@ FRONTEND_INTEGRATION_GUIDE.md
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
 
+quikk.json
+text.txt
+CLAUDE.md
+create_credentials.rb
+
