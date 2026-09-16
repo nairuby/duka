@@ -56,25 +56,31 @@ RSpec.describe "Cart Cleanup", type: :request do
         status: "pending",
         payment_status: "pending",
         session_token: session_id,
-        quikk_request_id: "REQ-123"
+        quikk_request_id: "ws_CO_REQ-123"
       )
 
       expect(CartItem.where(session_id: session_id).count).to eq(1)
 
       webhook_payload = {
-        data: {
-          id: "REQ-123",
-          attributes: {
-            txn_status: "SUCCESS",
-            amount: 1000,
-            customer_no: "254712345678",
-            mpesa_receipt: "ABC123DEF",
-            txn_id: "TXN-456"
+        Body: {
+          stkCallback: {
+            MerchantRequestID: "29115-34620561-1",
+            CheckoutRequestID: "ws_CO_REQ-123",
+            ResultCode: 0,
+            ResultDesc: "The service request is processed successfully.",
+            CallbackMetadata: {
+              Item: [
+                { Name: "Amount", Value: 1000 },
+                { Name: "MpesaReceiptNumber", Value: "ABC123DEF" },
+                { Name: "TransactionDate", Value: 20260101120000 },
+                { Name: "PhoneNumber", Value: 254712345678 }
+              ]
+            }
           }
         }
       }
 
-      post "/payments/callback", params: webhook_payload.to_json, headers: { "CONTENT_TYPE" => "application/json" }
+      post "/payments/mpesa/callback", params: webhook_payload.to_json, headers: { "CONTENT_TYPE" => "application/json" }
 
       expect(response).to have_http_status(:ok)
       order.reload
