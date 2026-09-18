@@ -92,13 +92,15 @@ RSpec.describe OrderMailer, type: :mailer do
       end
     end
 
-    it "raises if template_id is not configured" do
+    it "does not raise here if template_id is missing (config/initializers/brevo.rb raises at boot in production instead)" do
       allow(Rails.application.credentials).to receive(:dig)
         .with(:brevo, :order_confirmation_template_id)
         .and_return(nil)
 
-      # nil template_id should still call the API; Brevo will reject it
-      # This test documents the behaviour so a missing credential is visible in CI
+      # The mailer itself does not guard against a missing template_id - it
+      # sends a nil template_id straight to Brevo, which would reject the
+      # request. The actual safety net is config/initializers/brevo.rb
+      # raising on boot in production if the credential is blank.
       run_mailer
       expect(brevo_api).to have_received(:send_transac_email) do |email|
         expect(email.template_id).to be_nil
