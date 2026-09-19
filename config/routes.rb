@@ -28,9 +28,6 @@ Rails.application.routes.draw do
   # callback URL on the Daraja app in the Safaricom developer portal.
   post "payments/mpesa/callback", to: "webhooks#mpesa"
 
-  # Legacy Quikk webhook — kept for rollback, not currently wired to checkout.
-  post "payments/callback", to: "webhooks#quikk"
-
   # Cheap external monitor target: 200 if a Solid Queue worker has a recent
   # heartbeat, 503 otherwise. Point an uptime check at this — the worker dying
   # silently (no code error, just no process) is exactly what went unnoticed
