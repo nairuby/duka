@@ -37,7 +37,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotaterb", "~> 4.24"
+  gem "annotaterb", "~> 4.25"
   gem "bullet", "~> 8.1"
   gem "byebug", "~> 13.0"
   gem "hotwire-livereload", "~> 2.1"
