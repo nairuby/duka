@@ -13,5 +13,11 @@ RSpec.describe "Home", type: :request do
       get root_path
       expect(response).to be_successful
     end
+
+    it "includes the default Open Graph tags" do
+      get root_path
+      expect(response.body).to include(%(property="og:title" content="ARC Duka"))
+      expect(response.body).to include(%(property="og:image"))
+    end
   end
 end
