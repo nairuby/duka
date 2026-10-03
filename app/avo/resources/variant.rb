@@ -12,6 +12,7 @@ class Avo::Resources::Variant < Avo::BaseResource
     field :sku, as: :text, required: true, help: "Unique stock keeping unit", sortable: true
     field :size, as: :text, required: true, sortable: true
     field :color, as: :text, required: true, sortable: true
+    field :image_url, as: :text, help: "Enter the URL of the variant image (falls back to the product image if left blank)"
     field :stock_quantity, as: :number,
       required: true,
       min: 0,
