@@ -4,6 +4,7 @@
 #
 #  id             :uuid             not null, primary key
 #  color          :string
+#  image_url      :string
 #  size           :string
 #  sku            :string
 #  stock_quantity :integer
@@ -66,6 +67,19 @@ RSpec.describe Variant, type: :model do
       Variant.create!(product: product, size: "M", color: "Red", stock_quantity: 10, sku: "TEST-001")
       variant = Variant.new(product: product, size: "L", color: "Blue", stock_quantity: 5, sku: "TEST-001")
       expect(variant).not_to be_valid
+    end
+
+    it "is valid without an image_url" do
+      variant = Variant.new(product: product, size: "M", color: "Red", stock_quantity: 10, sku: "TEST-002")
+      expect(variant).to be_valid
+    end
+
+    it "allows setting an image_url" do
+      variant = Variant.create!(
+        product: product, size: "M", color: "Red", stock_quantity: 10, sku: "TEST-003",
+        image_url: "https://example.com/variant.png"
+      )
+      expect(variant.image_url).to eq("https://example.com/variant.png")
     end
   end
 
