@@ -16,6 +16,13 @@ RSpec.describe "Landing Page", type: :system do
       expect(page).to have_link("Contact")
     end
 
+    it "navigates to the contact page" do
+      visit root_path
+      click_link "Contact", match: :first
+
+      expect(page).to have_current_path(new_contact_message_path)
+    end
+
     it "displays shopping cart icon" do
       visit root_path
 
