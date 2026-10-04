@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resource :currency, only: [ :update ], controller: :currencies
 
   get "about_us", to: "home#about", as: :landing_about
+  resources :contact_messages, path: "contact", only: [ :new, :create ]
 
   # Checkout routes
   resource :checkout, only: [ :new, :create ] do
