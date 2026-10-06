@@ -18,6 +18,11 @@ Rails.application.routes.draw do
 
   get "about_us", to: "home#about", as: :landing_about
 
+  # Plain get/post at the same clean /contact path, rather than
+  # `resources :contact_messages` (which would put the form at /contact/new).
+  get "contact", to: "contact_messages#new", as: :new_contact_message
+  post "contact", to: "contact_messages#create", as: :contact_messages
+
   # Checkout routes
   resource :checkout, only: [ :new, :create ] do
     get :payment, on: :collection

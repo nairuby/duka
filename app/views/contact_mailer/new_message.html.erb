@@ -1,0 +1,26 @@
+<div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; color: #1f2937;">
+  <h2 style="color: #dc2626;">New contact form message</h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+    <tr>
+      <td style="padding: 8px 0; font-weight: bold; width: 100px;">Name</td>
+      <td style="padding: 8px 0;"><%= @contact_message.name %></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 0; font-weight: bold;">Email</td>
+      <td style="padding: 8px 0;"><%= @contact_message.email %></td>
+    </tr>
+    <% if @contact_message.subject.present? %>
+      <tr>
+        <td style="padding: 8px 0; font-weight: bold;">Subject</td>
+        <td style="padding: 8px 0;"><%= @contact_message.subject %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <div style="background: #f9fafb; border-left: 4px solid #dc2626; padding: 16px; white-space: pre-wrap;"><%= @contact_message.message %></div>
+
+  <p style="margin-top: 24px; font-size: 12px; color: #6b7280;">
+    Sent via the ARC Duka contact form. Reply directly to this email to respond to <%= @contact_message.name %>.
+  </p>
+</div>
