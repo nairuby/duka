@@ -1,12 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sizeButton", "colorButton", "stockInfo", "addToCartBtn", "variantIdField", "quantityInput", "cartForm"]
-  
+  static targets = ["sizeButton", "colorButton", "stockInfo", "addToCartBtn", "variantIdField", "quantityInput", "cartForm", "productImage"]
+
   connect() {
     this.selectedSize = null
     this.selectedColor = null
     this.variants = window.productVariants || []
+    this.fallbackImageUrl = window.productImageUrl || null
     console.log("Product detail controller connected", this.variants)
   }
 
@@ -61,6 +62,15 @@ export default class extends Controller {
       // Set variant ID in hidden field
       if (this.hasVariantIdFieldTarget) {
         this.variantIdFieldTarget.value = variant.id
+      }
+
+      // Swap the main image to the variant's own photo, falling back to the
+      // product's image when the variant has none set.
+      if (this.hasProductImageTarget && this.productImageTarget.tagName === "IMG") {
+        const newSrc = variant.image_url || this.fallbackImageUrl
+        if (newSrc) {
+          this.productImageTarget.src = newSrc
+        }
       }
     } else if (this.selectedSize || this.selectedColor) {
       this.stockInfoTarget.textContent = "Select all options to see availability"
