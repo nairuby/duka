@@ -25,6 +25,7 @@ RSpec.describe "Products", type: :request do
       get "/products/#{product.id}"
 
       expect(response.body).to include("https://example.com/variant-red.png")
+    end
       
     it "includes Open Graph tags pointing at the product image" do
       product.update!(image_url: "https://example.com/tee.jpg")
