@@ -16,6 +16,17 @@ RSpec.describe "Products", type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it "includes variant image_url in the serialized variants JSON" do
+      Variant.create!(
+        product: product, size: "M", color: "Red", stock_quantity: 5, sku: "IMG-001",
+        image_url: "https://example.com/variant-red.png"
+      )
+
+      get "/products/#{product.id}"
+
+      expect(response.body).to include("https://example.com/variant-red.png")
+    end
+      
     it "includes Open Graph tags pointing at the product image" do
       product.update!(image_url: "https://example.com/tee.jpg")
 

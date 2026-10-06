@@ -4,6 +4,7 @@
 #
 #  id             :uuid             not null, primary key
 #  color          :string
+#  image_url      :string
 #  size           :string
 #  sku            :string
 #  stock_quantity :integer

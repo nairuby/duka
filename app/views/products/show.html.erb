@@ -26,14 +26,14 @@
     </div>
 
     <!-- Main Product Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16" data-controller="product-detail">
       <!-- Left Column - Product Image -->
       <div class="space-y-4">
         <div class="relative bg-white rounded-2xl overflow-hidden shadow-xl aspect-square group">
           <% if @product.image_url.present? %>
-            <%= image_tag @product.image_url, alt: @product.name, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" %>
+            <%= image_tag @product.image_url, alt: @product.name, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500", data: { product_detail_target: "productImage" } %>
           <% else %>
-            <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center" data-product-detail-target="productImage">
               <div class="text-center">
                 <i class="fas fa-image text-6xl text-gray-400 mb-4"></i>
                 <p class="text-gray-500 text-lg"><%= @product.name %></p>
@@ -52,7 +52,7 @@
       </div>
 
       <!-- Right Column - Product Details -->
-      <div class="space-y-6" data-controller="product-detail">
+      <div class="space-y-6">
         <div>
           <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4"><%= @product.name %></h1>
           <div class="flex items-baseline space-x-3 mb-4">
@@ -295,5 +295,6 @@
 
 <script>
   // Store variants data for JavaScript access
-  window.productVariants = <%= raw @variants.to_json(only: [:id, :size, :color, :stock_quantity, :sku]) %>;
+  window.productVariants = <%= raw @variants.to_json(only: [:id, :size, :color, :stock_quantity, :sku, :image_url]) %>;
+  window.productImageUrl = <%= raw @product.image_url.to_json %>;
 </script>
