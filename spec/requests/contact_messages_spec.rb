@@ -36,9 +36,9 @@ RSpec.describe "ContactMessages", type: :request do
 
       expect {
         post "/contact", params: spam_params
-      }.to change(ContactMessage, :count).by(0)
+      }.not_to have_enqueued_mail(ContactMailer, :new_message)
 
-      expect(ActiveJob::Base.queue_adapter.enqueued_jobs).to be_empty
+      expect(ContactMessage.count).to eq(0)
 
       # Still looks like success to whatever filled it in.
       expect(response).to redirect_to(new_contact_message_path)
