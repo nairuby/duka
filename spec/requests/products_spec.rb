@@ -25,6 +25,23 @@ RSpec.describe "Products", type: :request do
       get "/products/#{product.id}"
 
       expect(response.body).to include("https://example.com/variant-red.png")
+      
+    it "includes Open Graph tags pointing at the product image" do
+      product.update!(image_url: "https://example.com/tee.jpg")
+
+      get "/products/#{product.id}"
+
+      expect(response.body).to include(%(property="og:title" content="Test Product"))
+      expect(response.body).to include(%(property="og:image" content="https://example.com/tee.jpg"))
+      expect(response.body).to include(%(property="og:type" content="product"))
+    end
+
+    it "falls back to the site logo for Open Graph image when the product has none" do
+      product.update!(image_url: nil)
+
+      get "/products/#{product.id}"
+
+      expect(response.body).to match(%r{property="og:image" content="https?://[^"]*arc_logo_coloured})
     end
   end
 end

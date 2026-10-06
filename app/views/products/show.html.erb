@@ -1,3 +1,12 @@
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: @product.name,
+        description: @product.description.presence || "#{@product.name} — available now on ARC Duka.",
+        image: @product.image_url.presence || asset_url("arc_logo_coloured.png"),
+        type: "product"
+      ) %>
+<% end %>
+
 <%= render 'shared/navbar' %>
 
 <!-- Product Detail Page -->
