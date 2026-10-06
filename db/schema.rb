@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_20_225436) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_03_080520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -53,6 +53,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_20_225436) do
     t.index ["product_id"], name: "index_cart_items_on_product_id"
     t.index ["session_id", "product_id", "variant_id"], name: "index_cart_items_unique", unique: true
     t.index ["session_id"], name: "index_cart_items_on_session_id"
+  end
+
+  create_table "contact_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.text "message", null: false
+    t.string "name", null: false
+    t.string "status", default: "new", null: false
+    t.string "subject"
+    t.datetime "updated_at", null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -181,6 +191,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_20_225436) do
   create_table "variants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "color"
     t.datetime "created_at", null: false
+    t.string "image_url"
     t.uuid "product_id", null: false
     t.string "size"
     t.string "sku"

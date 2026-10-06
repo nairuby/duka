@@ -1,0 +1,99 @@
+<%= render 'shared/navbar' %>
+
+<section class="py-20 lg:py-28 px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+      <%# Left: form %>
+      <div class="space-y-6">
+        <a href="https://rubycommunity.africa" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-3 text-red-700 font-medium text-sm sm:text-base bg-red-50 px-4 py-2 rounded-full border border-red-200 hover:bg-red-100 transition-all duration-300 cursor-pointer group">
+          <div class="w-2 h-2 bg-red-600 rounded-full group-hover:scale-125 transition-transform duration-200"></div>
+          <span class="group-hover:text-red-800 transition-colors">African Ruby Community</span>
+          <i class="fas fa-external-link-alt text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-1"></i>
+        </a>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+          <span class="text-gray-800">Get in</span>
+          <span class="text-red-600 bg-gradient-to-r from-red-600 to-red-500 bg-clip-text text-transparent"> Touch</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+          Question about an order, a partnership idea, or just want to say hi? Send us a message and we'll get back to you.
+        </p>
+
+        <% if @contact_message.errors.any? %>
+          <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 text-sm text-red-800">
+            <p class="font-bold mb-1">Please fix the following:</p>
+            <ul class="list-disc list-inside">
+              <% @contact_message.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= form_with model: @contact_message, url: contact_messages_path, class: "space-y-5 bg-white rounded-2xl p-6 sm:p-8 shadow-md" do |f| %>
+          <%# Honeypot - hidden from real visitors, bots often fill every field %>
+          <div style="position: absolute; left: -9999px;" aria-hidden="true">
+            <%= f.label :nickname %>
+            <%= f.text_field :nickname, tabindex: -1, autocomplete: "off" %>
+          </div>
+
+          <div>
+            <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.text_field :name, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 outline-none", placeholder: "Your name" %>
+          </div>
+
+          <div>
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.email_field :email, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 outline-none", placeholder: "you@example.com" %>
+          </div>
+
+          <div>
+            <%= f.label :subject, class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.text_field :subject, class: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 outline-none", placeholder: "What's this about?" %>
+          </div>
+
+          <div>
+            <%= f.label :message, class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.text_area :message, required: true, rows: 5, class: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 outline-none", placeholder: "How can we help?" %>
+          </div>
+
+          <%= f.submit "Send Message", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl" %>
+        <% end %>
+      </div>
+
+      <%# Right: contact details card %>
+      <div class="space-y-8 lg:pt-12">
+        <div class="bg-gradient-to-br from-red-50 to-white p-8 rounded-2xl border border-red-100 shadow-sm relative overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 text-red-100 opacity-50 text-9xl font-bold select-none pointer-events-none">
+            ARC
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-envelope-open-text text-red-600"></i>
+            Other Ways to Reach Us
+          </h3>
+
+          <div class="space-y-4">
+            <%= link_to "mailto:info@rubycommunity.africa", class: "flex items-center gap-3 p-4 bg-white rounded-xl border border-red-100 shadow-2xs hover:border-red-300 transition-colors" do %>
+              <i class="fas fa-envelope text-red-600 text-xl"></i>
+              <span class="text-gray-700 font-medium">info@rubycommunity.africa</span>
+            <% end %>
+
+            <div class="flex items-center gap-3 p-4">
+              <% arc_social_media_links.each do |link| %>
+                <%= link_to link[:url], target: "_blank", rel: "noopener noreferrer", class: "text-gray-600 hover:text-red-600 transition-colors", "aria-label": link[:platform].humanize do %>
+                  <i class="fab <%= link[:icon] %> text-2xl"></i>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<%= render 'shared/footer' %>
