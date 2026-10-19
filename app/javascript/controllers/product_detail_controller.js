@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sizeButton", "colorButton", "stockInfo", "addToCartBtn", "variantIdField", "quantityInput", "cartForm", "productImage"]
+  static targets = ["sizeButton", "colorButton", "stockInfo", "addToCartBtn", "variantIdField", "quantityInput", "cartForm", "productImage", "cartHelp"]
 
   connect() {
     this.selectedSize = null
@@ -9,6 +9,7 @@ export default class extends Controller {
     this.variants = window.productVariants || []
     this.fallbackImageUrl = window.productImageUrl || null
     console.log("Product detail controller connected", this.variants)
+    if (this.variants.length > 0) this.updateVariant()
   }
 
   selectSize(event) {
@@ -42,6 +43,13 @@ export default class extends Controller {
   }
 
   updateVariant() {
+    if (!this.selectedSize || !this.selectedColor) {
+      const missingOptions = [!this.selectedSize && "size", !this.selectedColor && "color"].filter(Boolean).join(" and ")
+      this.stockInfoTarget.textContent = "Select options to see availability"
+      this.setCartAvailability(false, `Choose a ${missingOptions} to add this item to your cart.`)
+      return
+    }
+
     // Find matching variant
     const variant = this.variants.find(v => 
       v.size === this.selectedSize && v.color === this.selectedColor
@@ -51,12 +59,10 @@ export default class extends Controller {
       // Update stock info
       if (variant.stock_quantity > 0) {
         this.stockInfoTarget.innerHTML = `<span class="text-green-600 font-bold">${variant.stock_quantity} in stock</span>`
-        this.addToCartBtnTarget.disabled = false
-        this.addToCartBtnTarget.textContent = "Add to Cart"
+        this.setCartAvailability(true, "Your selection is in stock and ready to add to your cart.")
       } else {
         this.stockInfoTarget.innerHTML = `<span class="text-red-600 font-bold">Out of stock</span>`
-        this.addToCartBtnTarget.disabled = true
-        this.addToCartBtnTarget.textContent = "Out of Stock"
+        this.setCartAvailability(false, "This selection is out of stock. Please choose another option.")
       }
       
       // Set variant ID in hidden field
@@ -72,11 +78,16 @@ export default class extends Controller {
           this.productImageTarget.src = newSrc
         }
       }
-    } else if (this.selectedSize || this.selectedColor) {
-      this.stockInfoTarget.textContent = "Select all options to see availability"
-      this.addToCartBtnTarget.disabled = true
-      this.addToCartBtnTarget.textContent = "Select All Options"
+    } else {
+      this.stockInfoTarget.textContent = "This combination is unavailable"
+      this.setCartAvailability(false, "This size and color combination is unavailable. Please choose another option.")
     }
+  }
+
+  setCartAvailability(available, message) {
+    this.addToCartBtnTarget.disabled = !available
+    this.cartHelpTarget.textContent = message
+    if (!available) this.variantIdFieldTarget.value = ""
   }
 
   increaseQuantity(event) {
