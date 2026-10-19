@@ -151,7 +151,10 @@
 
           <div class="space-y-3">
             <% if @variants.any? %>
-              <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100", data: { product_detail_target: "addToCartBtn" }, disabled: true %>
+              <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100", data: { product_detail_target: "addToCartBtn" }, aria: { describedby: "add-to-cart-help" }, disabled: true %>
+              <p id="add-to-cart-help" data-product-detail-target="cartHelp" role="status" aria-live="polite" class="text-sm text-gray-700">
+                Choose a size and color to add this item to your cart.
+              </p>
             <% else %>
               <%= f.submit "Add to Cart", class: "w-full bg-red-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl" %>
             <% end %>
