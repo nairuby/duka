@@ -45,7 +45,7 @@ A modern Ruby on Rails e-commerce platform offering official merchandise for the
 
 ### Prerequisites
 
-- Ruby 4.0.0+
+- Ruby 3.4.7+
 - Rails 8.1+
 - PostgreSQL 14+
 - Node.js 18+
@@ -88,14 +88,38 @@ This project includes a complete Dev Container setup for consistent development 
 
 **Requirements:**
 - Docker Desktop
-- VS Code with Dev Containers extension
+- VS Code with Dev Containers extension (or RubyMine Dev Containers)
 
 **Steps:**
 1. Clone the repository
-2. Open in VS Code
+2. Open in VS Code / IDE
 3. Click "Reopen in Container" when prompted
 4. Run `rails db:setup` in the terminal
-5. Run `bin/dev` to start the server
+5. Run `bin/dev` to start the server (you'll need to run `ruby -v` in Rubymine before starting the server)
+
+### Option 3: Docker Compose
+
+You can also run the full development environment with Docker Compose directly:
+
+1. **Build and start services**
+   ```bash
+   docker compose up --build
+   ```
+
+2. **Setup database and seed data (first run or in a new terminal)**
+   ```bash
+   docker compose exec web bin/rails db:setup
+   ```
+
+3. **Visit the application**
+   - Store: http://localhost:3000
+   - Admin Panel: http://localhost:3000/avo (`admin@duka.com` / `admin123456`)
+
+4. **Run tests or console inside Docker**
+   ```bash
+   docker compose exec web bundle exec rspec
+   docker compose exec web bin/rails console
+   ```
 
 ---
 
@@ -192,60 +216,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 ---
 
 I'd add this immediately after the **Rails Credentials** section (or as a new subsection within it), since it's part of the payment gateway setup.
-
----
-
-### Payment Callback (Sandbox Testing)
-
-When testing payments locally, Quikk must be able to reach your application's callback endpoint. Since `localhost` is not publicly accessible, expose your local Rails server using a tunnel such as Cloudflare Tunnel.
-
-For example:
-
-```bash
-cloudflared tunnel --url http://localhost:3000
-```
-
-This will provide a public URL similar to:
-
-```text
-https://wallpaper-plus-get-glass.trycloudflare.com
-```
-
-Configure the following callback URL in your **Quikk Sandbox** dashboard:
-
-```text
-https://wallpaper-plus-get-glass.trycloudflare.com/payments/callback
-```
-
-The callback endpoint used by this application is:
-
-```text
-/payments/callback
-```
-
-> **Note:** Every time you start a new temporary Cloudflare Tunnel, the generated URL changes. Update the callback URL in the Quikk Sandbox dashboard accordingly, unless you are using a permanent tunnel or custom domain.
-
-### Quikk Sandbox API Keys
-
-Quikk uses separate API credentials for **Sandbox** and **Production**.
-
-When setting up the project for development:
-
-1. Create a new **Sandbox** application in Quikk.
-2. Generate fresh Sandbox API keys.
-3. Add them to your development Rails credentials.
-
-```yaml
-quikk:
-  api_key: your_sandbox_api_key
-  api_secret: your_sandbox_api_secret
-  shortcode: "174379"
-```
-
-> **Important:** Quikk Sandbox API keys expire relatively quickly. If authentication suddenly begins failing, generate a new set of Sandbox API keys and update your Rails credentials.
-
-For production deployments, use a separate set of **Production** API keys in `config/credentials/production.yml.enc`.
-
 
 ---
 
