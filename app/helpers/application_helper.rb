@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include SeoHelper
   def arc_social_media_links
     [
       {
@@ -51,8 +52,12 @@ module ApplicationHelper
       tag.meta(property: "og:description", content: description),
       tag.meta(property: "og:image", content: image),
       tag.meta(property: "og:type", content: type),
-      tag.meta(property: "og:url", content: request.original_url),
+      tag.meta(property: "og:url", content: canonical_url),
+      tag.meta(property: "og:site_name", content: "ARC Duka"),
+      tag.meta(property: "og:locale", content: "en_US"),
       tag.meta(name: "twitter:card", content: "summary_large_image"),
+      tag.meta(name: "twitter:site", content: "@ruby_african"),
+      tag.meta(name: "twitter:creator", content: "@ruby_african"),
       tag.meta(name: "twitter:title", content: title),
       tag.meta(name: "twitter:description", content: description),
       tag.meta(name: "twitter:image", content: image)

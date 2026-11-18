@@ -2,7 +2,7 @@
 
 A modern Ruby on Rails e-commerce platform offering official merchandise for the **African Ruby Community (ARC)**, active since 2010 with over 4,000 members across East Africa.
 
-> **Live Store:** [https://duka.nairuby.org](https://duka.nairuby.org)
+> **Live Store:** [https://shop.rubycommunity.africa](https://shop.rubycommunity.africa)
 
 ---
 

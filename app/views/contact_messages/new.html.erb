@@ -1,3 +1,17 @@
+<% content_for(:title, "Contact Us") %>
+<% content_for(:meta_description, "Contact the African Ruby Community Duka team. Inquire about merchandise, bulk orders, community support, or conference swag.") %>
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: "Contact Us | ARC Duka",
+        description: "Contact the African Ruby Community Duka team with questions, inquiries, or support.",
+        type: "website"
+      ) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+        { name: "Home", url: root_url },
+        { name: "Contact", url: new_contact_message_url }
+      ])) %>
+<% end %>
+
 <%= render 'shared/navbar' %>
 
 <section class="py-20 lg:py-28 px-6 lg:px-8">

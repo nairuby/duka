@@ -1,1 +1,13 @@
+<% content_for(:title, "ARC Duka – African Ruby Community Shop | Official Merchandise") %>
+<% content_for(:meta_description, "Official merchandise store for the African Ruby Community. Celebrate African tech excellence with premium Ruby t-shirts, hoodies, stickers, mugs, and developer gear.") %>
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: "ARC Duka",
+        description: "Quality merchandise from Ruby Community Africa.",
+        type: "website"
+      ) %>
+  <%= json_ld_tag(organization_json_ld) %>
+  <%= json_ld_tag(website_json_ld) %>
+<% end %>
+
 <%= render 'landing_page' %>

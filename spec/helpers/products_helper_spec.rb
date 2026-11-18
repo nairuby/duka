@@ -47,12 +47,27 @@ RSpec.describe ProductsHelper, type: :helper do
       expect(category[:icon]).to eq("fas fa-gift")
       expect(category[:color]).to eq("purple")
     end
+
+    it "handles all supported category types" do
+      expect(helper.category_info("Hoodies")[:color]).to eq("blue")
+      expect(helper.category_info("Hats")[:color]).to eq("green")
+      expect(helper.category_info("Bags")[:color]).to eq("yellow")
+      expect(helper.category_info("Stickers")[:color]).to eq("pink")
+      expect(helper.category_info("Custom")[:color]).to eq("gray")
+    end
   end
 
   describe "#category_badge_classes" do
     it "returns red classes for red color" do
       classes = helper.category_badge_classes("red")
       expect(classes).to eq("bg-red-100 text-red-700 border-red-200")
+    end
+
+    it "returns expected badge classes for all theme colors" do
+      expect(helper.category_badge_classes("blue")).to include("bg-blue-100")
+      expect(helper.category_badge_classes("green")).to include("bg-green-100")
+      expect(helper.category_badge_classes("yellow")).to include("bg-yellow-100")
+      expect(helper.category_badge_classes("pink")).to include("bg-pink-100")
     end
 
     it "returns orange classes for orange color" do

@@ -1,1 +1,43 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Robots.txt for ARC Duka - African Ruby Community Shop
+# https://shop.rubycommunity.africa / https://duka.nairuby.org
+
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /categories
+Allow: /about_us
+Allow: /contact
+Allow: /assets/
+Allow: /favicon/
+
+# Disallow administrative, checkout, private cart, and monitoring endpoints
+Disallow: /admin
+Disallow: /admin/
+Disallow: /avo
+Disallow: /avo/
+Disallow: /cart
+Disallow: /cart/
+Disallow: /checkout
+Disallow: /checkout/
+Disallow: /orders
+Disallow: /orders/
+Disallow: /users
+Disallow: /users/
+Disallow: /healthz
+Disallow: /healthz/
+Disallow: /up
+
+# Disallow faceted parameter permutations to conserve crawl budget
+Disallow: /*?*currency=
+Disallow: /*?*sort=
+
+# Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# XML Sitemap declaration
+Sitemap: https://shop.rubycommunity.africa/sitemap.xml
+Sitemap: https://duka.nairuby.org/sitemap.xml
