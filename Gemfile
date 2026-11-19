@@ -52,7 +52,7 @@ end
 
 group :test do
   gem "capybara", "~> 3.40"
-  gem "selenium-webdriver", "~> 4.47"
+  gem "selenium-webdriver", "~> 4.49"
   gem "simplecov", require: false
   gem "rantly", "~> 3.0"
 end
