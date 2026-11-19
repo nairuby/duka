@@ -36,6 +36,6 @@ class ContactMailer < ApplicationMailer
   end
 
   def recipient_email
-    Rails.application.credentials.dig(:brevo, :contact_notification_recipient) || "info@rubycommunity.africa"
+    Rails.application.credentials.dig(:brevo, :contact_notification_recipient) || "organisers@rubycommunity.africa"
   end
 end

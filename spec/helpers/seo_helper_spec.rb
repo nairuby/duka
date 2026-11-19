@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe SeoHelper, type: :helper do
   before do
     allow(helper).to receive(:request).and_return(
-      ActionDispatch::TestRequest.create("HTTP_HOST" => "duka.nairuby.org", "PATH_INFO" => "/products")
+      ActionDispatch::TestRequest.create("HTTP_HOST" => "shop.rubycommunity.africa", "PATH_INFO" => "/products")
     )
   end
 
@@ -47,12 +47,12 @@ RSpec.describe SeoHelper, type: :helper do
 
   describe "#canonical_url" do
     it "returns clean base url and path without query parameters" do
-      expect(helper.canonical_url).to eq("http://duka.nairuby.org/products")
+      expect(helper.canonical_url).to eq("http://shop.rubycommunity.africa/products")
     end
 
     it "honors content_for(:canonical_url) override" do
-      helper.content_for(:canonical_url, "https://duka.nairuby.org/custom-path")
-      expect(helper.canonical_url).to eq("https://duka.nairuby.org/custom-path")
+      helper.content_for(:canonical_url, "https://shop.rubycommunity.africa/custom-path")
+      expect(helper.canonical_url).to eq("https://shop.rubycommunity.africa/custom-path")
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe SeoHelper, type: :helper do
 
       expect(rendered).to include(%(name="description"))
       expect(rendered).to include(%(name="robots" content="index, follow))
-      expect(rendered).to include(%(rel="canonical" href="http://duka.nairuby.org/products"))
+      expect(rendered).to include(%(rel="canonical" href="http://shop.rubycommunity.africa/products"))
       expect(rendered).to include(%(name="author" content="African Ruby Community"))
       expect(rendered).to include(%(name="theme-color" content="#dc2626"))
     end
@@ -76,7 +76,7 @@ RSpec.describe SeoHelper, type: :helper do
       expect(data[:name]).to eq("ARC Duka")
       expect(data[:sameAs]).to include("https://x.com/ruby_african")
       expect(data[:sameAs]).to include("https://github.com/nairuby")
-      expect(data[:contactPoint][:email]).to eq("info@rubycommunity.africa")
+      expect(data[:contactPoint][:email]).to eq("organisers@rubycommunity.africa")
     end
   end
 
@@ -93,8 +93,8 @@ RSpec.describe SeoHelper, type: :helper do
   describe "#breadcrumb_json_ld" do
     it "formats breadcrumb items into Schema.org BreadcrumbList" do
       items = [
-        { name: "Home", url: "https://duka.nairuby.org/" },
-        { name: "Products", url: "https://duka.nairuby.org/products" }
+        { name: "Home", url: "https://shop.rubycommunity.africa/" },
+        { name: "Products", url: "https://shop.rubycommunity.africa/products" }
       ]
 
       data = helper.breadcrumb_json_ld(items)
@@ -120,7 +120,7 @@ RSpec.describe SeoHelper, type: :helper do
         image_url: "https://example.com/tee.jpg"
       )
 
-      allow(helper).to receive(:product_url).with(product).and_return("https://duka.nairuby.org/products/#{product.id}")
+      allow(helper).to receive(:product_url).with(product).and_return("https://shop.rubycommunity.africa/products/#{product.id}")
 
       data = helper.product_json_ld(product)
 
