@@ -1,5 +1,5 @@
 # Robots.txt for ARC Duka - African Ruby Community Shop
-# https://shop.rubycommunity.africa / https://duka.nairuby.org
+# https://shop.rubycommunity.africa
 
 User-agent: *
 Allow: /
@@ -40,4 +40,3 @@ Allow: /
 
 # XML Sitemap declaration
 Sitemap: https://shop.rubycommunity.africa/sitemap.xml
-Sitemap: https://duka.nairuby.org/sitemap.xml

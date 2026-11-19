@@ -85,7 +85,7 @@ module SeoHelper
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "customer service",
-        "email": "info@rubycommunity.africa",
+        "email": "organisers@rubycommunity.africa",
         "availableLanguage": [ "English", "Swahili" ]
       }
     }
