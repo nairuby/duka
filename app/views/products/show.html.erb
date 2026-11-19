@@ -1,3 +1,5 @@
+<% content_for(:title, @product.name) %>
+<% content_for(:meta_description, @product.description.presence || "#{@product.name} — available now on ARC Duka.") %>
 <% content_for(:head) do %>
   <%= og_meta_tags(
         title: @product.name,
@@ -5,6 +7,13 @@
         image: @product.image_url.presence || asset_url("arc_logo_coloured.png"),
         type: "product"
       ) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+        { name: "Home", url: root_url },
+        { name: "Products", url: products_url },
+        (@product.category.present? ? { name: @product.category, url: category_url(@product.category) } : nil),
+        { name: @product.name, url: product_url(@product) }
+      ].compact)) %>
+  <%= json_ld_tag(product_json_ld(@product)) %>
 <% end %>
 
 <%= render 'shared/navbar' %>

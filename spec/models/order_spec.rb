@@ -144,4 +144,41 @@ RSpec.describe Order, type: :model do
       expect(order.reload.status).to eq("confirmed")
     end
   end
+
+  describe "order status & cancellation transitions" do
+    let(:order) do
+      Order.create!(
+        email: "customer@example.com",
+        phone: "0712345678",
+        shipping_name: "Jane Doe",
+        shipping_address: "123 Street",
+        shipping_city: "Nairobi",
+        shipping_postal_code: "00100",
+        shipping_country: "Kenya",
+        subtotal: 1000,
+        total: 1000,
+        status: "pending",
+        payment_status: "pending"
+      )
+    end
+
+    it "marks payment as failed" do
+      order.mark_as_failed!
+      expect(order.payment_status).to eq("failed")
+      expect(order.can_retry_payment?).to be(true)
+    end
+
+    it "allows cancelling a pending order" do
+      expect(order.can_be_cancelled?).to be(true)
+      expect(order.cancel!).to be_truthy
+      expect(order.status).to eq("cancelled")
+    end
+
+    it "prevents cancelling an already paid order" do
+      order.update!(payment_status: "paid", status: "confirmed")
+      expect(order.can_be_cancelled?).to be(false)
+      expect(order.cancel!).to be(false)
+      expect(order.status).to eq("confirmed")
+    end
+  end
 end

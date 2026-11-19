@@ -51,7 +51,7 @@ RSpec.describe "ContactMessages", type: :request do
         post "/contact", params: invalid_params
       }.not_to change(ContactMessage, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

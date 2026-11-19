@@ -1,3 +1,19 @@
+<% content_for(:title, "#{@category_name.capitalize} Collection") %>
+<% content_for(:meta_description, "Shop official African Ruby Community #{@category_name.downcase}. Quality Ruby merch, tees, hoodies, and accessories.") %>
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: "#{@category_name.capitalize} Collection | ARC Duka",
+        description: "Browse our #{@category_name.downcase} collection of official African Ruby Community merchandise.",
+        type: "website"
+      ) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+        { name: "Home", url: root_url },
+        { name: "Categories", url: categories_url },
+        { name: @category_name.capitalize, url: category_url(@category_name) }
+      ])) %>
+  <%= json_ld_tag(item_list_json_ld(@products, name: "#{@category_name.capitalize} Collection")) %>
+<% end %>
+
 <%= render 'shared/navbar' %>
 
 <!-- Category Page -->

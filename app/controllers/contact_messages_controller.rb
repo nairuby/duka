@@ -18,7 +18,7 @@ class ContactMessagesController < ApplicationController
       ContactMailer.new_message(@contact_message).deliver_later
       redirect_to new_contact_message_path, notice: "Thanks — we'll get back to you soon."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

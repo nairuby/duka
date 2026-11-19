@@ -45,6 +45,10 @@ Rails.application.routes.draw do
   get "orders/:id/confirmation", to: "checkouts#confirmation", as: :order_confirmation
   resources :orders, only: [ :index, :show ]
 
+  # Dynamic XML sitemap for search engines (Google, Bing)
+  get "sitemap.xml", to: "sitemaps#index", defaults: { format: :xml }
+  get "sitemap", to: "sitemaps#index", defaults: { format: :xml }
+
   # Test-only convenience routes to satisfy simple request specs expecting GET endpoints.
   # They return 200 OK without invoking controllers.
   if Rails.env.test?

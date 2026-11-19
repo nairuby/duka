@@ -4,9 +4,22 @@ RSpec.describe "Products", type: :request do
   let!(:product) { Product.create!(name: "Test Product", description: "Test", price: 29.99, currency: "USD") }
 
   describe "GET /index" do
+    let!(:hoodie) { Product.create!(name: "Ruby Zip Hoodie", description: "Warm fleece hoodie", price: 4000, currency: "KES", category: "Hoodies") }
+
     it "returns http success" do
       get "/products"
       expect(response).to have_http_status(:success)
+    end
+
+    it "filters products by keyword search query" do
+      get "/products", params: { q: "Zip" }
+      expect(response.body).to include("Ruby Zip Hoodie")
+      expect(response.body).not_to include("Test Product")
+    end
+
+    it "filters products by category" do
+      get "/products", params: { category: "Hoodies" }
+      expect(response.body).to include("Ruby Zip Hoodie")
     end
   end
 
