@@ -2,7 +2,11 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [ :index ]
 
   def index
-    @orders = current_user.orders.recent.page(params[:page]).per(10)
+    @orders = if current_user.orders.respond_to?(:page)
+                current_user.orders.recent.page(params[:page]).per(10)
+    else
+                current_user.orders.recent.limit(20)
+    end
   end
 
   def show

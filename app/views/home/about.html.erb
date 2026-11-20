@@ -1,3 +1,17 @@
+<% content_for(:title, "About Us") %>
+<% content_for(:meta_description, "Learn about the African Ruby Community (ARC), founded in 2010 to empower developers, entrepreneurs, and startups across East Africa through Ruby.") %>
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: "About Us | African Ruby Community (ARC)",
+        description: "Learn about the African Ruby Community (ARC), founded in 2010 to empower developers, entrepreneurs, and startups across East Africa through Ruby.",
+        type: "website"
+      ) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+        { name: "Home", url: root_url },
+        { name: "About Us", url: landing_about_url }
+      ])) %>
+<% end %>
+
 <%= render 'shared/navbar' %>
 
 <%# ── STORY SECTION ── %>

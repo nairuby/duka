@@ -76,9 +76,9 @@
         </div>
 
         <!-- Search Icon -->
-        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" style="display: none" aria-label="Search">
+        <%= link_to products_path, class: "text-gray-700 hover:text-red-600 transition-colors duration-200", aria: { label: "Search products" } do %>
           <i class="fas fa-search text-xl"></i>
-        </button>
+        <% end %>
 
         <!-- Shopping Cart with Notification -->
         <div class="relative">
@@ -97,9 +97,9 @@
       <!-- Mobile Utility Icons and Menu Button -->
       <div class="flex md:hidden items-center space-x-3">
         <!-- Mobile Search Icon -->
-        <button class="text-gray-700 hover:text-red-600 transition-colors duration-200" aria-label="Search">
+        <%= link_to products_path, class: "text-gray-700 hover:text-red-600 transition-colors duration-200", aria: { label: "Search products" } do %>
           <i class="fas fa-search text-lg"></i>
-        </button>
+        <% end %>
 
         <!-- Mobile Shopping Cart -->
         <div class="relative">

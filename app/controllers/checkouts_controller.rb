@@ -24,7 +24,7 @@ class CheckoutsController < ApplicationController
       redirect_to payment_checkout_path, notice: "Order created successfully. Please select payment method."
     else
       flash.now[:alert] = "There was an error creating your order."
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

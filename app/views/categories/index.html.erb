@@ -1,3 +1,17 @@
+<% content_for(:title, "Shop by Category") %>
+<% content_for(:meta_description, "Browse official African Ruby Community merchandise by category. T-shirts, hoodies, mugs, hats, stickers, and tech accessories.") %>
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: "Shop by Category | ARC Duka",
+        description: "Browse official African Ruby Community merchandise by category. T-shirts, hoodies, mugs, hats, stickers, and tech accessories.",
+        type: "website"
+      ) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+        { name: "Home", url: root_url },
+        { name: "Categories", url: categories_url }
+      ])) %>
+<% end %>
+
 <%= render 'shared/navbar' %>
 
 <!-- All Categories Page -->

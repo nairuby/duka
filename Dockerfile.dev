@@ -1,0 +1,47 @@
+# syntax=docker/dockerfile:1
+
+ARG RUBY_VERSION=3.4.7
+FROM docker.io/library/ruby:$RUBY_VERSION-slim
+
+# Install base packages and build dependencies needed for development
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+      build-essential \
+      curl \
+      git \
+      libjemalloc2 \
+      libpq-dev \
+      libvips \
+      libyaml-dev \
+      pkg-config \
+      postgresql-client \
+      nodejs \
+      npm && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install foreman for running bin/dev Procfile
+RUN gem install foreman
+
+# Rails app lives here
+WORKDIR /rails
+
+# Set development environment defaults
+ENV RAILS_ENV="development" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BINDING="0.0.0.0"
+
+# Install application gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Copy application code
+COPY . .
+
+# Entrypoint prepares database and cleans up stale pids
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+# Default development port
+EXPOSE 3000
+
+# Start development server
+CMD ["bin/dev"]

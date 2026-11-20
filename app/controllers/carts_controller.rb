@@ -38,7 +38,7 @@ class CartsController < ApplicationController
           flash[:alert] = e.message
           redirect_back fallback_location: root_path
         end
-        format.json { render json: { success: false, message: e.message }, status: :unprocessable_entity }
+        format.json { render json: { success: false, message: e.message }, status: :unprocessable_content }
       end
     end
   end
@@ -69,7 +69,7 @@ class CartsController < ApplicationController
           flash[:alert] = e.message
           redirect_to cart_path
         end
-        format.json { render json: { success: false, message: e.message }, status: :unprocessable_entity }
+        format.json { render json: { success: false, message: e.message }, status: :unprocessable_content }
       end
     end
   end

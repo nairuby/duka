@@ -1,3 +1,17 @@
+<% content_for(:title, "Contact Us") %>
+<% content_for(:meta_description, "Contact the African Ruby Community Duka team. Inquire about merchandise, bulk orders, community support, or conference swag.") %>
+<% content_for(:head) do %>
+  <%= og_meta_tags(
+        title: "Contact Us | ARC Duka",
+        description: "Contact the African Ruby Community Duka team with questions, inquiries, or support.",
+        type: "website"
+      ) %>
+  <%= json_ld_tag(breadcrumb_json_ld([
+        { name: "Home", url: root_url },
+        { name: "Contact", url: new_contact_message_url }
+      ])) %>
+<% end %>
+
 <%= render 'shared/navbar' %>
 
 <section class="py-20 lg:py-28 px-6 lg:px-8">
@@ -76,9 +90,9 @@
           </h3>
 
           <div class="space-y-4">
-            <%= link_to "mailto:info@rubycommunity.africa", class: "flex items-center gap-3 p-4 bg-white rounded-xl border border-red-100 shadow-2xs hover:border-red-300 transition-colors" do %>
+            <%= link_to "mailto:organisers@rubycommunity.africa", class: "flex items-center gap-3 p-4 bg-white rounded-xl border border-red-100 shadow-2xs hover:border-red-300 transition-colors" do %>
               <i class="fas fa-envelope text-red-600 text-xl"></i>
-              <span class="text-gray-700 font-medium">info@rubycommunity.africa</span>
+              <span class="text-gray-700 font-medium">organisers@rubycommunity.africa</span>
             <% end %>
 
             <div class="flex items-center gap-3 p-4">

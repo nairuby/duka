@@ -16,6 +16,8 @@ Welcome to the ARC Duka development guide! This document will help you get start
 
 ### First Time Setup
 
+#### Option A: Local Setup
+
 1. **Clone and setup**
    ```bash
    git clone https://github.com/nairuby/duka.git
@@ -33,6 +35,28 @@ Welcome to the ARC Duka development guide! This document will help you get start
    - **Admin user:** `admin@duka.com` / `admin123456`
    - **12 sample products** with 81 variants
    - Full e-commerce catalog ready for testing
+
+#### Option B: Docker Compose Setup
+
+1. **Build and start containers**
+   ```bash
+   docker compose up --build
+   ```
+
+2. **Setup database and seed data**
+   ```bash
+   docker compose exec web bin/rails db:setup
+   ```
+
+#### Option C: Dev Container (VS Code / RubyMine)
+
+1. Open repository in VS Code or RubyMine.
+2. Select "Reopen in Container".
+3. In the integrated container terminal:
+   ```bash
+   rails db:setup
+   bin/dev
+   ```
 
 ### Admin User Setup
 

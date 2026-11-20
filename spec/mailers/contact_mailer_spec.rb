@@ -46,7 +46,7 @@ RSpec.describe ContactMailer, type: :mailer do
     it "sends to the default recipient" do
       run_mailer
       expect(brevo_api).to have_received(:send_transac_email) do |email|
-        expect(email.to.first.email).to eq("info@rubycommunity.africa")
+        expect(email.to.first.email).to eq("organisers@rubycommunity.africa")
       end
     end
 
